@@ -1,0 +1,91 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,600);
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: #F9F9F9;
+}
+
+.content {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1300px;
+    height: auto;
+    background-color: white;
+}
+
+.pgtitle {
+    margin-top: 50px;
+    text-align: center;
+    color: #E91E63;
+}
+
+.center {
+    text-align: center;
+}
+
+.divider {
+    margin-left: auto;
+    margin-right: auto;
+    height: 10px;
+    width: 50px;
+    background-color: #E91E63;
+}
+
+.typed-cursor{
+            opacity: 1;
+            font-weight: 100;
+            -webkit-animation: blink 0.7s infinite;
+            -moz-animation: blink 0.7s infinite;
+            -ms-animation: blink 0.7s infinite;
+            -o-animation: blink 0.7s infinite;
+            animation: blink 0.7s infinite;
+        }
+        @-keyframes blink{
+            0% { opacity:1; }
+            50% { opacity:0; }
+            100% { opacity:1; }
+        }
+        @-webkit-keyframes blink{
+            0% { opacity:1; }
+            50% { opacity:0; }
+            100% { opacity:1; }
+        }
+        @-moz-keyframes blink{
+            0% { opacity:1; }
+            50% { opacity:0; }
+            100% { opacity:1; }
+        }
+        @-ms-keyframes blink{
+            0% { opacity:1; }
+            50% { opacity:0; }
+            100% { opacity:1; }
+        }
+        @-o-keyframes blink{
+            0% { opacity:1; }
+            50% { opacity:0; }
+            100% { opacity:1; }
+        }
+
+.blocktitle {
+    text-align: left;
+}
+
+.blockdesc {
+    margin-top: 3px;
+    font-size: 10px;
+    text-align: right;
+}
+
+.line {
+    margin-top: -25px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 1px;
+    width: auto;
+    background-color: #E91E63;
+}
+
+.blockinfo {
+    margin-top: -50px;
+    font-size: 2vh;
+}

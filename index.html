@@ -1,0 +1,145 @@
+<html>
+<head>
+    
+    <!-- 
+        
+        See something you want to replicate on this site? Fork the GitHub Repo @ , and don't forget to star!
+                      
+                      ,----..           ,--,                        ,--.                  ____                              ,--,                           
+        ,-.----.     /   /   \        ,--.'|   ,---,              ,--.'|                ,'  , `.   ,---,  .--.--.         ,--.'|,-.----.      ,---,        
+        \    /  \   /   .     :    ,--,  | :  '  .' \         ,--,:  : |             ,-+-,.' _ |,`--.' | /  /    '.    ,--,  | :\    /  \    '  .' \       
+        ;   :    \ .   /   ;.  \,---.'|  : ' /  ;    '.    ,`--.'`|  ' :          ,-+-. ;   , |||   :  :|  :  /`. / ,---.'|  : ';   :    \  /  ;    '.     
+        |   | .\ :.   ;   /  ` ;|   | : _' |:  :       \   |   :  :  | |         ,--.'|'   |  ;|:   |  ';  |  |--`  |   | : _' ||   | .\ : :  :       \    
+        .   : |: |;   |  ; \ ; |:   : |.'  |:  |   /\   \  :   |   \ | :        |   |  ,', |  ':|   :  ||  :  ;_    :   : |.'  |.   : |: | :  |   /\   \   
+        |   |  \ :|   :  | ; | '|   ' '  ; :|  :  ' ;.   : |   : '  '; |        |   | /  | |  ||'   '  ; \  \    `. |   ' '  ; :|   |  \ : |  :  ' ;.   :  
+        |   : .  /.   |  ' ' ' :'   |  .'. ||  |  ;/  \   \'   ' ;.    ;        '   | :  | :  |,|   |  |  `----.   \'   |  .'. ||   : .  / |  |  ;/  \   \ 
+        ;   | |  \'   ;  \; /  ||   | :  | ''  :  | \  \ ,'|   | | \   |        ;   . |  ; |--' '   :  ;  __ \  \  ||   | :  | ';   | |  \ '  :  | \  \ ,' 
+        |   | ;\  \\   \  ',  / '   : |  : ;|  |  '  '--'  '   : |  ; .'        |   : |  | ,    |   |  ' /  /`--'  /'   : |  : ;|   | ;\  \|  |  '  '--'   
+        :   ' | \.' ;   :    /  |   | '  ,/ |  :  :        |   | '`--'          |   : '  |/     '   :  |'--'.     / |   | '  ,/ :   ' | \.'|  :  :         
+        :   : :-'    \   \ .'   ;   : ;--'  |  | ,'        '   : |              ;   | |`-'      ;   |.'   `--'---'  ;   : ;--'  :   : :-'  |  | ,'         
+        |   |.'       `---`     |   ,/      `--''          ;   |.'              |   ;/          '---'               |   ,/      |   |.'    `--''           
+        `---'                   '---'                      '---'                '---'                               '---'       `---'                      
+                                                                                                                                                   
+    
+    -->    
+    
+    <!-- SEO Shenanigans -->
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/skeleton.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" >
+    <link rel="stylesheet" type="text/css" href="css/animate.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    
+    <!-- WOW.js -->
+    <script src="js/wow.js"></script>
+    <script>
+     new WOW().init();
+    </script>
+    
+    <!-- Typed -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="js/typed.js" type="text/javascript"></script>
+    <script>
+    $(function(){
+        $("#typed").typed({
+            strings: ["a kickass web developer.", "an UX/UI designer.", "an iOS developer.", "a hackathon hacker."],
+            typeSpeed: 18,
+            backDelay: 1000,
+            loop: true,
+            contentType: 'html',
+            loopCount: false,
+            callback: function(){ foo(); },
+            resetCallback: function() { newTyped(); }
+        });
+        $(".reset").click(function(){
+            $("#typed").typed('reset');
+        });
+    });
+    function newTyped(){ /* A new typed object */ }
+    function foo(){ console.log("Callback"); }    
+    </script>
+    
+</head>
+<body>
+    
+    <div class="content">
+        <div class="container">
+            <div class="row">
+                <div class="twelve columns">
+                    <h1 class="pgtitle">Rohan Mishra</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="twelve columns">
+                    <p class="center">Yes, exactly like Lord of the Rings.</p>
+                </div>
+            </div>
+        </div>
+        <!-- About Me Intro -->
+        <div class="container center">
+            <div class="row">
+                <div class="twelve columns">
+                    <h5>About Me</h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="twelve columns">
+                    <div class="divider"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="twelve columns">
+                    <p class="pgdesc">I am <span id="typed" style="white-space:pre;"></span></p>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="three columns">
+                    <p></p>
+                </div>
+                <div class="three columns">
+                    <p class="blocktitle">Who am I?</p>
+                </div>
+                <div class="three columns">
+                    <p class="blockdesc">Developer &middot; Designer &middot; Hacker</p>
+                </div>
+                <div class="three columns">
+                    <p></p>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="three columns">
+                    <p></p>
+                </div>
+                <div class="six columns">
+                    <div class="line"></div>
+                </div>
+                <div class="three columns">
+                    <p></p>
+                </div>
+            </div>
+        </div>
+        <div class="container blockinfo">
+            <div class="row">
+                <div class="three columns">
+                    <p></p>
+                </div>
+                <div class="six columns">
+                    <p>Let me get this straight. You think that your client, one of the wealthiest, most powerful men in the world is secretly a vigilante who spends his nights beating criminals to a pulp with his bare hands and your plan is to blackmail this person? Good luck.</p>
+                </div>
+                <div class="three columns">
+                    <p></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Javascript -->
+    
+</body>           
+</html>
