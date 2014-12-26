@@ -35,8 +35,8 @@ h5 {
 .divider {
     margin-left: auto;
     margin-right: auto;
-    height: 10px;
-    width: 50px;
+    height: 2vh;
+    width: 7vh;
     background-color: #FF80AB;
 }
 
