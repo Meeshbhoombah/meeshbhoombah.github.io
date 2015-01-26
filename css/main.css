@@ -33,6 +33,22 @@ html {
     color: #34495e;
 }
 
+.nav.navbar-nav.navbar-right li a {
+    color: #e6e6e6;
+}
+
+.fa.fa-github-alt.fa-lg:hover {
+    color: #2c2c2c;
+}
+
+.fa.fa-behance.fa-lg:hover {
+    color: #1053ef;
+}
+
+.fa.fa-twitter.fa-lg:hover {
+    color: #00aced;
+}
+
 @media(min-width:767px) {
     .navbar {
         padding: 20px 0;
@@ -96,14 +112,14 @@ html {
     background: #eee;
 }
 
-.work-section {
+.know-section {
     height: 100%;
     padding-top: 150px;
     text-align: center;
     background: #fff;
 }
 
-.contact-section {
+.work-section {
     height: 100%;
     padding-top: 150px;
     text-align: center;
