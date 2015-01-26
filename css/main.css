@@ -1,5 +1,6 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,600);
 
+/* General CSS adjustments */
 body {
     font-family: 'Open Sans', sans-serif;
     /* color: #cca349; + color: #231f20; */
@@ -12,12 +13,13 @@ html {
     height: 100%;
 }
 
+/* Navigation */
 .navbar {
     background-color: transparent;
     border-color: transparent;
 }
 
-.logo {
+.navlogo {
     margin-top: -10px;
     height: 40px;
     width: auto;
@@ -25,6 +27,10 @@ html {
 
 .nav.navbar-nav li a {
     color: #cca349;
+}
+
+.nav.navbar-nav li a:hover {
+    color: #34495e;
 }
 
 @media(min-width:767px) {
@@ -40,26 +46,12 @@ html {
     }
 }
 
+/* Intro section */
 .intro-section {
     height: 100%;
-    padding-top: 150px;
     text-align: center;
-    color: white;
-    background-color: #231f20;;
-}
-
-.intro-section h1 {
-    color: #cca349;
-}
-
-.laptop {
-    height: 300px;
-    width: auto;
-}
-
-.logo2 {
-    height: 150px;
-    width: auto;
+    color: #bdc3c7;
+    background-color: #ffffff;
 }
 
 .typed-cursor{
@@ -104,7 +96,7 @@ html {
     background: #eee;
 }
 
-.services-section {
+.work-section {
     height: 100%;
     padding-top: 150px;
     text-align: center;
