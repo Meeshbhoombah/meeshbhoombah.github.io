@@ -34,7 +34,7 @@ html {
 }
 
 .nav.navbar-nav.navbar-right li a {
-    color: #e6e6e6;
+    color: #e74c3c;
 }
 
 .fa.fa-github-alt.fa-lg:hover {
@@ -66,7 +66,6 @@ html {
 .intro-section {
     height: 100%;
     text-align: center;
-    color: red;
     background-color: #ffffff;
 }
 
@@ -91,7 +90,7 @@ html {
 }
 
 .introtext {
-    color: #34495e;
+    color: #7f8c8d;
     margin-top: 70vh;
     width: 100%;
     position: absolute;
