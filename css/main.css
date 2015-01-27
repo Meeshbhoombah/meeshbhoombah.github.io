@@ -70,6 +70,26 @@ html {
     background-color: #ffffff;
 }
 
+.particlesjs {
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    color: #bdc3c7;
+    background-color: #ffffff;
+    position: absolute;
+    z-index: 1;
+}
+
+.intrologo {
+    height: 300px;
+    width: auto;
+    position: absolute;
+    margin-top: 25vh;
+    margin-left: 50%;
+    left: -150px;
+    z-index: 10;
+}
+
 .typed-cursor{
             opacity: 1;
             font-weight: 100;

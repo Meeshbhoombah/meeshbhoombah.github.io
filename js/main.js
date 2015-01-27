@@ -1,4 +1,4 @@
-particlesJS('intro', {
+particlesJS('particlesjs', {
   particles: {
     color: '#95a5a6',
     shape: 'circle', // "circle", "edge" or "triangle"
