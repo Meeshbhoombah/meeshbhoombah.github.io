@@ -66,7 +66,7 @@ html {
 .intro-section {
     height: 100%;
     text-align: center;
-    color: #bdc3c7;
+    color: red;
     background-color: #ffffff;
 }
 
@@ -87,6 +87,14 @@ html {
     margin-top: 25vh;
     margin-left: 50%;
     left: -150px;
+    z-index: 10;
+}
+
+.introtext {
+    color: #34495e;
+    margin-top: 70vh;
+    width: 100%;
+    position: absolute;
     z-index: 10;
 }
 
