@@ -13,7 +13,7 @@ html {
     height: 100%;
 }
 
-/* Navigation */
+/* Nav Bar */
 .navbar {
     background-color: transparent;
     border-color: transparent;
@@ -30,7 +30,16 @@ html {
 }
 
 .nav.navbar-nav li a:hover {
-    color: #34495e;
+    color: #e74c3c;
+}
+
+.nav.navbar-nav li a:active {
+    color: #e74c3c;
+}
+
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
+    color: #e74c3c; 
+    background-color: transparent;
 }
 
 .nav.navbar-nav.navbar-right li a {
@@ -62,7 +71,7 @@ html {
     }
 }
 
-/* Intro section */
+/* Intro Section */
 .intro-section {
     height: 100%;
     text-align: center;
@@ -90,7 +99,7 @@ html {
 }
 
 .introtext {
-    color: #7f8c8d;
+    color: #e74c3c;
     margin-top: 70vh;
     width: 100%;
     position: absolute;
@@ -136,7 +145,7 @@ html {
     height: 100%;
     padding-top: 150px;
     text-align: center;
-    background: #eee;
+    background: #e6e6e6;
 }
 
 .know-section {
