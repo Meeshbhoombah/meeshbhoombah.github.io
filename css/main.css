@@ -26,28 +26,28 @@ html {
 }
 
 .nav.navbar-nav li a {
-    color: #cca349;
+    color: #50E3C2;
 }
 
 .nav.navbar-nav li a:hover {
-    color: #e74c3c;
+    color: #FB5872;
 }
 
 .nav.navbar-nav li a:active {
-    color: #e74c3c;
+    color: #FB5872;
 }
 
 .nav.navbar-nav li a:focus {
-    color: #e74c3c;
+    color: #FB5872;
 }
 
 .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
-    color: #e74c3c; 
+    color: #FB5872; 
     background-color: transparent;
 }
 
 .nav.navbar-nav.navbar-right li a {
-    color: #e74c3c;
+    color: #FB5872;
 }
 
 .fa.fa-github-alt.fa-lg:hover {
@@ -108,7 +108,7 @@ html {
 }
 
 .container.introtext {
-    color: #e74c3c;
+    color: #FB5872;
     margin-top: 70vh;
     width: 100%;
     position: absolute;
