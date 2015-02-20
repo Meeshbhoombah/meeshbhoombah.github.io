@@ -175,6 +175,10 @@ html {
     background: #eee;
 }
 
-footer {
-    background-color: #e74c3c;
+@media only screen and (max-device-height: 414) and (orientation : landscape) and (-webkit-device-pixel-ratio: 3){
+/* Styles */
+    nav {
+        visibility: hidden;
+    }
 }
+
