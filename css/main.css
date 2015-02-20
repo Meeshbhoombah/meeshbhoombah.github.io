@@ -175,7 +175,7 @@ html {
     background: #eee;
 }
 
-@media only screen and (max-device-height: 414) and (orientation : landscape) and (-webkit-device-pixel-ratio: 3){
+@media only screen and (max-device-height: 736px) {
 /* Styles */
     nav {
         visibility: hidden;
