@@ -1,4 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,600);
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,600,800,300,700);
 
 /* General CSS adjustments */
 body {
@@ -152,25 +152,28 @@ html {
 
 .about-section {
     height: 100%;
-    padding-top: 75px;
+    padding-top: 100px;
     background: #e6e6e6;
 }
 
-.abouttitle {
-    color: #e74c3c;
-    text-align: center;
+.about-content {
+    color: #FB5872;
+}
+
+.about-content a {
+    color: white;
 }
 
 .know-section {
     height: 100%;
-    padding-top: 150px;
+    padding-top: 20px;
     text-align: center;
     background: #fff;
 }
 
 .work-section {
     height: 100%;
-    padding-top: 150px;
+    padding-top: 20px;
     text-align: center;
     background: #eee;
 }
