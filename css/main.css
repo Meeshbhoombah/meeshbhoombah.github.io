@@ -7,7 +7,7 @@ body {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   color: #FF2058;
   background-image: url(../assets/lines.svg);
-  background-size: center;
+  background-position: center;
   background-size: cover;
 }
 
