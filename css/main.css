@@ -76,8 +76,10 @@ nav ul li a:hover:active:after {
 }
 
 .social-media {
-	bottom: 0;
-	float: none;
+	position: absolute;
+    bottom: 2rem;
+    width: 100%;
+    height: 20px;
 }
 
 .social-media ul {
