@@ -46,11 +46,11 @@ nav ul li a:hover {
 nav ul li a:after {
 	content: '';
 	position: absolute;
-	top: 50%;
+	top: 45%;
 	transform: translateY(-50%);
 	width: 0;
 	left: 0;
-	height: 15%;
+	height: 20%;
 	background: #000000;
 	transition: width 0.25s ease;
 }
