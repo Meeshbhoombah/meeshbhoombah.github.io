@@ -92,3 +92,39 @@ nav ul li a:hover:active:after {
 	display: inline;
 	padding-left: 1rem;
 }
+
+.social-media ul li a {
+	color: #FF2058;
+	display: inline-block;
+	text-decoration: none;
+	position: relative;
+}
+
+.social-media .github-icon i:hover {
+	text-decoration: none;
+	color: #000000;
+}
+
+.social-media .linkedin-icon i:hover {
+	text-decoration: none;
+	color: #0077B5;
+}
+
+.social-media .mail-icon i:hover {
+	text-decoration: none;
+	color: #F2547C;
+}
+
+.social-media ul li a:visited {
+  	color: #FF2058;
+  	letter-spacing: 2px;
+
+  	text-decoration: none;
+  	display: inline-block;
+  	position: relative;
+}
+
+.social-media ul li a:hover:active:after {
+ 	width: 100%;
+ 	text-decoration: none;
+}
