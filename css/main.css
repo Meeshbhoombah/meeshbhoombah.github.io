@@ -78,10 +78,19 @@ nav ul li a:hover:after {
 nav ul li a:visited {
   	color: #FF2058;
   	letter-spacing: 2px;
-
   	text-decoration: none;
   	display: inline-block;
   	position: relative;
+}
+
+nav ul li a:link {
+	color: #FF2058;
+ 	text-decoration: none;
+}
+
+nav ul li a:link:after {
+	color: #FF2058;
+ 	text-decoration: none;
 }
 
 nav ul li a:hover:active:after {
