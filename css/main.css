@@ -290,6 +290,7 @@ nav ul li a:hover:active:after {
 	width: 90%;
 	height: 50px;
 	line-height: 50px;
+	padding-bottom: 60px;
 	z-index: 2;
 	-webkit-transition: top 0.3s 0s;
 	-moz-transition: top 0.3s 0s;
