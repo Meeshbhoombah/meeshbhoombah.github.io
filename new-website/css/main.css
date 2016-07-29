@@ -1,0 +1,65 @@
+/* Main.css 
+ * Rohan Mishra */
+@import url(https://fonts.googleapis.com/css?family=Karla:400,700);
+@import url(https://fonts.googleapis.com/css?family=Montserrat:700);
+
+body {
+    background-color: #FF527D;
+    color: #000000;
+    font-family: 'Karla', sans-serif;
+}
+
+/* Chaning font for headers */
+h1, h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    color: #DCFF52;
+}
+
+h3 {
+    font-weight: 700;
+}
+
+/* General Link Styling */
+a {
+    font-weight: 700;
+    color: #FFB4C7;
+}
+
+span {
+    position: relative;
+    display: block;
+    cursor: pointer;
+}
+
+span:before, span:after {
+    content: '';
+    position: absolute;
+    width: 0%;
+    height: 1px;
+    top: 50%;
+    margin-top: -0.5px;
+    background: #000000;
+}
+
+span:before {
+    left: -2.5px;
+}
+span:after {
+    right: 2.5px;
+    background: #000000;
+    transition: width 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+span:hover:before {
+    background: #000000;
+    width: 100%;
+    transition: width 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+span:hover:after {
+    background: transparent;
+    width: 100%;
+    transition: 0s;
+}
+
