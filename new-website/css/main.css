@@ -1,4 +1,4 @@
-/* Main.css 
+/* Main.css
  * Rohan Mishra */
 @import url(https://fonts.googleapis.com/css?family=Karla:400,700);
 @import url(https://fonts.googleapis.com/css?family=Montserrat:700);
@@ -16,14 +16,29 @@ h1, h2 {
     color: #DCFF52;
 }
 
+h1 {
+    font-size: 20em;
+}
+
+h2 {
+    font-size: 7em;
+}
+
 h3 {
-    font-weight: 700;
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: 2px;
 }
 
 /* General Link Styling */
 a {
-    font-weight: 700;
+    font-weight: 400;
     color: #FFB4C7;
+    letter-spacing: 0.1em;
+}
+
+a:hover {
+    color: #FFB4C7;
+    text-decoration: none;
 }
 
 span {
@@ -36,8 +51,8 @@ span:before, span:after {
     content: '';
     position: absolute;
     width: 0%;
-    height: 1px;
-    top: 50%;
+    height: 2px;
+    top: 40%;
     margin-top: -0.5px;
     background: #000000;
 }
@@ -63,3 +78,19 @@ span:hover:after {
     transition: 0s;
 }
 
+/* Navbar */
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+ul li {
+    float: left;
+}
+
+ul li a {
+    display: block;
+    padding-top: 60px;
+    padding-left: 80px;
+}
