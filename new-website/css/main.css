@@ -7,6 +7,28 @@ body {
     background-color: #FF527D;
     color: #000000;
     font-family: 'Karla', sans-serif;
+    background-image: url(../assets/lines.png);
+    background-size: 50%;
+    background-position: center;
+    background-repeat: repeat-y;
+}
+
+h1 {
+    
+}
+
+a, h2, h3, p {
+    font-size: 1.4em;
+}
+
+h2 {
+    letter-spacing: 1px;
+}
+
+h3 {
+    letter-spacing: 2px;
+    font-family: 'Montserrat', sans-serif;
+    color: #DCFF52;
 }
 
 /* General Link Styling */
@@ -63,7 +85,8 @@ span:hover:after {
 ul {
     list-style-type: none;
     margin: 0;
-    padding: 0;
+    width: 100vw;
+    padding: 0 0 30vh 70px;
 }
 
 ul li {
@@ -73,5 +96,18 @@ ul li {
 ul li a {
     display: block;
     padding-top: 60px;
-    padding-left: 80px;
+    padding-right: 10vw;
+    font-weight: 400;
+}
+
+/* Scrolling */
+.hello-wrapper {
+    margin-left: -2em;
+    margin-top: 14vh;
+    overflow: hidden;
+}
+
+.hello {
+    width: 120%;
+    height: auto;
 }
