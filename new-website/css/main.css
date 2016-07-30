@@ -9,26 +9,6 @@ body {
     font-family: 'Karla', sans-serif;
 }
 
-/* Chaning font for headers */
-h1, h2 {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 700;
-    color: #DCFF52;
-}
-
-h1 {
-    font-size: 20em;
-}
-
-h2 {
-    font-size: 7em;
-}
-
-h3 {
-    font-family: 'Montserrat', sans-serif;
-    letter-spacing: 2px;
-}
-
 /* General Link Styling */
 a {
     font-weight: 400;
@@ -60,6 +40,7 @@ span:before, span:after {
 span:before {
     left: -2.5px;
 }
+
 span:after {
     right: 2.5px;
     background: #000000;
