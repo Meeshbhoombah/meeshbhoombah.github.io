@@ -128,6 +128,7 @@ ul li a {
     width: 120%;
     height: auto;
     position: relative;
+    overflow: hidden;
 }
 
 #adlib {
