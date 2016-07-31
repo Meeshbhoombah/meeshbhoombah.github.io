@@ -63,7 +63,7 @@ span:before, span:after {
 }
 
 span:before {
-    left: -2.5px;
+    left: -1.5px;
 }
 
 span:after {
@@ -104,15 +104,30 @@ ul li a {
 }
 
 /* Intro Section */
-.hello-wrapper {
+#hello-wrapper {
     margin-left: -2em;
     margin-top: 14vh;
     overflow: hidden;
+    position: relative;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
 }
+
+#hello-wrapper div.scrollableArea img {
+    position: relative;
+    float: left;
+    margin: 0;
+    padding: 0;
+}
+
 
 .hello {
     width: 120%;
     height: auto;
+    position: relative;
 }
 
 #adlib {
