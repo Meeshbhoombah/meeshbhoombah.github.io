@@ -53,8 +53,8 @@ span:before, span:after {
     content: '';
     position: absolute;
     width: 0%;
-    height: 2px;
-    top: 40%;
+    height: 5px;
+    top: 50%;
     margin-top: -0.5px;
     background: #000000;
 }
@@ -100,7 +100,7 @@ ul li a {
     font-weight: 400;
 }
 
-/* Scrolling */
+/* Intro Section */
 .hello-wrapper {
     margin-left: -2em;
     margin-top: 14vh;
@@ -110,4 +110,8 @@ ul li a {
 .hello {
     width: 120%;
     height: auto;
+}
+
+#adlib {
+    margin-top: 2vh;
 }
