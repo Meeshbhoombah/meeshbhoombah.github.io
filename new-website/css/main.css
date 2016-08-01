@@ -105,11 +105,10 @@ ul li a {
 
 /* Intro Section */
 #hello-wrapper {
-    margin-left: -2em;
+    margin-left: -3em;
     margin-top: 14vh;
     overflow: hidden;
 }
-
 
 .hello {
     width: 120%;
@@ -124,8 +123,4 @@ ul li a {
 /* Work Section */
 #work {
     margin-top: 6vh;
-}
-
-#work h1 {
-    margin-bottom: -2vh;
 }
