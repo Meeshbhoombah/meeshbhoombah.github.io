@@ -51,7 +51,7 @@ a:hover {
 
 /* Intro Section */
 #intro {
-    margin-top: 30vh;
+    margin-top: 20vh;
 }
 
 #hello-wrapper {
@@ -61,7 +61,7 @@ a:hover {
 }
 
 .hello {
-    width: 130vw;
+    width: 150vw;
     height: auto;
     overflow: hidden;
 }
