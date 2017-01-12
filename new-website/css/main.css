@@ -1,72 +1,10 @@
-/* Main.css
- * Rohan Mishra */
-@import url(https://fonts.googleapis.com/css?family=Karla:400,700);
-@import url(https://fonts.googleapis.com/css?family=Montserrat:700);
-
 body {
-    background-color: #FF527D;
-    color: #000000;
-    font-family: 'Karla', sans-serif;
-    background-image: url(../assets/lines.png);
-    background-size: 50%;
-    background-position: center;
-    background-repeat: repeat-y;
-    overflow-x: hidden;
+
 }
 
-h1 {
-    font-size: 10em;
-    font-family: 'Montserrat', sans-serif;
-    color: #DCFF52;
+/*
+#sidebar {
+  background-color:
+  color:
 }
-
-a, h2, h3, p {
-    font-size: 1.4em;
-}
-
-h2 {
-    letter-spacing: 1px;
-}
-
-h3 {
-    letter-spacing: 2px;
-    font-family: 'Montserrat', sans-serif;
-    color: #DCFF52;
-}
-
-/* General Link Styling */
-a {
-    font-weight: 400;
-    color: #FFB4C7;
-    letter-spacing: 0.1em;
-    padding: 4px;
-}
-
-a:hover {
-    color: #FFB4C7;
-    text-decoration: none;
-    background-color: #FF4674;
-}
-
-/* Intro Section */
-#intro {
-    margin-top: 20vh;
-}
-
-#hello-wrapper {
-    margin-left: -3em;
-    margin-top: 14vh;
-    overflow: hidden;
-}
-
-.hello {
-    width: 140vw;
-    height: auto;
-    overflow: hidden;
-}
-
-#adlib {
-    margin-top: 2vh;
-}
-
-/* Work Section */
+*/
