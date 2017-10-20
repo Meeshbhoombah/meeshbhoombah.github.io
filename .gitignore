@@ -2,6 +2,7 @@
 .AppleDouble
 .LSOverride
 *.swp
+public/fonts
 
 # Node
 node_modules

@@ -24,11 +24,11 @@ mongoose.connect(connection, {
 // configure application
 app.set('port', 3000);
 app.set('views', __dirname + '/views');
-app.engine('handlebars', exphb({defaultLayout: 'index'}));
+app.engine('handlebars', exphb({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
-app.use(morgan('combined'))
+app.use(morgan('combined'));
 
 // server start on 'port'
 app.listen(app.get('port'), function () {
