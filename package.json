@@ -1,0 +1,22 @@
+{
+  "name": "portfolio",
+  "version": "1.0.0",
+  "description": "My portfolio website",
+  "main": "index.js",
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Meeshbhoombah/portfolio.git"
+  },
+  "keywords": [
+    "npm"
+  ],
+  "author": "Rohan Mishra (@meeshbhoombah)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Meeshbhoombah/portfolio/issues"
+  },
+  "homepage": "https://github.com/Meeshbhoombah/portfolio#readme"
+}
