@@ -1,12 +1,11 @@
 /**
  *
  * server.js
- * base configuration for blog
+ * base config
  *
  */
 
 var express = require('express');
-var http = require('http');
 var path = require('path');
 var mongoose = require('mongoose');
 var exphb = require('express-handlebars');
@@ -29,23 +28,10 @@ app.engine('handlebars', exphb({defaultLayout: 'index'}));
 app.set('view engine', 'handlebars');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
-
-// configure error handling
-var logger = morgan('combined')
-
-http.createServer(function (req, res) {
-  var done = finalhandler(req, res)
-  logger(req, res, function (err) {
-    if (err) return done(err)
-
-    // respond to request
-    res.setHeader('content-type', 'text/plain')
-    res.end('hello, world!')
-  })
-})
+app.use(morgan('combined'))
 
 // server start on 'port'
-http.createServer(app).listen(app.get('port'), function () {
+app.listen(app.get('port'), function () {
     console.log("Express server listening on port " + app.get('port'));
 });
 
