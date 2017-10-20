@@ -2,7 +2,7 @@
   "name": "portfolio",
   "version": "1.1.0",
   "description": "My portfolio website",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "make test"
   },
@@ -18,5 +18,10 @@
   "bugs": {
     "url": "https://github.com/Meeshbhoombah/portfolio/issues"
   },
-  "homepage": "https://github.com/Meeshbhoombah/portfolio#readme"
+  "homepage": "https://github.com/Meeshbhoombah/portfolio#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "handlebars": "^4.0.11",
+    "mongoose": "^4.12.3"
+  }
 }
