@@ -1,6 +1,7 @@
 *.DS_Store
 .AppleDouble
 .LSOverride
+*.swp
 
 # Node
 node_modules
