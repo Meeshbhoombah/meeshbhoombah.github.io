@@ -1,27 +1,28 @@
 /**
  *
  * server.js
- * init packages and controllers
+ * init packages, config middleware
+ * front-facing routes, import models/views/controllers
  *
  */
 
-var express = require('express');
-var mongoose = require('mongoose');
-var exphb = require('express-handlebars');
-
-var path = require('path');
-var bodyParser = require('body-parser')
-var morgan = require('morgan');
-
-var app = express();
+const express = require('express');
+const mongoose = require('mongoose');
+const exphb = require('express-handlebars');
+const path = require('path');
+const bodyParser = require('body-parser')
+const app = express();
 
 // connection to database
-connection = 'mongodb://127.0.0.1/blog';
+const connection = 'mongodb://127.0.0.1/blog';
 mongoose.connect(connection, {
     useMongoClient: true
 })
 
-// configure application
+// import models
+var Article = require('./models/article');
+
+// configure app
 app.set('port', 3000);
 app.set('views', __dirname + '/views');
 app.engine('handlebars', exphb({ defaultLayout: 'main' }));
@@ -32,6 +33,5 @@ app.use(morgan('combined'));
 
 // server start on 'port'
 app.listen(app.get('port'), function () {
-    console.log("Server listening on port " + app.get('port'));
-});
-
+    console.log("Listening on port " + app.get('port'));
+}); 

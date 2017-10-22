@@ -1,0 +1,19 @@
+/* main stylesheet */
+
+@font-face {
+    font-family: SF-Mono;
+    src: url(../fonts/SFMono-Medium.otf);
+}
+
+@font-face {
+    font-family: SF-Mono;
+    src: url(../fonts/SFMono-Bold);
+    font-weight: bold;
+}
+
+body {
+    font-family: SF-Mono;
+    background: #ffffff;
+}
+
+
