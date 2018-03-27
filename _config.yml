@@ -3,11 +3,11 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
-subtitle:
-description:
+title: Rohan Mishra
+subtitle: Man who stand on pot, get high
+description: Fullstack Hacker // Blockchain Devevangelist
 keywords:
-author: John Doe
+author: @Meeshbhoombah
 language:
 timezone:
 
@@ -73,7 +73,7 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: landscape
+theme: cactus
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
