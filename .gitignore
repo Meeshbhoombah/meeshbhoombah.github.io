@@ -28,3 +28,16 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+Thumbs.db
+db.json
+*.log
+public/
+.deploy*/
+.idea/
+*.log
+*.iml
+.tern-port
+yarn.lock
+package-lock.json
+node_modules/
