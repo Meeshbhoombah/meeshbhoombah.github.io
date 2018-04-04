@@ -9,7 +9,7 @@ description:
 keywords: Blockchain, Hacker, Rohan, Mishra, Developer, Fullstack, Python, Go
 author: Meeshbhoombah
 language: English
-timezone: PST
+timezone: America/Los_Angeles
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
@@ -42,7 +42,7 @@ highlight:
   enable: true
   line_number: true
   auto_detect: false
-  tab_replace:
+  tab_replace: true
   
 # Home page setting
 # path: Root path for your blogs index page. (default = '')

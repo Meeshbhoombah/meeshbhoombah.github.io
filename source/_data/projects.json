@@ -1,9 +1,13 @@
 [
     {
-       "name":"BuJo Bot",
-       "url":"https://hexo.io/",
-       "desc":"A fast, simple & powerful blog framework"
+       "name":"J.A.R.V.I.S",
+       "url":"https://github.com/Meeshbhoombah/J.A.R.V.I.S",
+       "desc":"Just a Rather Very Intelligent System"
+    },
+    {
+       "name":"simple",
+       "url":"https://github.com/Meeshbhoombah/simple",
+       "desc":"A crypto built on the Ethereum blockchain"
     }
 ]
-
 
