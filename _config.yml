@@ -4,7 +4,7 @@
 
 # Site
 title: Rohan Mishra
-subtitle: Fullstack Hacker // Blockchain Devevangelist
+subtitle: Fullstack Hacker // Blockchain Developer Evangelist
 description:
 keywords: Blockchain, Hacker, Rohan, Mishra, Developer, Fullstack, Python, Go
 author: Meeshbhoombah
@@ -107,10 +107,10 @@ nav:
 # (see https://fontawesome.com/icons?d=gallery&s=brands);
 # only 'mail' is an exception.
 social_links:
-  github: http://github.com/Meeshbhoombah
+  github: https://github.com/Meeshbhoombah
   twitter: https://twitter.com/meeshbhoombah
   linkedin: https://www.linkedin.com/in/aboutrohan/
-  mail: rohanmishra2017@gmail.com
+  mail: mailto:rohanmishra2017@gmail.com
 
 
 # Customize the overview with the most recent blog posts on the index page.
