@@ -1,0 +1,36 @@
+{
+  "name": "throttle-debounce-fn",
+  "version": "1.0.2",
+  "description": "jQuery-based plugin that allows you to throttle and debounce your functions",
+  "main": "src/throttle-debounce-fn.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/migueldemoura/throttle-debounce-fn.git"
+  },
+  "keywords": [
+    "throttle",
+    "debounce"
+  ],
+  "author": {
+    "name": "Miguel de Moura",
+    "email": "me@migueldemoura.com",
+    "url": "https://github.com/migueldemoura"
+  },
+  "dependencies": {
+    "jquery": ">=1.4.0"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/migueldemoura/throttle-debounce-fn/issues"
+  },
+  "homepage": "https://github.com/migueldemoura/throttle-debounce-fn",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-jshint": "^1.0.0",
+    "grunt-contrib-uglify": "^2.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-jscs": "^3.0.1",
+    "jscs": "^3.0.7"
+  }
+}
