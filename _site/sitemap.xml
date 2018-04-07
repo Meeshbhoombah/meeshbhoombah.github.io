@@ -2,15 +2,15 @@
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>http://localhost:4000/tag/design/</loc>
-<lastmod>2018-04-07T01:33:12-07:00</lastmod>
+<lastmod>2018-04-07T02:06:00-07:00</lastmod>
 </url>
 <url>
 <loc>http://localhost:4000/tag/jekyll/</loc>
-<lastmod>2018-04-07T01:33:12-07:00</lastmod>
+<lastmod>2018-04-07T02:06:00-07:00</lastmod>
 </url>
 <url>
 <loc>http://localhost:4000/tag/web/</loc>
-<lastmod>2018-04-07T01:33:12-07:00</lastmod>
+<lastmod>2018-04-07T02:06:00-07:00</lastmod>
 </url>
 <url>
 <loc>http://localhost:4000/posts/chalk-sample-post-with-all-elements</loc>
