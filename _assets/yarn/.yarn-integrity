@@ -1,0 +1,12 @@
+{
+  "systemParams": "darwin-x64-48",
+  "modulesFolders": [
+    "_assets/yarn"
+  ],
+  "flags": [],
+  "linkedModules": [],
+  "topLevelPatterns": [],
+  "lockfileEntries": {},
+  "files": [],
+  "artifacts": {}
+}
