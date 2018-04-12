@@ -1,5 +1,4 @@
-**Rohan Mishra**
-I am a full-stack hacker // blockchain developer evangelist based in San Francisco.
+**Rohan Mishra** | I am a full-stack hacker // blockchain developer evangelist based in San Francisco.
 
 This page is a work in progress.
 
