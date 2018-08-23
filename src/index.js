@@ -20,3 +20,4 @@ if (typeof document !== 'undefined') {
 
   render(App)
 }
+

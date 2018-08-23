@@ -12,8 +12,9 @@ import './css/main.css'
 
 const App = () => (
     
-    <Roulter>
-    </Roulter>
+    <Router>
+        <Routes/>
+    </Router>
 
 
 )
