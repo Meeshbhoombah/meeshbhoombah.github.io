@@ -1,12 +1,7 @@
 WWW x meeshbhooombah
 
 Follow Me:
-- Twitter
-- GitHub
-- Medium
-- LinkedIn
-
-## Articles
-[Things I've Learned Working with the Ethereum Virtual Machine](/articles/EVM.md)
-
+- [Twitter](https://twitter.com/meeshbhoombah)
+- [GitHub](https://github.com/meeshbhoombah/)
+- [LinkedIn](https://www.linkedin.com/in/aboutrohan/)
 
