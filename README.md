@@ -8,16 +8,16 @@ Follow Me:
 🤔・🖋・♾・🔢・🔁
 
 ## 🤔
-Now:
-- Architect
+### The Future
+- [Architect](https://twitter.com/_thearchproj_)
 
-In the Past:
-- JusticeText
-- Commonwealth
-- Tru-Breed
-- Make School
-- BlockchainEDU
-- StudentRND
+### Back too
+- [JusticeText](https://justicetext.com/)
+- [Commonwealth](https://commonwealth.im/)
+- [Tru-Breed](https://www.tru-breed.com/)
+- [Make School](https://makeschool.org/)
+- [BlockchainEDU](https://www.blockchainedu.org/)
+- [CodeDay](https://www.codeday.org/)
 
 ## 🖋
 ### Startups
