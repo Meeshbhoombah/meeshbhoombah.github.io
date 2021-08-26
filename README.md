@@ -16,8 +16,8 @@ Follow Me:
 - [Commonwealth](https://commonwealth.im/)
 - [Tru-Breed](https://www.tru-breed.com/)
 - [Make School](https://makeschool.org/)
-- [BlockchainEDU](https://www.blockchainedu.org/)
 - [CodeDay](https://www.codeday.org/)
+- [BlockchainEDU](https://www.blockchainedu.org/)
 
 ## 🖋
 ### Startups
