@@ -8,10 +8,10 @@ Follow Me:
 🤔・🖋・♾・🔢・🔁
 
 ## 🤔
-### The Future
+### Now
 - [Architect](https://twitter.com/_thearchproj_)
 
-### Back too
+### Previously
 - [JusticeText](https://justicetext.com/)
 - [Commonwealth](https://commonwealth.im/)
 - [Tru-Breed](https://www.tru-breed.com/)
