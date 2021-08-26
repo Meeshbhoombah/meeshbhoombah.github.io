@@ -6,13 +6,12 @@ Follow Me:
 - [LinkedIn](https://www.linkedin.com/in/aboutrohan/)
 
 ## Guides
-⏳ = Work in Progress
 
 ### Ethereum
-- ⏳ [Things I've Learned Spelunking Through the EVM](#)
+- [Things I've Learned Spelunking Through the EVM](#)
 
 ### Startups
-- ⏳ [Fundraising](#)
-- ⏳ [Finances](#)
-- ⏳ [Starting a New Good or Service](#)
+- [Fundraising](#)
+- [Finances](#)
+- [Starting a New Good or Service](#)
 
