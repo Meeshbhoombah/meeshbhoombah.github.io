@@ -21,12 +21,9 @@ Previously
 
 ## 🖋
 ### Startups
-Coming Soon
+- [Starting Something New](/research/startups/starting-something-new.md)
 
-### Ethereum
-Coming Soon
-
-### Bitcoin
+### Cryptocurrencies
 Coming Soon
 
 ### Austrian Economics
