@@ -1,29 +1,29 @@
-# Starting Something New
-Your goal: Product-Market Fit
+## Starting Something New
+###Your goal: Product-Market Fit
 
-Why?
+## Why?
 - [Marc Andressen](https://pmarchive.com/guide_to_startups_part4.html)
 
-Outline a Rough Vision
+### Outline a Rough Vision
 - Problem
 - Customer
 - Solution
 
-Start Selling (and Build a Community)
+### Start Selling (and Build a Community)
 - Connect w/ potential
     + Customers
     + Investors
     + Contributors
 
-Sell Your Vision, use...
+### Sell Your Vision, use...
 - Landing Pages
 - Mockups
 - Your Mouth
 
-Prior to Commitments, Define a Business Model
+### Prior to Commitments, Define a Business Model
 - Share for feedback
 
-List Out all Your Risks
+### List Out all Your Risks
 - Team
 - Techincal
 - Market
@@ -33,5 +33,5 @@ List Out all Your Risks
 - Distribution
 - Customer
 
-Build a Master Plan
+### Build a Master Plan
 
