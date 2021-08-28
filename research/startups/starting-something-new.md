@@ -1,5 +1,7 @@
-## Starting Something New
-###Your goal: Product-Market Fit
+Starting Something New
+
+## One Goal
+Product-Market Fit
 
 ## Why?
 - [Marc Andressen](https://pmarchive.com/guide_to_startups_part4.html)
