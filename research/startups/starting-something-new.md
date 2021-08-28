@@ -3,7 +3,7 @@ Starting Something New
 ## One Goal
 Product-Market Fit
 
-## Why?
+### Why?
 - [Marc Andressen](https://pmarchive.com/guide_to_startups_part4.html)
 
 ### Outline a Rough Vision
