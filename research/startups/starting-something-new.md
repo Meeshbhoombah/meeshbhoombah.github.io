@@ -18,5 +18,20 @@ Start Selling (and Build a Community)
 Sell Your Vision, use...
 - Landing Pages
 - Mockups
-- Your God Damn Mouth
+- Your Mouth
+
+Prior to Commitments, Define a Business Model
+- Share for feedback
+
+List Out all Your Risks
+- Team
+- Techincal
+- Market
+- Product
+- Sales
+- Marketing
+- Distribution
+- Customer
+
+Build a Master Plan
 
