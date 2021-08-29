@@ -1,23 +1,32 @@
-Starting Something New
+Starting Something New 
 
-## One Goal
-Product-Market Fit
+**Your Objective:** Product-Market Fit
 
 ### Why?
+Product-Market Fit === Success
 - [Marc Andressen](https://pmarchive.com/guide_to_startups_part4.html)
 
+### Steps
+- Outline a Rough Vision
+- Build a Community
+- Start Selling
+- Prior to Commitments, Define a Business Model
+- List Risks
+
 ### Outline a Rough Vision
+Bullets work best:
 - Problem
 - Customer
 - Solution
 
-### Start Selling (and Build a Community)
-- Connect w/ potential
-    + Customers
-    + Investors
-    + Contributors
+### Build a Community
+Connect w/ potential
+- Customers
+- Investors
+- Contributors
 
-### Sell Your Vision, use...
+### Start Selling
+Use
 - Landing Pages
 - Mockups
 - Your Mouth
@@ -25,7 +34,7 @@ Product-Market Fit
 ### Prior to Commitments, Define a Business Model
 - Share for feedback
 
-### List Out all Your Risks
+### List Risks
 - Team
 - Techincal
 - Market
@@ -36,4 +45,9 @@ Product-Market Fit
 - Customer
 
 ### Build a Master Plan
+Synthesize all your research into a document depicting the future
+
+### Where to Go From Here
+- Fundraising
+- Finances
 
