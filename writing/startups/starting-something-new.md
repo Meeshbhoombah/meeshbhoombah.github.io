@@ -12,6 +12,7 @@ Product-Market Fit === Success
 - Start Selling
 - Prior to Commitments, Define a Business Model
 - List Risks
+- Build a Master Plan
 
 ### Outline a Rough Vision
 Bullets work best:
@@ -26,7 +27,7 @@ Connect w/ potential
 - Contributors
 
 ### Start Selling
-Use
+Stay lean, use...
 - Landing Pages
 - Mockups
 - Your Mouth
