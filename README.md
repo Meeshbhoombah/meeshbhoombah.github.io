@@ -14,7 +14,7 @@ Previously
 
 ## 🖋
 ### Startups
-- [Starting Something New](/writing/startups/starting-something-new.md)
+- [Getting Started](/writing/startups/getting-started.md)
 
 ### Cryptocurrencies
 Coming Soon
