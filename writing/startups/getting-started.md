@@ -6,7 +6,7 @@ Getting Started
 Product-Market Fit === Success
 - [Marc Andressen](https://pmarchive.com/guide_to_startups_part4.html)
 
-### Steps
+## Steps
 - Outline a Rough Vision
 - Build a Community
 - Start Selling
@@ -44,6 +44,9 @@ Stay lean, use...
 - Marketing
 - Distribution
 - Customer
+
+### Identify Key Metrics
+- Set up a spreadsheet to track them
 
 ### Build a Master Plan
 Synthesize all your research into a document depicting the future
