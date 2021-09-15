@@ -13,9 +13,6 @@ Previously
 - [BlockchainEDU](https://www.blockchainedu.org/)
 
 ## 🖋
-### Startups
-- [Getting Started](/writing/startups/getting-started.md)
-
 ### Cryptocurrencies
 Coming Soon
 
@@ -24,6 +21,12 @@ Coming Soon
 
 ### Collective Action
 Coming Soon
+
+### Startups
+- [Getting Started](/writing/startups/getting-started.md)
+
+### Food
+- [Recommendations](/writing/food/recommendations.md)
 
 ## ♾
 [Outputs](https://meeshbhoombah2020.notion.site/Outputs-25bce498609c4d089bc670ec3dfce8ad)
