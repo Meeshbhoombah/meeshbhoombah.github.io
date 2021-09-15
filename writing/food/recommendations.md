@@ -6,7 +6,7 @@ Recommendations
 
 ### San Francisco
 - Black Sugar
-- Bob'S Donuts
+- Bob's Donuts
 - Rainbow Grocery
 - Takorea
 - Bite
