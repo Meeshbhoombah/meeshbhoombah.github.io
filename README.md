@@ -1,10 +1,10 @@
 Meeshbhoombah 𝐱 WWW
 
 ## 🤔
-Now
+### Now
 - [Architect](https://twitter.com/_thearchproj_)
 
-Previously
+### Previously
 - [JusticeText](https://justicetext.com/)
 - [Commonwealth](https://commonwealth.im/)
 - [Tru-Breed](https://www.tru-breed.com/)
@@ -42,7 +42,7 @@ Tech Events Organized
 Event Attendees
 
 ## 🔁
-Follow Me:
+### Follow Me
 - [Twitter](https://twitter.com/meeshbhoombah)
 - [Medium](https://meeshbhoombah.medium.com/)
 - [GitHub](https://github.com/meeshbhoombah/)
