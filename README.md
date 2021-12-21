@@ -46,5 +46,5 @@ Event Attendees
 - [Twitter](https://twitter.com/meeshbhoombah)
 - [Medium](https://meeshbhoombah.medium.com/)
 - [GitHub](https://github.com/meeshbhoombah/)
-- [LinkedIn](https://www.linkedin.com/in/aboutrohan/)
+- [LinkedIn](https://www.linkedin.com/in/meeshbhoombah/)
 
