@@ -1,5 +1,23 @@
 Meeshbhoombah 𝐱 WWW
 
+## 🔢
+### 21/46
+Hackathons Won/Attended
+
+### 131
+Tech Events Organized
+
+### ~900
+Event Attendee
+
+## 🔁
+### Follow Me
+- [Twitter](https://twitter.com/meeshbhoombah)
+- [Medium](https://meeshbhoombah.medium.com/)
+- [dev.to](https://dev.to/meeshbhoombah)
+- [GitHub](https://github.com/meeshbhoombah/)
+- [LinkedIn](https://www.linkedin.com/in/meeshbhoombah/)
+
 ## 🤔
 ### Now
 - [Architect](https://twitter.com/_thearchproj_)
@@ -16,14 +34,14 @@ Meeshbhoombah 𝐱 WWW
 ### Cryptocurrencies
 Coming Soon
 
-### Austrian Economics
-Coming Soon
-
-### Collective Action
+### Social Science
 Coming Soon
 
 ### Startups
 - [Getting Started](/writing/startups/getting-started.md)
+
+### Computing
+Coming Soon
 
 ### Food
 - [Recommendations](/writing/food/recommendations.md)
@@ -31,21 +49,4 @@ Coming Soon
 ## ♾
 [Outputs](https://meeshbhoombah2020.notion.site/Outputs-25bce498609c4d089bc670ec3dfce8ad)
 
-## 🔢
-### 21/46
-Hackathons Won/Attended
-
-### 131
-Tech Events Organized
-
-### ~900
-Event Attendees
-
-## 🔁
-### Follow Me
-- [Twitter](https://twitter.com/meeshbhoombah)
-- [Medium](https://meeshbhoombah.medium.com/)
-- [dev.to](https://dev.to/meeshbhoombah)
-- [GitHub](https://github.com/meeshbhoombah/)
-- [LinkedIn](https://www.linkedin.com/in/meeshbhoombah/)
 
