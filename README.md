@@ -1,14 +1,17 @@
 Meeshbhoombah 𝐱 WWW
 
 ## 🔢
-### 21/46
-Hackathons Won/Attended
-
-### 131
-Tech Events Organized
+### > 3,098 
+Hours dedicated to diversifying tech through education
 
 ### ~900
-Event Attendee
+Workshop Attendees
+
+### 21/46
+Programming Competitions Won/Attended
+
+### ~100
+Projects Built
 
 ## 🔁
 ### Follow Me
@@ -21,6 +24,7 @@ Event Attendee
 ## 🤔
 ### Now
 - [Architect](https://twitter.com/_thearchproj_)
+- [Sigma Prime](https://sigmaprime.io/)
 
 ### Previously
 - [JusticeText](https://justicetext.com/)
