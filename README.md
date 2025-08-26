@@ -7,6 +7,9 @@ Hours dedicated to diversifying tech through education
 ### ~900
 Workshop Attendees
 
+### ~700
+Consistent readers on [dev.to](https://dev.to/meeshbhoombah)
+
 ### 21/46
 Programming Competitions Won/Attended
 
