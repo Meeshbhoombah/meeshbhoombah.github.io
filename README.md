@@ -36,7 +36,10 @@ Projects Built
 
 ## 🖋
 ### Cryptocurrencies
-Coming Soon
+- Decentralized Autonomous Organizations
+    + [What Went DAOn](https://meeshbhoombah.medium.com/what-went-daon-e11ba29a5931)
+- Memecoins
+    + [Memecoins are Misunderstood](https://meeshbhoombah.medium.com/memecoins-are-misunderstood-a7485486e4b7)
 
 ### Social Science
 Coming Soon
@@ -45,7 +48,14 @@ Coming Soon
 - [Getting Started](/writing/startups/getting-started.md)
 
 ### Computing
-Coming Soon
+- Formal Verification
+    1. [The Foundation of Ethereum Smart Contracts](https://dev.to/meeshbhoombah/formal-verification-of-ethereum-smart-contracts-4mb4)
+    2. [Bridging Theory and Practice](https://dev.to/meeshbhoombah/formal-verification-bridging-theory-and-practice-2931`)
+    3. [An Example](https://dev.to/meeshbhoombah/formal-verification-an-example-33c)
+- Functional Programming
+    + [A Misfit for Backend Engineering](https://dev.to/meeshbhoombah/functional-programming-a-misfit-for-backend-engineering-2aak)
+- Invariance
+    + [Be Invariant](https://dev.to/meeshbhoombah/be-invariant-4hn2)
 
 ### Food
 - [Recommendations](/writing/food/recommendations.md)
