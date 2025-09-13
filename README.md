@@ -37,12 +37,21 @@ Projects Built
         * An internal log auditing system for a company worth $2,000,000,000
 - [JusticeText](https://justicetext.com/)
     + Worked on:
-        * Core product, leading to $15,000 MRR and $2,000,000 in capital
+        * Core product, leading to $15,000 MRR a $2,000,000 raise
 - [Commonwealth](https://commonwealth.im/)
     + Worked on:
         * Core product, scaling DAU by 33%
 - [Tru-Breed](https://www.tru-breed.com/)
+    + Worked on:
+        * A private, pipelined, optimized fork of [ipyrad](https://github.com/dereneaton/ipyrad)
 - [Make School](https://makeschool.org/)
+    + Worked on:
+        * Teaching ~200 students cryptocurrency concepts (economics, computer science, game theory, NFTs, DAOs)
+        * Deliving three products quarterly, of note:
+            - A markov-chain based 
+            - An ecommerce system for cannabis dispenaries
+            - A StackOverflow-esque system for Slack
+        * Building community
 - [CodeDay](https://www.codeday.org/)
 - [BlockchainEDU](https://www.blockchainedu.org/)
 
