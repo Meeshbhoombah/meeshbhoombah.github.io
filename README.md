@@ -37,7 +37,7 @@ Projects Built
         * An internal log auditing system for a company worth $2,000,000,000
 - [JusticeText](https://justicetext.com/)
     + Worked on:
-        * Core product, leading to $15,000 MRR a $2,000,000 raise
+        * Core product, leading to $25,000 MRR a $2,000,000 raise
 - [Commonwealth](https://commonwealth.im/)
     + Worked on:
         * Core product, scaling DAU by 33%
