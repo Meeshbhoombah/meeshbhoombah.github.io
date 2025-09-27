@@ -1,8 +1,8 @@
 Meeshbhoombah 𝐱 WWW
 
 ## 🔢
-### 12 years
-In tech
+### 12
+Years in tech
 
 ### >136
 Web3 Vulnerabilities assessed
