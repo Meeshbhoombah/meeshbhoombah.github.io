@@ -53,7 +53,7 @@ Projects Built
 - [Make School](https://makeschool.org/)
     + Worked on:
         * Teaching ~200 students cryptocurrency concepts (economics, computer science, game theory, NFTs, DAOs)
-        * Deliving three products quarterly, of note:
+        * Delivering three products quarterly, of note:
             - A markov-chain based Eminem lyric generator
             - An ecommerce system for cannabis dispenaries
             - A StackOverflow-esque system for Slack
