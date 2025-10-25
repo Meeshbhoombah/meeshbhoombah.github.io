@@ -1,4 +1,10 @@
-Recommendations
+---
+title: Food Recommendations
+layout: writing
+status: live
+description: A running list of noteworthy bites and sips.
+tags: [writing, food]
+---
 
 ## Bay Area
 - Quickly's
@@ -33,5 +39,3 @@ Recommendations
 - Lola
 - Al Abasha
 - Dick's
-
-
