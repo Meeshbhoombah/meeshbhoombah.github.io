@@ -7,6 +7,7 @@ const { execSync } = require("node:child_process");
 const SITE_DIR = "_site";
 const TEMPLATE_DIR = "templates";
 const ROOT = process.cwd();
+const WRITING_DIR = path.join(ROOT, "writing");
 
 function readTemplate(name) {
   const filePath = path.join(ROOT, TEMPLATE_DIR, name);
@@ -83,6 +84,17 @@ function normalizeLinkUrl(rawUrl) {
   }
 
   return `${normalized}${query}${hash}`;
+}
+
+function extractFirstHeading(markdown) {
+  const lines = markdown.replace(/\r\n/g, "\n").split("\n");
+  for (const line of lines) {
+    const match = line.match(/^#\s+(.*)$/);
+    if (match) {
+      return match[1].trim();
+    }
+  }
+  return "";
 }
 
 function renderInline(text) {
@@ -359,6 +371,29 @@ function findMarkdownFiles(dir) {
   return files;
 }
 
+function isInsideWritingDir(filePath) {
+  const relative = path.relative(WRITING_DIR, filePath);
+  return relative && !relative.startsWith("..") && !path.isAbsolute(relative);
+}
+
+function isExternalWritingPath(filePath) {
+  if (!isInsideWritingDir(filePath)) {
+    return false;
+  }
+  const relative = path
+    .relative(WRITING_DIR, filePath)
+    .replace(/\\/g, "/")
+    .toLowerCase();
+  if (!relative) {
+    return false;
+  }
+  if (relative === "readme.md") {
+    return false;
+  }
+  const [firstSegment] = relative.split("/");
+  return firstSegment === "dev.to" || firstSegment === "medium";
+}
+
 function ensureDir(dirPath) {
   fs.mkdirSync(dirPath, { recursive: true });
 }
@@ -375,6 +410,9 @@ function deriveUrl(fromPath, data) {
     return permalink || "/";
   }
   const relative = path.relative(ROOT, fromPath).replace(/\\/g, "/");
+  if (relative.toLowerCase() === "writing/readme.md") {
+    return "/writing";
+  }
   const withoutExt = relative.replace(/\.md$/, "");
   return `/${withoutExt}`;
 }
@@ -426,6 +464,23 @@ function getLastCommitDate(filePath) {
 
 function renderTemplate(template, context) {
   return template.replace(/{{(\w+)}}/g, (_, key) => (context[key] ?? ""));
+}
+
+function inferLayout(data, sourcePath) {
+  if (data.layout) {
+    return data.layout;
+  }
+  const relative = path.relative(ROOT, sourcePath).replace(/\\/g, "/");
+  if (relative === "HOME.md") {
+    return "home";
+  }
+  if (relative.toLowerCase() === "writing/readme.md") {
+    return "writing-index";
+  }
+  if (isInsideWritingDir(sourcePath)) {
+    return "writing";
+  }
+  return "page";
 }
 
 function renderPageBody(page, liveWriting) {
@@ -547,6 +602,45 @@ function deriveCategory(page) {
   return "Writing";
 }
 
+function shouldIncludeInLiveWriting(page) {
+  if (!isInsideWritingDir(page.sourcePath)) {
+    return false;
+  }
+  if (isExternalWritingPath(page.sourcePath)) {
+    return false;
+  }
+  if (path.basename(page.sourcePath).toLowerCase() === "readme.md") {
+    return false;
+  }
+  if ((page.layout || "").toLowerCase() === "writing-index") {
+    return false;
+  }
+
+  const statusRaw = page.frontMatter.status;
+  if (statusRaw === undefined || statusRaw === null || statusRaw === "") {
+    return true;
+  }
+
+  if (typeof statusRaw === "boolean") {
+    return statusRaw;
+  }
+
+  const normalized = String(statusRaw).trim().toLowerCase();
+  if (!normalized) {
+    return true;
+  }
+  if (["draft", "private", "hidden", "archived", "unpublished"].includes(normalized)) {
+    return false;
+  }
+  if (["live", "published", "public", "true"].includes(normalized)) {
+    return true;
+  }
+  if (["false", "no"].includes(normalized)) {
+    return false;
+  }
+  return true;
+}
+
 function buildSite() {
   if (fs.existsSync(SITE_DIR)) {
     fs.rmSync(SITE_DIR, { recursive: true, force: true });
@@ -554,31 +648,30 @@ function buildSite() {
   ensureDir(path.join(ROOT, SITE_DIR));
 
   const markdownFiles = findMarkdownFiles(ROOT);
-  const pages = markdownFiles
-    .map((filePath) => {
-      const raw = fs.readFileSync(filePath, "utf8");
-      if (!raw.trimStart().startsWith('---')) {
-        return null;
-      }
-      const { data, body } = parseFrontMatter(raw);
-      const contentHtml = markdownToHtml(body.trim());
+  const pages = markdownFiles.map((filePath) => {
+    const raw = fs.readFileSync(filePath, "utf8");
+    const { data, body } = parseFrontMatter(raw);
+    const bodyContent = body.trim();
+    const contentHtml = markdownToHtml(bodyContent);
     const url = deriveUrl(filePath, data);
     const outputPath = outputPathFromUrl(url);
+    const inferredLayout = inferLayout(data, filePath);
+    const title = data.title || extractFirstHeading(bodyContent) || path.basename(filePath, ".md");
+    const description = data.description || "";
     return {
       sourcePath: filePath,
       frontMatter: data,
-      layout: data.layout || "page",
-      title: data.title || "",
-      description: data.description || "",
+      layout: inferredLayout,
+      title,
+      description,
       contentHtml,
       url,
       outputPath,
     };
-  })
-    .filter(Boolean);
+  });
 
   const liveWriting = pages
-    .filter((page) => page.frontMatter.status === "live")
+    .filter((page) => shouldIncludeInLiveWriting(page))
     .map((page) => {
       const firstLiveDate = getFirstLiveDate(page.sourcePath) || getLastCommitDate(page.sourcePath);
       return {
