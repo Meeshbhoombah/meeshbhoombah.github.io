@@ -34,63 +34,6 @@ function escapeHtmlAttribute(value) {
   return escapeHtml(value).replace(/`/g, "&#96;");
 }
 
-function createRedirectHtml(targetUrl) {
-  const escapedAttr = escapeHtmlAttribute(targetUrl);
-  const escapedText = escapeHtml(targetUrl);
-  return `<!doctype html>\n<html lang="en">\n  <head>\n    <meta charset="utf-8" />\n    <title>Redirecting…</title>\n    <meta http-equiv="refresh" content="0; url=${escapedAttr}" />\n    <link rel="canonical" href="${escapedAttr}" />\n  </head>\n  <body>\n    <p>If you are not redirected automatically, follow this <a href="${escapedAttr}">link to ${escapedText}</a>.</p>\n  </body>\n</html>\n`;
-}
-
-function normalizeLinkUrl(rawUrl) {
-  const trimmed = rawUrl.trim();
-  if (!trimmed) {
-    return trimmed;
-  }
-
-  if (/^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(trimmed) || trimmed.startsWith("#")) {
-    return trimmed;
-  }
-
-  let pathPart = trimmed;
-  let hash = "";
-  let query = "";
-
-  const hashIndex = trimmed.indexOf("#");
-  if (hashIndex !== -1) {
-    hash = trimmed.slice(hashIndex);
-    pathPart = trimmed.slice(0, hashIndex);
-  }
-
-  const queryIndex = pathPart.indexOf("?");
-  if (queryIndex !== -1) {
-    query = pathPart.slice(queryIndex);
-    pathPart = pathPart.slice(0, queryIndex);
-  }
-
-  let normalized = pathPart;
-  if (normalized.endsWith(".md")) {
-    normalized = normalized.slice(0, -3);
-  } else if (normalized.endsWith(".md/")) {
-    normalized = normalized.slice(0, -4) + "/";
-  }
-
-  if (!normalized) {
-    normalized = "/";
-  }
-
-  if (!normalized.startsWith(".") && !normalized.startsWith("/")) {
-    normalized = `/${normalized}`;
-  }
-
-  if (!path.extname(normalized)) {
-    normalized = normalized.replace(/\/+$/, "");
-    if (!normalized) {
-      normalized = "/";
-    }
-  }
-
-  return `${normalized}${query}${hash}`;
-}
-
 function renderInline(text) {
   let result = "";
   let i = 0;
@@ -122,8 +65,7 @@ function renderInline(text) {
         if (depth === 0) {
           const label = text.slice(i + 1, closeBracket);
           const url = text.slice(closeBracket + 2, j - 1);
-          const normalizedUrl = normalizeLinkUrl(url);
-          result += `<a href="${escapeHtmlAttribute(normalizedUrl)}">${renderInline(label)}</a>`;
+          result += `<a href="${escapeHtmlAttribute(url)}">${renderInline(label)}</a>`;
           i = j;
           continue;
         }
@@ -375,26 +317,23 @@ function deriveUrl(fromPath, data) {
     if (!permalink.startsWith("/")) {
       permalink = `/${permalink}`;
     }
-    if (!path.extname(permalink) && permalink !== "/") {
-      permalink = permalink.replace(/\/+$/, "");
+    if (!path.extname(permalink)) {
+      if (!permalink.endsWith("/")) {
+        permalink = `${permalink}/`;
+      }
     }
-    return permalink || "/";
+    return permalink;
   }
   const relative = path.relative(ROOT, fromPath).replace(/\\/g, "/");
   const withoutExt = relative.replace(/\.md$/, "");
-  return `/${withoutExt}`;
+  return `/${withoutExt}/`;
 }
 
 function outputPathFromUrl(url) {
-  if (!path.extname(url)) {
-    if (url === "/") {
-      return path.join(ROOT, SITE_DIR, "index.html");
-    }
-    const relative = url.replace(/^\//, "");
-    return path.join(ROOT, SITE_DIR, relative, "index.html");
+  if (url.endsWith("/")) {
+    return path.join(ROOT, SITE_DIR, url, "index.html");
   }
-  const relative = url.replace(/^\//, "");
-  return path.join(ROOT, SITE_DIR, relative);
+  return path.join(ROOT, SITE_DIR, url);
 }
 
 function formatDate(date) {
@@ -548,7 +487,6 @@ function buildSite() {
     const destination = page.outputPath;
     ensureDir(path.dirname(destination));
     fs.writeFileSync(destination, finalHtml, "utf8");
-
   }
 
   const stylesheetSrc = path.join(ROOT, "styles.css");
@@ -556,9 +494,6 @@ function buildSite() {
     const stylesheetDest = path.join(ROOT, SITE_DIR, "styles.css");
     fs.copyFileSync(stylesheetSrc, stylesheetDest);
   }
-
-  const noJekyllPath = path.join(ROOT, SITE_DIR, ".nojekyll");
-  fs.writeFileSync(noJekyllPath, "", "utf8");
 }
 
 if (require.main === module) {
