@@ -34,6 +34,57 @@ function escapeHtmlAttribute(value) {
   return escapeHtml(value).replace(/`/g, "&#96;");
 }
 
+function normalizeLinkUrl(rawUrl) {
+  const trimmed = rawUrl.trim();
+  if (!trimmed) {
+    return trimmed;
+  }
+
+  if (/^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(trimmed) || trimmed.startsWith("#")) {
+    return trimmed;
+  }
+
+  let pathPart = trimmed;
+  let hash = "";
+  let query = "";
+
+  const hashIndex = trimmed.indexOf("#");
+  if (hashIndex !== -1) {
+    hash = trimmed.slice(hashIndex);
+    pathPart = trimmed.slice(0, hashIndex);
+  }
+
+  const queryIndex = pathPart.indexOf("?");
+  if (queryIndex !== -1) {
+    query = pathPart.slice(queryIndex);
+    pathPart = pathPart.slice(0, queryIndex);
+  }
+
+  let normalized = pathPart;
+  if (normalized.endsWith(".md")) {
+    normalized = normalized.slice(0, -3);
+  } else if (normalized.endsWith(".md/")) {
+    normalized = normalized.slice(0, -4) + "/";
+  }
+
+  if (!normalized) {
+    normalized = "/";
+  }
+
+  if (!normalized.startsWith(".") && !normalized.startsWith("/")) {
+    normalized = `/${normalized}`;
+  }
+
+  if (!path.extname(normalized)) {
+    normalized = normalized.replace(/\/+$/, "");
+    if (!normalized) {
+      normalized = "/";
+    }
+  }
+
+  return `${normalized}${query}${hash}`;
+}
+
 function renderInline(text) {
   let result = "";
   let i = 0;
@@ -65,7 +116,8 @@ function renderInline(text) {
         if (depth === 0) {
           const label = text.slice(i + 1, closeBracket);
           const url = text.slice(closeBracket + 2, j - 1);
-          result += `<a href="${escapeHtmlAttribute(url)}">${renderInline(label)}</a>`;
+          const normalizedUrl = normalizeLinkUrl(url);
+          result += `<a href="${escapeHtmlAttribute(normalizedUrl)}">${renderInline(label)}</a>`;
           i = j;
           continue;
         }
@@ -317,23 +369,26 @@ function deriveUrl(fromPath, data) {
     if (!permalink.startsWith("/")) {
       permalink = `/${permalink}`;
     }
-    if (!path.extname(permalink)) {
-      if (!permalink.endsWith("/")) {
-        permalink = `${permalink}/`;
-      }
+    if (!path.extname(permalink) && permalink !== "/") {
+      permalink = permalink.replace(/\/+$/, "");
     }
-    return permalink;
+    return permalink || "/";
   }
   const relative = path.relative(ROOT, fromPath).replace(/\\/g, "/");
   const withoutExt = relative.replace(/\.md$/, "");
-  return `/${withoutExt}/`;
+  return `/${withoutExt}`;
 }
 
 function outputPathFromUrl(url) {
-  if (url.endsWith("/")) {
-    return path.join(ROOT, SITE_DIR, url, "index.html");
+  if (!path.extname(url)) {
+    if (url === "/") {
+      return path.join(ROOT, SITE_DIR, "index.html");
+    }
+    const relative = url.replace(/^\//, "");
+    return path.join(ROOT, SITE_DIR, relative, "index.html");
   }
-  return path.join(ROOT, SITE_DIR, url);
+  const relative = url.replace(/^\//, "");
+  return path.join(ROOT, SITE_DIR, relative);
 }
 
 function formatDate(date) {
@@ -380,6 +435,7 @@ function renderPageBody(page, liveWriting) {
       containerClass: "home-writing",
       heading: "Latest Writing",
       includeDates: true,
+      groupByCategory: true,
     });
     return renderTemplate(templates.home, {
       content: contentHtml,
@@ -400,6 +456,7 @@ function renderPageBody(page, liveWriting) {
     const listHtml = renderLiveWritingSection(liveWriting, {
       heading: "Published entries",
       includeDates: true,
+      groupByCategory: true,
     });
     return renderTemplate(templates.writingIndex, {
       intro,
@@ -413,21 +470,81 @@ function renderPageBody(page, liveWriting) {
   });
 }
 
-function renderLiveWritingSection(entries, { containerClass = "", heading, includeDates = false } = {}) {
+function renderLiveWritingSection(entries, { containerClass = "", heading, includeDates = false, groupByCategory = false } = {}) {
   if (!entries.length) {
     return "";
   }
-  const items = entries
-    .map((entry) => {
-      const datePart = includeDates && entry.firstLiveDate
-        ? `<span class="home-writing__date">${formatDate(entry.firstLiveDate)}</span>`
-        : "";
-      return `<li><a href="${escapeHtmlAttribute(entry.url)}">${escapeHtml(entry.title)}</a>${datePart ? ` ${datePart}` : ""}</li>`;
-    })
-    .join("\n");
   const headingHtml = heading ? `<h2>${escapeHtml(heading)}</h2>` : "";
+
+  if (groupByCategory) {
+    const groups = new Map();
+    for (const entry of entries) {
+      const key = entry.category || "Writing";
+      if (!groups.has(key)) {
+        groups.set(key, []);
+      }
+      groups.get(key).push(entry);
+    }
+
+    const groupHtml = Array.from(groups.entries())
+      .map(([category, groupEntries]) => {
+        const items = groupEntries
+          .map((entry) => renderWritingListItem(entry, includeDates))
+          .join("\n");
+        return `<div class="writing-group"><h3>${escapeHtml(category)}</h3><ul>${items}</ul></div>`;
+      })
+      .join("\n");
+
+    return `<section class="${containerClass}">${headingHtml}<div class="writing-groups">${groupHtml}</div></section>`;
+  }
+
+  const items = entries.map((entry) => renderWritingListItem(entry, includeDates)).join("\n");
   const listHtml = `<ul>${items}</ul>`;
   return `<section class="${containerClass}">${headingHtml}${listHtml}</section>`;
+}
+
+function renderWritingListItem(entry, includeDates) {
+  const datePart = includeDates && entry.firstLiveDate
+    ? `<span class="home-writing__date">${formatDate(entry.firstLiveDate)}</span>`
+    : "";
+  return `<li><a href="${escapeHtmlAttribute(entry.url)}">${escapeHtml(entry.title)}</a>${datePart ? ` ${datePart}` : ""}</li>`;
+}
+
+function titleize(value) {
+  return value
+    .split(/[\s_-]+/)
+    .filter(Boolean)
+    .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
+    .join(" ");
+}
+
+function deriveCategory(page) {
+  const { frontMatter, sourcePath } = page;
+  const categoryValue = frontMatter.category;
+  if (typeof categoryValue === "string" && categoryValue.trim()) {
+    return categoryValue.trim();
+  }
+
+  if (Array.isArray(frontMatter.tags)) {
+    const tag = frontMatter.tags.find((value) => {
+      if (typeof value !== "string") return false;
+      return value.trim().toLowerCase() !== "writing";
+    });
+    if (tag) {
+      return titleize(tag.trim());
+    }
+  }
+
+  const writingRoot = path.join(ROOT, "writing");
+  const relative = path.relative(writingRoot, sourcePath);
+  if (!relative.startsWith("..")) {
+    const [firstSegment] = relative.split(path.sep);
+    if (firstSegment && firstSegment !== path.basename(relative)) {
+      return titleize(firstSegment);
+    }
+  }
+
+  return "Writing";
 }
 
 function buildSite() {
@@ -468,6 +585,7 @@ function buildSite() {
         title: page.title || path.basename(page.sourcePath, ".md"),
         url: page.url,
         firstLiveDate,
+        category: deriveCategory(page),
       };
     })
     .sort((a, b) => {
@@ -487,6 +605,7 @@ function buildSite() {
     const destination = page.outputPath;
     ensureDir(path.dirname(destination));
     fs.writeFileSync(destination, finalHtml, "utf8");
+
   }
 
   const stylesheetSrc = path.join(ROOT, "styles.css");
@@ -494,6 +613,9 @@ function buildSite() {
     const stylesheetDest = path.join(ROOT, SITE_DIR, "styles.css");
     fs.copyFileSync(stylesheetSrc, stylesheetDest);
   }
+
+  const noJekyllPath = path.join(ROOT, SITE_DIR, ".nojekyll");
+  fs.writeFileSync(noJekyllPath, "", "utf8");
 }
 
 if (require.main === module) {

@@ -68,12 +68,25 @@ a:focus {
   font-size: 0.9rem;
 }
 
-.home-writing ul {
-  list-style: none;
-  padding: 0;
+
+.writing-groups {
+  display: grid;
+  gap: 1.5rem;
 }
 
-.home-writing li {
+.writing-group h3 {
+  margin-bottom: 0.5rem;
+}
+
+.home-writing ul,
+.writing-group ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.home-writing li,
+.writing-group li {
   margin-bottom: 0.5rem;
   display: flex;
   justify-content: space-between;
