@@ -8,6 +8,14 @@ const SITE_DIR = "_site";
 const TEMPLATE_DIR = "templates";
 const ROOT = process.cwd();
 const WRITING_DIR = path.join(ROOT, "writing");
+const HOMEPAGE_SECTION_FILES = {
+  hero: path.join(ROOT, "HERO.md"),
+  work: path.join(ROOT, "WORK.md"),
+  digest: path.join(ROOT, "DIGEST.md"),
+};
+const HOMEPAGE_SECTION_FILENAMES = new Set(
+  Object.values(HOMEPAGE_SECTION_FILES).map((filePath) => path.basename(filePath))
+);
 
 function readTemplate(name) {
   const filePath = path.join(ROOT, TEMPLATE_DIR, name);
@@ -414,6 +422,9 @@ function findMarkdownFiles(dir) {
     if (entry.isDirectory()) {
       files.push(...findMarkdownFiles(fullPath));
     } else if (entry.isFile() && entry.name.endsWith(".md")) {
+      if (HOMEPAGE_SECTION_FILENAMES.has(entry.name)) {
+        continue;
+      }
       files.push(fullPath);
     }
   }
@@ -445,6 +456,20 @@ function isExternalWritingPath(filePath) {
 
 function ensureDir(dirPath) {
   fs.mkdirSync(dirPath, { recursive: true });
+}
+
+function loadHomepageSections() {
+  const sections = { hero: "", work: "", digest: "" };
+  for (const [key, filePath] of Object.entries(HOMEPAGE_SECTION_FILES)) {
+    if (!fs.existsSync(filePath)) {
+      continue;
+    }
+    const raw = fs.readFileSync(filePath, "utf8");
+    const { body } = parseFrontMatter(raw);
+    const bodyContent = body.trim();
+    sections[key] = bodyContent ? markdownToHtml(bodyContent) : "";
+  }
+  return sections;
 }
 
 function deriveUrl(fromPath, data) {
@@ -532,9 +557,12 @@ function inferLayout(data, sourcePath) {
   return "page";
 }
 
-function renderPageBody(page, liveWriting) {
+function renderPageBody(page, liveWriting, homepageSections = {}) {
   const { layout, title, description, contentHtml, shouldRenderTitleHeading } = page;
   if (layout === "home") {
+    const heroHtml = homepageSections.hero || "";
+    const workHtml = homepageSections.work || "";
+    const digestHtml = homepageSections.digest || "";
     const listHtml = renderLiveWritingSection(liveWriting, {
       containerClass: "home-writing",
       heading: "🖋️",
@@ -543,19 +571,26 @@ function renderPageBody(page, liveWriting) {
     });
 
     let contentWithWriting = contentHtml;
+    let workWithWriting = workHtml;
     if (listHtml) {
-      const sectionMarker = "<h2>♾</h2>";
-      const markerIndex = contentWithWriting.indexOf(sectionMarker);
-      if (markerIndex !== -1) {
-        contentWithWriting = `${contentWithWriting.slice(0, markerIndex)}${listHtml}${contentWithWriting.slice(markerIndex)}`;
+      if (workHtml) {
+        workWithWriting = `${workHtml}${listHtml}`;
       } else {
-        contentWithWriting += listHtml;
+        const sectionMarker = "<h2>♾</h2>";
+        const markerIndex = contentWithWriting.indexOf(sectionMarker);
+        if (markerIndex !== -1) {
+          contentWithWriting = `${contentWithWriting.slice(0, markerIndex)}${listHtml}${contentWithWriting.slice(markerIndex)}`;
+        } else {
+          contentWithWriting += listHtml;
+        }
       }
     }
 
     return renderTemplate(templates.home, {
+      hero: heroHtml,
+      work: workWithWriting,
+      digest: digestHtml,
       content: contentWithWriting,
-      liveWriting: "",
     });
   }
 
@@ -735,6 +770,7 @@ function buildSite() {
   }
   ensureDir(path.join(ROOT, SITE_DIR));
 
+  const homepageSections = loadHomepageSections();
   const markdownFiles = findMarkdownFiles(ROOT);
   const pages = markdownFiles.map((filePath) => {
     const raw = fs.readFileSync(filePath, "utf8");
@@ -780,7 +816,7 @@ function buildSite() {
     });
 
   for (const page of pages) {
-    const body = renderPageBody(page, liveWriting);
+    const body = renderPageBody(page, liveWriting, homepageSections);
     const fullTitle = page.title ? `${page.title} · Meeshbhoombah` : "Meeshbhoombah";
     const finalHtml = renderTemplate(templates.base, {
       fullTitle,
