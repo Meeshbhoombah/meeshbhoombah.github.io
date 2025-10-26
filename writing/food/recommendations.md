@@ -5,7 +5,6 @@ tags: [writing, food]
 ---
 
 # Food Recommendations
-
 ## Bay Area
 - Quickly's
 - Ono Hawaiian Barbeque

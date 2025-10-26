@@ -5,7 +5,6 @@ tags: [writing, startups]
 ---
 
 # Getting Started
-
 **Your Objective:** Product-Market Fit
 
 ### Why?
