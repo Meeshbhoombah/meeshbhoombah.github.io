@@ -3,9 +3,7 @@ status: live
 description: A running list of noteworthy bites and sips.
 tags: [writing, food]
 ---
-
 # Food Recommendations
-
 ## Bay Area
 - Quickly's
 - Ono Hawaiian Barbeque
