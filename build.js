@@ -22,6 +22,55 @@ const templates = {
   writingIndex: readTemplate("writing-index.html"),
 };
 
+const CATEGORY_ORDER = [
+  "Cryptocurrencies",
+  "Social Sciences",
+  "Computing",
+  "Startups",
+  "Food",
+];
+
+const CATEGORY_ALIASES = new Map(
+  [
+    "crypto",
+    "cryptocurrency",
+    "cryptocurrencies",
+    "blockchain",
+  ].map((value) => [value, "Cryptocurrencies"])
+);
+
+[
+  "social science",
+  "social sciences",
+  "social-sciences",
+  "sociology",
+].forEach((value) => CATEGORY_ALIASES.set(value, "Social Sciences"));
+
+[
+  "computing",
+  "computer science",
+  "software",
+  "engineering",
+  "tech",
+].forEach((value) => CATEGORY_ALIASES.set(value, "Computing"));
+
+[
+  "startup",
+  "startups",
+  "founder",
+  "founders",
+  "entrepreneurship",
+].forEach((value) => CATEGORY_ALIASES.set(value, "Startups"));
+
+[
+  "food",
+  "cooking",
+  "dining",
+  "recipes",
+].forEach((value) => CATEGORY_ALIASES.set(value, "Food"));
+
+const CATEGORY_SET = new Set(CATEGORY_ORDER);
+
 function escapeHtml(value) {
   return value
     .replace(/&/g, "&amp;")
@@ -541,8 +590,13 @@ function renderLiveWritingSection(entries, { containerClass = "", heading, inclu
       groups.get(key).push(entry);
     }
 
-    const groupHtml = Array.from(groups.entries())
-      .map(([category, groupEntries]) => {
+    const orderedKeys = CATEGORY_ORDER.filter((category) => groups.has(category));
+    const extraKeys = Array.from(groups.keys()).filter((category) => !orderedKeys.includes(category));
+    const renderOrder = [...orderedKeys, ...extraKeys];
+
+    const groupHtml = renderOrder
+      .map((category) => {
+        const groupEntries = groups.get(category);
         const items = groupEntries
           .map((entry) => renderWritingListItem(entry, includeDates))
           .join("\n");
@@ -573,20 +627,39 @@ function titleize(value) {
     .join(" ");
 }
 
+function normalizeCategoryValue(value) {
+  if (typeof value !== "string") {
+    return null;
+  }
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return null;
+  }
+  const lower = trimmed.toLowerCase();
+  if (CATEGORY_ALIASES.has(lower)) {
+    return CATEGORY_ALIASES.get(lower);
+  }
+  const titleCased = titleize(trimmed);
+  if (CATEGORY_SET.has(titleCased)) {
+    return titleCased;
+  }
+  return null;
+}
+
 function deriveCategory(page) {
   const { frontMatter, sourcePath } = page;
-  const categoryValue = frontMatter.category;
-  if (typeof categoryValue === "string" && categoryValue.trim()) {
-    return categoryValue.trim();
+
+  const categoryValue = normalizeCategoryValue(frontMatter.category);
+  if (categoryValue) {
+    return categoryValue;
   }
 
   if (Array.isArray(frontMatter.tags)) {
-    const tag = frontMatter.tags.find((value) => {
-      if (typeof value !== "string") return false;
-      return value.trim().toLowerCase() !== "writing";
-    });
-    if (tag) {
-      return titleize(tag.trim());
+    for (const raw of frontMatter.tags) {
+      const normalized = normalizeCategoryValue(raw);
+      if (normalized && normalized !== "Writing") {
+        return normalized;
+      }
     }
   }
 
@@ -594,12 +667,15 @@ function deriveCategory(page) {
   const relative = path.relative(writingRoot, sourcePath);
   if (!relative.startsWith("..")) {
     const [firstSegment] = relative.split(path.sep);
-    if (firstSegment && firstSegment !== path.basename(relative)) {
-      return titleize(firstSegment);
+    if (firstSegment) {
+      const normalized = normalizeCategoryValue(firstSegment);
+      if (normalized) {
+        return normalized;
+      }
     }
   }
 
-  return "Writing";
+  return "Computing";
 }
 
 function shouldIncludeInLiveWriting(page) {

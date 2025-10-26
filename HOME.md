@@ -66,8 +66,5 @@ Projects Built
 - [CodeDay](https://www.codeday.org/)
 - [BlockchainEDU](https://www.blockchainedu.org/)
 
-## 🖋
-Essays, notes, and guides are pulled together below, grouped automatically by topic.
-
 ## ♾
 [Outputs](https://meeshbhoombah2020.notion.site/Outputs-25bce498609c4d089bc670ec3dfce8ad)
