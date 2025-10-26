@@ -3,7 +3,9 @@ status: live
 description: Steps to reach product-market fit with lean experimentation.
 tags: [writing, startups]
 ---
+
 # Getting Started
+
 **Your Objective:** Product-Market Fit
 
 ### Why?

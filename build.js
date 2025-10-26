@@ -586,11 +586,18 @@ function renderPageBody(page, liveWriting, homepageSections = {}) {
       }
     }
 
+    const heroSection = heroHtml ? `<div class="home-hero">${heroHtml}</div>` : "";
+    const workSection = workWithWriting ? `<div class="home-work">${workWithWriting}</div>` : "";
+    const digestSection = digestHtml ? `<div class="home-digest">${digestHtml}</div>` : "";
+    const introSection = contentWithWriting
+      ? `<div class="home-intro">${contentWithWriting}</div>`
+      : "";
+
     return renderTemplate(templates.home, {
-      hero: heroHtml,
-      work: workWithWriting,
-      digest: digestHtml,
-      content: contentWithWriting,
+      hero: heroSection,
+      work: workSection,
+      digest: digestSection,
+      content: introSection,
     });
   }
 
