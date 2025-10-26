@@ -537,13 +537,25 @@ function renderPageBody(page, liveWriting) {
   if (layout === "home") {
     const listHtml = renderLiveWritingSection(liveWriting, {
       containerClass: "home-writing",
-      heading: "Latest Writing",
+      heading: "🖋️",
       includeDates: true,
       groupByCategory: true,
     });
+
+    let contentWithWriting = contentHtml;
+    if (listHtml) {
+      const sectionMarker = "<h2>♾</h2>";
+      const markerIndex = contentWithWriting.indexOf(sectionMarker);
+      if (markerIndex !== -1) {
+        contentWithWriting = `${contentWithWriting.slice(0, markerIndex)}${listHtml}${contentWithWriting.slice(markerIndex)}`;
+      } else {
+        contentWithWriting += listHtml;
+      }
+    }
+
     return renderTemplate(templates.home, {
-      content: contentHtml,
-      liveWriting: listHtml,
+      content: contentWithWriting,
+      liveWriting: "",
     });
   }
 
