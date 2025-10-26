@@ -540,9 +540,27 @@ function renderTemplate(template, context) {
   return template.replace(/{{(\w+)}}/g, (_, key) => (context[key] ?? ""));
 }
 
+const KNOWN_LAYOUTS = new Set(["home", "page", "writing", "writing-index"]);
+
+function normalizeLayoutValue(value) {
+  if (typeof value !== "string") {
+    return "";
+  }
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return "";
+  }
+  const lowered = trimmed.toLowerCase();
+  if (KNOWN_LAYOUTS.has(lowered)) {
+    return lowered;
+  }
+  return "";
+}
+
 function inferLayout(data, sourcePath) {
-  if (data.layout) {
-    return data.layout;
+  const layoutValue = normalizeLayoutValue(data.layout);
+  if (layoutValue) {
+    return layoutValue;
   }
   const relative = path.relative(ROOT, sourcePath).replace(/\\/g, "/");
   if (relative === "HOME.md") {
@@ -559,7 +577,8 @@ function inferLayout(data, sourcePath) {
 
 function renderPageBody(page, liveWriting, homepageSections = {}) {
   const { layout, title, description, contentHtml, shouldRenderTitleHeading } = page;
-  if (layout === "home") {
+  const layoutKey = normalizeLayoutValue(layout) || layout;
+  if (layoutKey === "home") {
     const heroHtml = homepageSections.hero || "";
     const workHtml = homepageSections.work || "";
     const digestHtml = homepageSections.digest || "";
@@ -602,7 +621,7 @@ function renderPageBody(page, liveWriting, homepageSections = {}) {
     });
   }
 
-  if (layout === "writing") {
+  if (layoutKey === "writing") {
     return renderTemplate(templates.writing, {
       titleBlock: shouldRenderTitleHeading && title ? `<h1>${escapeHtml(title)}</h1>` : "",
       descriptionBlock: description ? `<p class="lead">${escapeHtml(description)}</p>` : "",
@@ -610,7 +629,7 @@ function renderPageBody(page, liveWriting, homepageSections = {}) {
     });
   }
 
-  if (layout === "writing-index") {
+  if (layoutKey === "writing-index") {
     const intro = contentHtml ? `<div class="writing-intro">${contentHtml}</div>` : "";
     const listHtml = renderLiveWritingSection(liveWriting, {
       heading: "Published entries",
@@ -743,7 +762,7 @@ function shouldIncludeInLiveWriting(page) {
   if (path.basename(page.sourcePath).toLowerCase() === "readme.md") {
     return false;
   }
-  if ((page.layout || "").toLowerCase() === "writing-index") {
+  if (normalizeLayoutValue(page.layout) === "writing-index") {
     return false;
   }
 
