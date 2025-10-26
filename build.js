@@ -533,7 +533,7 @@ function inferLayout(data, sourcePath) {
 }
 
 function renderPageBody(page, liveWriting) {
-  const { layout, title, description, contentHtml } = page;
+  const { layout, title, description, contentHtml, shouldRenderTitleHeading } = page;
   if (layout === "home") {
     const listHtml = renderLiveWritingSection(liveWriting, {
       containerClass: "home-writing",
@@ -561,7 +561,7 @@ function renderPageBody(page, liveWriting) {
 
   if (layout === "writing") {
     return renderTemplate(templates.writing, {
-      titleBlock: title ? `<h1>${escapeHtml(title)}</h1>` : "",
+      titleBlock: shouldRenderTitleHeading && title ? `<h1>${escapeHtml(title)}</h1>` : "",
       descriptionBlock: description ? `<p class="lead">${escapeHtml(description)}</p>` : "",
       content: contentHtml,
     });
@@ -581,7 +581,7 @@ function renderPageBody(page, liveWriting) {
   }
 
   return renderTemplate(templates.page, {
-    titleBlock: title ? `<h1>${escapeHtml(title)}</h1>` : "",
+    titleBlock: shouldRenderTitleHeading && title ? `<h1>${escapeHtml(title)}</h1>` : "",
     content: contentHtml,
   });
 }
@@ -740,11 +740,14 @@ function buildSite() {
     const raw = fs.readFileSync(filePath, "utf8");
     const { data, body } = parseFrontMatter(raw);
     const bodyContent = body.trim();
+    const firstHeading = extractFirstHeading(bodyContent);
+    const title = data.title || firstHeading || path.basename(filePath, ".md");
     const contentHtml = markdownToHtml(bodyContent);
+    const trimmedHtml = contentHtml.trimStart();
+    const shouldRenderTitleHeading = Boolean(title) && !/^<h1(\s|>)/i.test(trimmedHtml);
     const url = deriveUrl(filePath, data);
     const outputPath = outputPathFromUrl(url);
     const inferredLayout = inferLayout(data, filePath);
-    const title = data.title || extractFirstHeading(bodyContent) || path.basename(filePath, ".md");
     const description = data.description || "";
     return {
       sourcePath: filePath,
@@ -753,6 +756,7 @@ function buildSite() {
       title,
       description,
       contentHtml,
+      shouldRenderTitleHeading,
       url,
       outputPath,
     };
