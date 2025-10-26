@@ -593,11 +593,12 @@ function renderPageBody(page, liveWriting, homepageSections = {}) {
       ? `<div class="home-intro">${contentWithWriting}</div>`
       : "";
 
+    const orderedContent = [heroSection, workSection, digestSection, introSection]
+      .filter(Boolean)
+      .join("");
+
     return renderTemplate(templates.home, {
-      hero: heroSection,
-      work: workSection,
-      digest: digestSection,
-      content: introSection,
+      content: orderedContent,
     });
   }
 
