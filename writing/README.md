@@ -1,6 +1,6 @@
 ---
 layout: writing-index
-permalink: /writing/
+permalink: /writings/
 description: Essays, notes, and research from across the network state.
 ---
 

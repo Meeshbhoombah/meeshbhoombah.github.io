@@ -7,15 +7,17 @@ const { execSync } = require("node:child_process");
 const SITE_DIR = "_site";
 const TEMPLATE_DIR = "templates";
 const ROOT = process.cwd();
-const WRITING_DIR = path.join(ROOT, "writing");
-const HOMEPAGE_SECTION_FILES = {
-  hero: path.join(ROOT, "HERO.md"),
-  work: path.join(ROOT, "WORK.md"),
-  digest: path.join(ROOT, "DIGEST.md"),
-};
-const HOMEPAGE_SECTION_FILENAMES = new Set(
-  Object.values(HOMEPAGE_SECTION_FILES).map((filePath) => path.basename(filePath))
-);
+const WRITING_DIR_NAMES = ["writing", "writings"];
+const WRITING_ROOTS = WRITING_DIR_NAMES
+  .map((name) => path.join(ROOT, name))
+  .filter((dirPath) => {
+    try {
+      return fs.statSync(dirPath).isDirectory();
+    } catch (error) {
+      return false;
+    }
+  });
+const PRIMARY_WRITING_URL_SEGMENT = "writings";
 
 function readTemplate(name) {
   const filePath = path.join(ROOT, TEMPLATE_DIR, name);
@@ -422,35 +424,36 @@ function findMarkdownFiles(dir) {
     if (entry.isDirectory()) {
       files.push(...findMarkdownFiles(fullPath));
     } else if (entry.isFile() && entry.name.endsWith(".md")) {
-      if (HOMEPAGE_SECTION_FILENAMES.has(entry.name)) {
-        continue;
-      }
       files.push(fullPath);
     }
   }
   return files;
 }
 
+function getWritingRelativePath(filePath) {
+  for (const dir of WRITING_ROOTS) {
+    const relative = path.relative(dir, filePath);
+    if (!relative.startsWith("..") && !path.isAbsolute(relative)) {
+      return {
+        dir,
+        relative: relative.replace(/\\/g, "/"),
+      };
+    }
+  }
+  return null;
+}
+
 function isInsideWritingDir(filePath) {
-  const relative = path.relative(WRITING_DIR, filePath);
-  return relative && !relative.startsWith("..") && !path.isAbsolute(relative);
+  const info = getWritingRelativePath(filePath);
+  return Boolean(info && info.relative);
 }
 
 function isExternalWritingPath(filePath) {
-  if (!isInsideWritingDir(filePath)) {
+  const info = getWritingRelativePath(filePath);
+  if (!info || !info.relative) {
     return false;
   }
-  const relative = path
-    .relative(WRITING_DIR, filePath)
-    .replace(/\\/g, "/")
-    .toLowerCase();
-  if (!relative) {
-    return false;
-  }
-  if (relative === "readme.md") {
-    return false;
-  }
-  const [firstSegment] = relative.split("/");
+  const [firstSegment] = info.relative.split("/");
   return firstSegment === "dev.to" || firstSegment === "medium";
 }
 
@@ -458,30 +461,57 @@ function ensureDir(dirPath) {
   fs.mkdirSync(dirPath, { recursive: true });
 }
 
-function loadHomepageSections() {
-  const sections = {
-    hero: "",
-    heroTitle: "",
-    work: "",
-    digest: "",
-  };
-  for (const [key, filePath] of Object.entries(HOMEPAGE_SECTION_FILES)) {
-    if (!fs.existsSync(filePath)) {
+const HOME_SECTION_NAMES = ["hero", "work", "writing", "outputs", "digest", "follow"];
+const HOME_SECTION_ALIASES = new Map([["intro", "outputs"]]);
+
+const HOME_SECTION_PATTERN = [...HOME_SECTION_NAMES, ...HOME_SECTION_ALIASES.keys()]
+  .map((name) => name.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&"))
+  .join("|");
+
+const HOME_SECTION_REGEX = new RegExp(`<!--home:(${HOME_SECTION_PATTERN})-->`, "gi");
+
+function extractHomeSectionsFromMarkdown(markdown) {
+  const sections = Object.fromEntries(HOME_SECTION_NAMES.map((name) => [name, ""]));
+
+  if (!markdown) {
+    return { ...sections, heroTitle: "" };
+  }
+
+  HOME_SECTION_REGEX.lastIndex = 0;
+  let match;
+  while ((match = HOME_SECTION_REGEX.exec(markdown)) !== null) {
+    const rawName = match[1].toLowerCase();
+    const resolvedName = HOME_SECTION_ALIASES.get(rawName) ?? rawName;
+    if (!HOME_SECTION_NAMES.includes(resolvedName)) {
       continue;
     }
-    const raw = fs.readFileSync(filePath, "utf8");
-    const { body } = parseFrontMatter(raw);
-    const bodyContent = body.trim();
-    const html = bodyContent ? markdownToHtml(bodyContent) : "";
-    sections[key] = html;
-    if (key === "hero" && !sections.heroTitle) {
-      const heading = extractFirstHeading(bodyContent);
-      if (heading) {
-        sections.heroTitle = heading;
-      }
+    const closeTag = `<!--/home:${rawName}-->`;
+    const startIndex = HOME_SECTION_REGEX.lastIndex;
+    const endIndex = markdown.indexOf(closeTag, startIndex);
+    if (endIndex === -1) {
+      continue;
     }
+    const rawContent = markdown.slice(startIndex, endIndex).trim();
+    sections[resolvedName] = rawContent;
+    HOME_SECTION_REGEX.lastIndex = endIndex + closeTag.length;
   }
-  return sections;
+
+  const toHtml = (value) => {
+    const trimmed = value.trim();
+    return trimmed ? markdownToHtml(trimmed) : "";
+  };
+
+  const heroTitle = sections.hero ? extractFirstHeading(sections.hero) : "";
+
+  return {
+    hero: toHtml(sections.hero),
+    work: toHtml(sections.work),
+    writing: toHtml(sections.writing),
+    outputs: toHtml(sections.outputs),
+    digest: toHtml(sections.digest),
+    follow: toHtml(sections.follow),
+    heroTitle,
+  };
 }
 
 function deriveUrl(fromPath, data) {
@@ -496,10 +526,27 @@ function deriveUrl(fromPath, data) {
     return permalink || "/";
   }
   const relative = path.relative(ROOT, fromPath).replace(/\\/g, "/");
-  if (relative.toLowerCase() === "writing/readme.md") {
-    return "/writing";
+  const lowerRelative = relative.toLowerCase();
+  for (const dirName of WRITING_DIR_NAMES) {
+    if (lowerRelative === `${dirName}/readme.md`) {
+      return `/${PRIMARY_WRITING_URL_SEGMENT}`;
+    }
   }
-  const withoutExt = relative.replace(/\.md$/, "");
+  let withoutExt = relative.replace(/\.md$/, "");
+  for (const dirName of WRITING_DIR_NAMES) {
+    const prefix = `${dirName}/`;
+    if (withoutExt === dirName) {
+      withoutExt = PRIMARY_WRITING_URL_SEGMENT;
+      break;
+    }
+    if (withoutExt.startsWith(prefix)) {
+      const remainder = withoutExt.slice(prefix.length);
+      withoutExt = remainder
+        ? `${PRIMARY_WRITING_URL_SEGMENT}/${remainder}`
+        : PRIMARY_WRITING_URL_SEGMENT;
+      break;
+    }
+  }
   return `/${withoutExt}`;
 }
 
@@ -587,47 +634,42 @@ function inferLayout(data, sourcePath) {
   return "page";
 }
 
-function renderPageBody(page, liveWriting, homepageSections = {}, homeOverrideSections = null) {
+function renderPageBody(page, liveWriting) {
   const { layout, title, description, contentHtml, shouldRenderTitleHeading } = page;
   const layoutKey = normalizeLayoutValue(layout) || layout;
   if (layoutKey === "home") {
     const sections = {
-      hero: homeOverrideSections?.hero ?? homepageSections.hero ?? "",
-      work: homeOverrideSections?.work ?? homepageSections.work ?? "",
-      digest: homeOverrideSections?.digest ?? homepageSections.digest ?? "",
-      intro: homeOverrideSections?.intro ?? contentHtml ?? "",
+      hero: page.homeSections?.hero ?? "",
+      work: page.homeSections?.work ?? "",
+      writing: page.homeSections?.writing ?? "",
+      outputs: page.homeSections?.outputs ?? "",
+      digest: page.homeSections?.digest ?? "",
+      follow: page.homeSections?.follow ?? "",
     };
 
-    if (!homeOverrideSections) {
-      const listHtml = renderLiveWritingSection(liveWriting, {
-        containerClass: "home-writing",
-        heading: "🖋️",
-        includeDates: true,
-        groupByCategory: true,
-      });
+    const listHtml = renderLiveWritingSection(liveWriting, {
+      containerClass: "home-writing",
+      heading: "🖋",
+      includeDates: true,
+      groupByCategory: true,
+    });
 
-      if (listHtml) {
-        if (sections.work) {
-          sections.work = `${sections.work}${listHtml}`;
-        } else if (sections.intro) {
-          const sectionMarker = "<h2>♾</h2>";
-          const markerIndex = sections.intro.indexOf(sectionMarker);
-          if (markerIndex !== -1) {
-            sections.intro = `${sections.intro.slice(0, markerIndex)}${listHtml}${sections.intro.slice(markerIndex)}`;
-          } else {
-            sections.intro += listHtml;
-          }
-        } else {
-          sections.intro = listHtml;
-        }
-      }
+    const writingParts = [];
+    if (sections.writing) {
+      writingParts.push(`<div class="home-writing-intro">${sections.writing}</div>`);
     }
+    if (listHtml) {
+      writingParts.push(listHtml);
+    }
+    const writingBlock = writingParts.join("");
 
     return renderTemplate(templates.home, {
       hero: sections.hero ? `<div class="home-hero">${sections.hero}</div>` : "",
       work: sections.work ? `<div class="home-work">${sections.work}</div>` : "",
+      writing: writingBlock,
+      outputs: sections.outputs ? `<div class="home-outputs">${sections.outputs}</div>` : "",
       digest: sections.digest ? `<div class="home-digest">${sections.digest}</div>` : "",
-      intro: sections.intro ? `<div class="home-intro">${sections.intro}</div>` : "",
+      follow: sections.follow ? `<div class="home-follow">${sections.follow}</div>` : "",
     });
   }
 
@@ -663,6 +705,9 @@ function renderLiveWritingSection(entries, { containerClass = "", heading, inclu
     return "";
   }
   const headingHtml = heading ? `<h2>${escapeHtml(heading)}</h2>` : "";
+  const classAttribute = containerClass
+    ? ` class="${escapeHtmlAttribute(containerClass)}"`
+    : "";
 
   if (groupByCategory) {
     const groups = new Map();
@@ -688,12 +733,12 @@ function renderLiveWritingSection(entries, { containerClass = "", heading, inclu
       })
       .join("\n");
 
-    return `<section class="${containerClass}">${headingHtml}<div class="writing-groups">${groupHtml}</div></section>`;
+    return `<section${classAttribute}>${headingHtml}<div class="writing-groups">${groupHtml}</div></section>`;
   }
 
   const items = entries.map((entry) => renderWritingListItem(entry, includeDates)).join("\n");
   const listHtml = `<ul>${items}</ul>`;
-  return `<section class="${containerClass}">${headingHtml}${listHtml}</section>`;
+  return `<section${classAttribute}>${headingHtml}${listHtml}</section>`;
 }
 
 function renderWritingListItem(entry, includeDates) {
@@ -747,10 +792,9 @@ function deriveCategory(page) {
     }
   }
 
-  const writingRoot = path.join(ROOT, "writing");
-  const relative = path.relative(writingRoot, sourcePath);
-  if (!relative.startsWith("..")) {
-    const [firstSegment] = relative.split(path.sep);
+  const relativeInfo = getWritingRelativePath(sourcePath);
+  if (relativeInfo && relativeInfo.relative) {
+    const [firstSegment] = relativeInfo.relative.split("/");
     if (firstSegment) {
       const normalized = normalizeCategoryValue(firstSegment);
       if (normalized) {
@@ -801,62 +845,38 @@ function shouldIncludeInLiveWriting(page) {
   return true;
 }
 
-function createHomePage(homepageSections, liveWriting) {
-  const heroHtml = homepageSections.hero || "";
-  const workHtml = homepageSections.work || "";
-  const digestHtml = homepageSections.digest || "";
-  const listHtml = renderLiveWritingSection(liveWriting, {
-    containerClass: "home-writing",
-    heading: "🖋️",
-    includeDates: true,
-    groupByCategory: true,
-  });
-
-  let workWithWriting = workHtml;
-  if (listHtml) {
-    workWithWriting = workWithWriting ? `${workWithWriting}${listHtml}` : listHtml;
-  }
-
-  return {
-    sourcePath: HOMEPAGE_SECTION_FILES.hero,
-    frontMatter: {},
-    layout: "home",
-    title: homepageSections.heroTitle || "Meeshbhoombah",
-    description: "",
-    contentHtml: "",
-    shouldRenderTitleHeading: false,
-    url: "/",
-    outputPath: outputPathFromUrl("/"),
-    homeSectionsOverride: {
-      hero: heroHtml,
-      work: workWithWriting,
-      digest: digestHtml,
-      intro: "",
-    },
-  };
-}
-
 function buildSite() {
   if (fs.existsSync(SITE_DIR)) {
     fs.rmSync(SITE_DIR, { recursive: true, force: true });
   }
   ensureDir(path.join(ROOT, SITE_DIR));
 
-  const homepageSections = loadHomepageSections();
   const markdownFiles = findMarkdownFiles(ROOT);
   let pages = markdownFiles.map((filePath) => {
     const raw = fs.readFileSync(filePath, "utf8");
     const { data, body } = parseFrontMatter(raw);
     const bodyContent = body.trim();
     const firstHeading = extractFirstHeading(bodyContent);
-    const title = data.title || firstHeading || path.basename(filePath, ".md");
-    const contentHtml = markdownToHtml(bodyContent);
+    let title = data.title || firstHeading || path.basename(filePath, ".md");
+    let contentHtml = markdownToHtml(bodyContent);
     const trimmedHtml = contentHtml.trimStart();
-    const shouldRenderTitleHeading = Boolean(title) && !/^<h1(\s|>)/i.test(trimmedHtml);
+    let shouldRenderTitleHeading = Boolean(title) && !/^<h1(\s|>)/i.test(trimmedHtml);
     const url = deriveUrl(filePath, data);
     const outputPath = outputPathFromUrl(url);
     const inferredLayout = inferLayout(data, filePath);
     const description = data.description || "";
+    let homeSections = null;
+
+    if (normalizeLayoutValue(inferredLayout) === "home") {
+      const sections = extractHomeSectionsFromMarkdown(body);
+      homeSections = sections;
+      if (!data.title && sections.heroTitle) {
+        title = sections.heroTitle;
+      }
+      contentHtml = "";
+      shouldRenderTitleHeading = false;
+    }
+
     return {
       sourcePath: filePath,
       frontMatter: data,
@@ -867,7 +887,7 @@ function buildSite() {
       shouldRenderTitleHeading,
       url,
       outputPath,
-      homeSectionsOverride: null,
+      homeSections,
     };
   });
 
@@ -888,20 +908,8 @@ function buildSite() {
       return bTime - aTime;
     });
 
-  const homePage = createHomePage(homepageSections, liveWriting);
-  pages = pages.filter((page) => page.url !== "/");
-  pages.push(homePage);
-
   for (const page of pages) {
-    const overrideSections = page.homeSectionsOverride
-      ? {
-          hero: page.homeSectionsOverride.hero,
-          work: page.homeSectionsOverride.work,
-          digest: page.homeSectionsOverride.digest,
-          intro: page.homeSectionsOverride.intro,
-        }
-      : null;
-    const body = renderPageBody(page, liveWriting, homepageSections, overrideSections);
+    const body = renderPageBody(page, liveWriting);
     const fullTitle = page.title ? `${page.title} · Meeshbhoombah` : "Meeshbhoombah";
     const finalHtml = renderTemplate(templates.base, {
       fullTitle,
