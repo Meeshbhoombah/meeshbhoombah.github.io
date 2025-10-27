@@ -575,52 +575,47 @@ function inferLayout(data, sourcePath) {
   return "page";
 }
 
-function renderPageBody(page, liveWriting, homepageSections = {}) {
-  if (page.renderOverride) {
-    return page.renderOverride;
-  }
+function renderPageBody(page, liveWriting, homepageSections = {}, homeOverrideSections = null) {
   const { layout, title, description, contentHtml, shouldRenderTitleHeading } = page;
   const layoutKey = normalizeLayoutValue(layout) || layout;
   if (layoutKey === "home") {
-    const heroHtml = homepageSections.hero || "";
-    const workHtml = homepageSections.work || "";
-    const digestHtml = homepageSections.digest || "";
-    const listHtml = renderLiveWritingSection(liveWriting, {
-      containerClass: "home-writing",
-      heading: "🖋️",
-      includeDates: true,
-      groupByCategory: true,
-    });
+    const sections = {
+      hero: homeOverrideSections?.hero ?? homepageSections.hero ?? "",
+      work: homeOverrideSections?.work ?? homepageSections.work ?? "",
+      digest: homeOverrideSections?.digest ?? homepageSections.digest ?? "",
+      intro: homeOverrideSections?.intro ?? contentHtml ?? "",
+    };
 
-    let contentWithWriting = contentHtml;
-    let workWithWriting = workHtml;
-    if (listHtml) {
-      if (workHtml) {
-        workWithWriting = `${workHtml}${listHtml}`;
-      } else {
-        const sectionMarker = "<h2>♾</h2>";
-        const markerIndex = contentWithWriting.indexOf(sectionMarker);
-        if (markerIndex !== -1) {
-          contentWithWriting = `${contentWithWriting.slice(0, markerIndex)}${listHtml}${contentWithWriting.slice(markerIndex)}`;
+    if (!homeOverrideSections) {
+      const listHtml = renderLiveWritingSection(liveWriting, {
+        containerClass: "home-writing",
+        heading: "🖋️",
+        includeDates: true,
+        groupByCategory: true,
+      });
+
+      if (listHtml) {
+        if (sections.work) {
+          sections.work = `${sections.work}${listHtml}`;
+        } else if (sections.intro) {
+          const sectionMarker = "<h2>♾</h2>";
+          const markerIndex = sections.intro.indexOf(sectionMarker);
+          if (markerIndex !== -1) {
+            sections.intro = `${sections.intro.slice(0, markerIndex)}${listHtml}${sections.intro.slice(markerIndex)}`;
+          } else {
+            sections.intro += listHtml;
+          }
         } else {
-          contentWithWriting += listHtml;
+          sections.intro = listHtml;
         }
       }
     }
 
-    const heroSection = heroHtml ? `<div class="home-hero">${heroHtml}</div>` : "";
-    const workSection = workWithWriting ? `<div class="home-work">${workWithWriting}</div>` : "";
-    const digestSection = digestHtml ? `<div class="home-digest">${digestHtml}</div>` : "";
-    const introSection = contentWithWriting
-      ? `<div class="home-intro">${contentWithWriting}</div>`
-      : "";
-
-    const orderedContent = [heroSection, workSection, digestSection, introSection]
-      .filter(Boolean)
-      .join("");
-
     return renderTemplate(templates.home, {
-      content: orderedContent,
+      hero: sections.hero ? `<div class="home-hero">${sections.hero}</div>` : "",
+      work: sections.work ? `<div class="home-work">${sections.work}</div>` : "",
+      digest: sections.digest ? `<div class="home-digest">${sections.digest}</div>` : "",
+      intro: sections.intro ? `<div class="home-intro">${sections.intro}</div>` : "",
     });
   }
 
@@ -825,7 +820,7 @@ function buildSite() {
       shouldRenderTitleHeading,
       url,
       outputPath,
-      renderOverride: null,
+      homeSectionsOverride: null,
     };
   });
 
@@ -867,28 +862,24 @@ function buildSite() {
       workWithWriting = workWithWriting ? `${workWithWriting}${listHtml}` : listHtml;
     }
 
-    const assembledSections = [];
-    if (heroHtml) {
-      assembledSections.push(`<div class="home-hero">${heroHtml}</div>`);
-    }
-    if (workWithWriting) {
-      assembledSections.push(`<div class="home-work">${workWithWriting}</div>`);
-    }
-    if (digestHtml) {
-      assembledSections.push(`<div class="home-digest">${digestHtml}</div>`);
-    }
-    if (homePage.contentHtml) {
-      assembledSections.push(`<div class="home-intro">${homePage.contentHtml}</div>`);
-    }
-
-    const orderedContent = assembledSections.join("");
-    homePage.renderOverride = renderTemplate(templates.home, {
-      content: orderedContent,
-    });
+    homePage.homeSectionsOverride = {
+      hero: heroHtml,
+      work: workWithWriting,
+      digest: digestHtml,
+      intro: homePage.contentHtml,
+    };
   }
 
   for (const page of pages) {
-    const body = renderPageBody(page, liveWriting, homepageSections);
+    const overrideSections = page.homeSectionsOverride
+      ? {
+          hero: page.homeSectionsOverride.hero,
+          work: page.homeSectionsOverride.work,
+          digest: page.homeSectionsOverride.digest,
+          intro: page.homeSectionsOverride.intro,
+        }
+      : null;
+    const body = renderPageBody(page, liveWriting, homepageSections, overrideSections);
     const fullTitle = page.title ? `${page.title} · Meeshbhoombah` : "Meeshbhoombah";
     const finalHtml = renderTemplate(templates.base, {
       fullTitle,
