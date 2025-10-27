@@ -7,7 +7,17 @@ const { execSync } = require("node:child_process");
 const SITE_DIR = "_site";
 const TEMPLATE_DIR = "templates";
 const ROOT = process.cwd();
-const WRITING_DIR = path.join(ROOT, "writing");
+const WRITING_DIR_NAMES = ["writing", "writings"];
+const WRITING_ROOTS = WRITING_DIR_NAMES
+  .map((name) => path.join(ROOT, name))
+  .filter((dirPath) => {
+    try {
+      return fs.statSync(dirPath).isDirectory();
+    } catch (error) {
+      return false;
+    }
+  });
+const PRIMARY_WRITING_URL_SEGMENT = "writings";
 
 function readTemplate(name) {
   const filePath = path.join(ROOT, TEMPLATE_DIR, name);
@@ -420,26 +430,30 @@ function findMarkdownFiles(dir) {
   return files;
 }
 
+function getWritingRelativePath(filePath) {
+  for (const dir of WRITING_ROOTS) {
+    const relative = path.relative(dir, filePath);
+    if (!relative.startsWith("..") && !path.isAbsolute(relative)) {
+      return {
+        dir,
+        relative: relative.replace(/\\/g, "/"),
+      };
+    }
+  }
+  return null;
+}
+
 function isInsideWritingDir(filePath) {
-  const relative = path.relative(WRITING_DIR, filePath);
-  return relative && !relative.startsWith("..") && !path.isAbsolute(relative);
+  const info = getWritingRelativePath(filePath);
+  return Boolean(info && info.relative);
 }
 
 function isExternalWritingPath(filePath) {
-  if (!isInsideWritingDir(filePath)) {
+  const info = getWritingRelativePath(filePath);
+  if (!info || !info.relative) {
     return false;
   }
-  const relative = path
-    .relative(WRITING_DIR, filePath)
-    .replace(/\\/g, "/")
-    .toLowerCase();
-  if (!relative) {
-    return false;
-  }
-  if (relative === "readme.md") {
-    return false;
-  }
-  const [firstSegment] = relative.split("/");
+  const [firstSegment] = info.relative.split("/");
   return firstSegment === "dev.to" || firstSegment === "medium";
 }
 
@@ -512,10 +526,27 @@ function deriveUrl(fromPath, data) {
     return permalink || "/";
   }
   const relative = path.relative(ROOT, fromPath).replace(/\\/g, "/");
-  if (relative.toLowerCase() === "writing/readme.md") {
-    return "/writing";
+  const lowerRelative = relative.toLowerCase();
+  for (const dirName of WRITING_DIR_NAMES) {
+    if (lowerRelative === `${dirName}/readme.md`) {
+      return `/${PRIMARY_WRITING_URL_SEGMENT}`;
+    }
   }
-  const withoutExt = relative.replace(/\.md$/, "");
+  let withoutExt = relative.replace(/\.md$/, "");
+  for (const dirName of WRITING_DIR_NAMES) {
+    const prefix = `${dirName}/`;
+    if (withoutExt === dirName) {
+      withoutExt = PRIMARY_WRITING_URL_SEGMENT;
+      break;
+    }
+    if (withoutExt.startsWith(prefix)) {
+      const remainder = withoutExt.slice(prefix.length);
+      withoutExt = remainder
+        ? `${PRIMARY_WRITING_URL_SEGMENT}/${remainder}`
+        : PRIMARY_WRITING_URL_SEGMENT;
+      break;
+    }
+  }
   return `/${withoutExt}`;
 }
 
@@ -761,10 +792,9 @@ function deriveCategory(page) {
     }
   }
 
-  const writingRoot = path.join(ROOT, "writing");
-  const relative = path.relative(writingRoot, sourcePath);
-  if (!relative.startsWith("..")) {
-    const [firstSegment] = relative.split(path.sep);
+  const relativeInfo = getWritingRelativePath(sourcePath);
+  if (relativeInfo && relativeInfo.relative) {
+    const [firstSegment] = relativeInfo.relative.split("/");
     if (firstSegment) {
       const normalized = normalizeCategoryValue(firstSegment);
       if (normalized) {
