@@ -93,6 +93,10 @@ a:focus {
   gap: 1rem;
 }
 
+.home-writing-intro {
+  margin-bottom: 1.5rem;
+}
+
 .home-writing__date {
   font-size: 0.9rem;
   color: rgba(0, 0, 0, 0.6);
