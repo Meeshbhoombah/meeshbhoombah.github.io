@@ -447,52 +447,39 @@ function ensureDir(dirPath) {
   fs.mkdirSync(dirPath, { recursive: true });
 }
 
-const HOME_SECTION_NAMES = ["hero", "intro", "work", "digest"];
+const HOME_SECTION_NAMES = ["hero", "work", "writing", "outputs", "digest", "follow"];
+const HOME_SECTION_ALIASES = new Map([["intro", "outputs"]]);
+
+const HOME_SECTION_PATTERN = [...HOME_SECTION_NAMES, ...HOME_SECTION_ALIASES.keys()]
+  .map((name) => name.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&"))
+  .join("|");
+
+const HOME_SECTION_REGEX = new RegExp(`<!--home:(${HOME_SECTION_PATTERN})-->`, "gi");
 
 function extractHomeSectionsFromMarkdown(markdown) {
-  const sections = {
-    hero: "",
-    intro: "",
-    work: "",
-    digest: "",
-  };
+  const sections = Object.fromEntries(HOME_SECTION_NAMES.map((name) => [name, ""]));
 
   if (!markdown) {
-    return { ...sections, heroTitle: "", intro: "" };
+    return { ...sections, heroTitle: "" };
   }
 
-  const openRegex = /<!--home:(hero|intro|work|digest)-->/gi;
+  HOME_SECTION_REGEX.lastIndex = 0;
   let match;
-  while ((match = openRegex.exec(markdown)) !== null) {
-    const name = match[1].toLowerCase();
-    const closeTag = `<!--/home:${name}-->`;
-    const startIndex = openRegex.lastIndex;
+  while ((match = HOME_SECTION_REGEX.exec(markdown)) !== null) {
+    const rawName = match[1].toLowerCase();
+    const resolvedName = HOME_SECTION_ALIASES.get(rawName) ?? rawName;
+    if (!HOME_SECTION_NAMES.includes(resolvedName)) {
+      continue;
+    }
+    const closeTag = `<!--/home:${rawName}-->`;
+    const startIndex = HOME_SECTION_REGEX.lastIndex;
     const endIndex = markdown.indexOf(closeTag, startIndex);
     if (endIndex === -1) {
       continue;
     }
     const rawContent = markdown.slice(startIndex, endIndex).trim();
-    sections[name] = rawContent;
-    openRegex.lastIndex = endIndex + closeTag.length;
-  }
-
-  let introContent = sections.intro;
-  if (!introContent) {
-    let cleaned = markdown;
-    for (const name of HOME_SECTION_NAMES) {
-      const openTag = `<!--home:${name}-->`;
-      const closeTag = `<!--/home:${name}-->`;
-      let start = cleaned.indexOf(openTag);
-      while (start !== -1) {
-        const end = cleaned.indexOf(closeTag, start + openTag.length);
-        if (end === -1) {
-          break;
-        }
-        cleaned = `${cleaned.slice(0, start)}${cleaned.slice(end + closeTag.length)}`;
-        start = cleaned.indexOf(openTag);
-      }
-    }
-    introContent = cleaned.trim();
+    sections[resolvedName] = rawContent;
+    HOME_SECTION_REGEX.lastIndex = endIndex + closeTag.length;
   }
 
   const toHtml = (value) => {
@@ -505,8 +492,10 @@ function extractHomeSectionsFromMarkdown(markdown) {
   return {
     hero: toHtml(sections.hero),
     work: toHtml(sections.work),
+    writing: toHtml(sections.writing),
+    outputs: toHtml(sections.outputs),
     digest: toHtml(sections.digest),
-    intro: toHtml(introContent),
+    follow: toHtml(sections.follow),
     heroTitle,
   };
 }
@@ -621,38 +610,35 @@ function renderPageBody(page, liveWriting) {
     const sections = {
       hero: page.homeSections?.hero ?? "",
       work: page.homeSections?.work ?? "",
+      writing: page.homeSections?.writing ?? "",
+      outputs: page.homeSections?.outputs ?? "",
       digest: page.homeSections?.digest ?? "",
-      intro: page.homeSections?.intro ?? contentHtml ?? "",
+      follow: page.homeSections?.follow ?? "",
     };
 
     const listHtml = renderLiveWritingSection(liveWriting, {
       containerClass: "home-writing",
-      heading: "🖋️",
+      heading: "🖋",
       includeDates: true,
       groupByCategory: true,
     });
 
-    if (listHtml) {
-      if (sections.work) {
-        sections.work = `${sections.work}${listHtml}`;
-      } else if (sections.intro) {
-        const sectionMarker = "<h2>♾</h2>";
-        const markerIndex = sections.intro.indexOf(sectionMarker);
-        if (markerIndex !== -1) {
-          sections.intro = `${sections.intro.slice(0, markerIndex)}${listHtml}${sections.intro.slice(markerIndex)}`;
-        } else {
-          sections.intro += listHtml;
-        }
-      } else {
-        sections.intro = listHtml;
-      }
+    const writingParts = [];
+    if (sections.writing) {
+      writingParts.push(`<div class="home-writing-intro">${sections.writing}</div>`);
     }
+    if (listHtml) {
+      writingParts.push(listHtml);
+    }
+    const writingBlock = writingParts.join("");
 
     return renderTemplate(templates.home, {
       hero: sections.hero ? `<div class="home-hero">${sections.hero}</div>` : "",
       work: sections.work ? `<div class="home-work">${sections.work}</div>` : "",
+      writing: writingBlock,
+      outputs: sections.outputs ? `<div class="home-outputs">${sections.outputs}</div>` : "",
       digest: sections.digest ? `<div class="home-digest">${sections.digest}</div>` : "",
-      intro: sections.intro ? `<div class="home-intro">${sections.intro}</div>` : "",
+      follow: sections.follow ? `<div class="home-follow">${sections.follow}</div>` : "",
     });
   }
 
@@ -688,6 +674,9 @@ function renderLiveWritingSection(entries, { containerClass = "", heading, inclu
     return "";
   }
   const headingHtml = heading ? `<h2>${escapeHtml(heading)}</h2>` : "";
+  const classAttribute = containerClass
+    ? ` class="${escapeHtmlAttribute(containerClass)}"`
+    : "";
 
   if (groupByCategory) {
     const groups = new Map();
@@ -713,12 +702,12 @@ function renderLiveWritingSection(entries, { containerClass = "", heading, inclu
       })
       .join("\n");
 
-    return `<section class="${containerClass}">${headingHtml}<div class="writing-groups">${groupHtml}</div></section>`;
+    return `<section${classAttribute}>${headingHtml}<div class="writing-groups">${groupHtml}</div></section>`;
   }
 
   const items = entries.map((entry) => renderWritingListItem(entry, includeDates)).join("\n");
   const listHtml = `<ul>${items}</ul>`;
-  return `<section class="${containerClass}">${headingHtml}${listHtml}</section>`;
+  return `<section${classAttribute}>${headingHtml}${listHtml}</section>`;
 }
 
 function renderWritingListItem(entry, includeDates) {
@@ -854,7 +843,7 @@ function buildSite() {
       if (!data.title && sections.heroTitle) {
         title = sections.heroTitle;
       }
-      contentHtml = sections.intro || "";
+      contentHtml = "";
       shouldRenderTitleHeading = false;
     }
 

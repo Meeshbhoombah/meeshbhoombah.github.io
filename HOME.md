@@ -4,25 +4,10 @@ permalink: /
 ---
 
 <!--home:hero-->
-# Meeshbhoombah
+# Governance-focused decentralized systems engineering.
 
-**Governance focused decentralized systems engineering.**
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend, tortor et congue congue, tellus eros commodo est, vitae euismod elit purus at tortor. Suspendisse placerat ex non massa auctor, ut iaculis urna interdum.
+I design resilient coordination mechanisms, guide teams through decentralized governance, and build the tools that help communities steer complex systems with confidence.
 <!--/home:hero-->
-
-<!--home:intro-->
-## 🔁
-### Follow Me
-- [Twitter](https://twitter.com/meeshbhoombah)
-- [Medium](https://meeshbhoombah.medium.com/)
-- [dev.to](https://dev.to/meeshbhoombah)
-- [GitHub](https://github.com/meeshbhoombah/)
-- [LinkedIn](https://www.linkedin.com/in/meeshbhoombah/)
-
-## ♾
-[Outputs](https://meeshbhoombah2020.notion.site/Outputs-25bce498609c4d089bc670ec3dfce8ad)
-<!--/home:intro-->
 
 <!--home:work-->
 ## 🤔
@@ -57,6 +42,15 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eleifend, tort
 - [BlockchainEDU](https://www.blockchainedu.org/)
 <!--/home:work-->
 
+<!--home:writing-->
+**Recent reflections on governance, systems, and communities.**
+<!--/home:writing-->
+
+<!--home:outputs-->
+## ♾
+[Outputs](https://meeshbhoombah2020.notion.site/Outputs-25bce498609c4d089bc670ec3dfce8ad)
+<!--/home:outputs-->
+
 <!--home:digest-->
 ## 🔢
 ### 12
@@ -80,3 +74,13 @@ Hours dedicated to diversifying tech through education
 ### ~100
 Projects Built
 <!--/home:digest-->
+
+<!--home:follow-->
+## 🔁
+### Follow Me
+- [Twitter](https://twitter.com/meeshbhoombah)
+- [Medium](https://meeshbhoombah.medium.com/)
+- [dev.to](https://dev.to/meeshbhoombah)
+- [GitHub](https://github.com/meeshbhoombah/)
+- [LinkedIn](https://www.linkedin.com/in/meeshbhoombah/)
+<!--/home:follow-->
