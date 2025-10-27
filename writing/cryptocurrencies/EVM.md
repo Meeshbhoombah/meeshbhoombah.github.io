@@ -1,4 +1,12 @@
-# The EVM
+---
+layout: writing
+status: draft
+description: Technical notes on the Ethereum Virtual Machine.
+tags: [writing, cryptocurrencies]
+---
+
+# EVM
+
 Synthesized learnings from various sources and explorations. Primarily:
 - The Ethereum Yellowpaper
 - My own Copywork of OpenZepplin's Smart Contract Suite (v0.8.0)
