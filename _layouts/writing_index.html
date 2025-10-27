@@ -1,0 +1,55 @@
+---
+layout: default
+---
+<section class="writing-index">
+  <header>
+    {% assign derived_title = page.title %}
+    {% if derived_title == nil or derived_title == '' %}
+      {% assign lines = page.content | split: '\n' %}
+      {% for line in lines %}
+        {% assign trimmed = line | strip %}
+        {% if trimmed != '' and trimmed | slice: 0, 2 == '# ' %}
+          {% assign derived_title = trimmed | remove_first: '# ' | strip %}
+          {% break %}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+    {% if derived_title %}<h1>{{ derived_title }}</h1>{% endif %}
+    {% if page.description %}
+    <p class="lede">{{ page.description }}</p>
+    {% endif %}
+  </header>
+  <div class="intro">
+    {{ content | markdownify }}
+  </div>
+  {% assign categories = 'Cryptocurrencies|Social Sciences|Computing|Startups|Food' | split: '|' %}
+  {% assign live_posts = site.writing | where: 'status', 'live' %}
+  {% for category in categories %}
+    {% assign categorized = live_posts | where: 'category', category | sort: 'relative_path' %}
+    {% if categorized != empty %}
+    <section class="category">
+      <h2>{{ category }}</h2>
+      <ul>
+      {% for post in categorized %}
+        {% assign post_title = post.title | default: post.data.title %}
+        {% if post_title == nil or post_title == '' %}
+          {% assign post_lines = post.content | split: '\n' %}
+          {% for line in post_lines %}
+            {% assign trimmed = line | strip %}
+            {% if trimmed != '' and trimmed | slice: 0, 2 == '# ' %}
+              {% assign post_title = trimmed | remove_first: '# ' | strip %}
+              {% break %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+        {% assign first_live = post.first_live_at %}
+        <li>
+          <a href="{{ post.url | relative_url }}">{{ post_title }}</a>
+          {% if first_live %}<span class="meta">{{ first_live | date: '%b %-d, %Y' }}</span>{% endif %}
+        </li>
+      {% endfor %}
+      </ul>
+    </section>
+    {% endif %}
+  {% endfor %}
+</section>

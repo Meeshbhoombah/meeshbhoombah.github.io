@@ -1,0 +1,25 @@
+title: Meeshbhoombah
+url: https://meeshbhoombah.github.io
+baseurl: ""
+description: Governance focused decentralized systems engineering.
+markdown: kramdown
+collections:
+  writing:
+    output: true
+    permalink: /writing/:path/
+defaults:
+  - scope:
+      path: ""
+      type: writing
+    values:
+      layout: writing
+      status: draft
+exclude:
+  - node_modules
+  - vendor
+  - Gemfile.lock
+  - package-lock.json
+  - HERO.md
+  - WORK.md
+  - DIGEST.md
+plugins: []

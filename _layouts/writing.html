@@ -1,0 +1,37 @@
+---
+layout: default
+---
+{% assign derived_title = page.title %}
+{% assign raw_lines = page.content | split: '\n' %}
+{% assign found_heading = false %}
+{% capture body_markdown %}
+{% for line in raw_lines %}
+  {% assign trimmed = line | strip %}
+  {% if found_heading == false and trimmed != '' and trimmed | slice: 0, 2 == '# ' %}
+    {% if derived_title == nil or derived_title == '' %}
+      {% assign derived_title = trimmed | remove_first: '# ' | strip %}
+    {% endif %}
+    {% assign found_heading = true %}
+  {% else %}
+{{ line }}{% unless forloop.last %}
+{% endunless %}
+  {% endif %}
+{% endfor %}
+{% endcapture %}
+<article class="writing-entry">
+  <header>
+    {% if derived_title %}
+    <h1>{{ derived_title }}</h1>
+    {% endif %}
+    {% if page.description %}
+    <p class="lede">{{ page.description }}</p>
+    {% endif %}
+    {% assign first_live = page.first_live_at %}
+    {% if first_live %}
+    <p class="meta">First published {{ first_live | date: '%B %-d, %Y' }}</p>
+    {% endif %}
+  </header>
+  <div class="content">
+    {{ body_markdown | markdownify }}
+  </div>
+</article>
