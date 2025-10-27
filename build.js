@@ -576,6 +576,9 @@ function inferLayout(data, sourcePath) {
 }
 
 function renderPageBody(page, liveWriting, homepageSections = {}) {
+  if (page.renderOverride) {
+    return page.renderOverride;
+  }
   const { layout, title, description, contentHtml, shouldRenderTitleHeading } = page;
   const layoutKey = normalizeLayoutValue(layout) || layout;
   if (layoutKey === "home") {
@@ -822,6 +825,7 @@ function buildSite() {
       shouldRenderTitleHeading,
       url,
       outputPath,
+      renderOverride: null,
     };
   });
 
@@ -841,6 +845,47 @@ function buildSite() {
       const bTime = b.firstLiveDate ? b.firstLiveDate.getTime() : 0;
       return bTime - aTime;
     });
+
+  const homePage = pages.find((page) => {
+    const relative = path.relative(ROOT, page.sourcePath).replace(/\\/g, "/");
+    return relative === "HOME.md";
+  });
+
+  if (homePage) {
+    const heroHtml = homepageSections.hero || "";
+    const workHtml = homepageSections.work || "";
+    const digestHtml = homepageSections.digest || "";
+    const listHtml = renderLiveWritingSection(liveWriting, {
+      containerClass: "home-writing",
+      heading: "🖋️",
+      includeDates: true,
+      groupByCategory: true,
+    });
+
+    let workWithWriting = workHtml;
+    if (listHtml) {
+      workWithWriting = workWithWriting ? `${workWithWriting}${listHtml}` : listHtml;
+    }
+
+    const assembledSections = [];
+    if (heroHtml) {
+      assembledSections.push(`<div class="home-hero">${heroHtml}</div>`);
+    }
+    if (workWithWriting) {
+      assembledSections.push(`<div class="home-work">${workWithWriting}</div>`);
+    }
+    if (digestHtml) {
+      assembledSections.push(`<div class="home-digest">${digestHtml}</div>`);
+    }
+    if (homePage.contentHtml) {
+      assembledSections.push(`<div class="home-intro">${homePage.contentHtml}</div>`);
+    }
+
+    const orderedContent = assembledSections.join("");
+    homePage.renderOverride = renderTemplate(templates.home, {
+      content: orderedContent,
+    });
+  }
 
   for (const page of pages) {
     const body = renderPageBody(page, liveWriting, homepageSections);
