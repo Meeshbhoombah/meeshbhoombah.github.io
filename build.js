@@ -459,7 +459,12 @@ function ensureDir(dirPath) {
 }
 
 function loadHomepageSections() {
-  const sections = { hero: "", work: "", digest: "" };
+  const sections = {
+    hero: "",
+    heroTitle: "",
+    work: "",
+    digest: "",
+  };
   for (const [key, filePath] of Object.entries(HOMEPAGE_SECTION_FILES)) {
     if (!fs.existsSync(filePath)) {
       continue;
@@ -467,7 +472,14 @@ function loadHomepageSections() {
     const raw = fs.readFileSync(filePath, "utf8");
     const { body } = parseFrontMatter(raw);
     const bodyContent = body.trim();
-    sections[key] = bodyContent ? markdownToHtml(bodyContent) : "";
+    const html = bodyContent ? markdownToHtml(bodyContent) : "";
+    sections[key] = html;
+    if (key === "hero" && !sections.heroTitle) {
+      const heading = extractFirstHeading(bodyContent);
+      if (heading) {
+        sections.heroTitle = heading;
+      }
+    }
   }
   return sections;
 }
@@ -789,6 +801,41 @@ function shouldIncludeInLiveWriting(page) {
   return true;
 }
 
+function createHomePage(homepageSections, liveWriting) {
+  const heroHtml = homepageSections.hero || "";
+  const workHtml = homepageSections.work || "";
+  const digestHtml = homepageSections.digest || "";
+  const listHtml = renderLiveWritingSection(liveWriting, {
+    containerClass: "home-writing",
+    heading: "🖋️",
+    includeDates: true,
+    groupByCategory: true,
+  });
+
+  let workWithWriting = workHtml;
+  if (listHtml) {
+    workWithWriting = workWithWriting ? `${workWithWriting}${listHtml}` : listHtml;
+  }
+
+  return {
+    sourcePath: HOMEPAGE_SECTION_FILES.hero,
+    frontMatter: {},
+    layout: "home",
+    title: homepageSections.heroTitle || "Meeshbhoombah",
+    description: "",
+    contentHtml: "",
+    shouldRenderTitleHeading: false,
+    url: "/",
+    outputPath: outputPathFromUrl("/"),
+    homeSectionsOverride: {
+      hero: heroHtml,
+      work: workWithWriting,
+      digest: digestHtml,
+      intro: "",
+    },
+  };
+}
+
 function buildSite() {
   if (fs.existsSync(SITE_DIR)) {
     fs.rmSync(SITE_DIR, { recursive: true, force: true });
@@ -797,7 +844,7 @@ function buildSite() {
 
   const homepageSections = loadHomepageSections();
   const markdownFiles = findMarkdownFiles(ROOT);
-  const pages = markdownFiles.map((filePath) => {
+  let pages = markdownFiles.map((filePath) => {
     const raw = fs.readFileSync(filePath, "utf8");
     const { data, body } = parseFrontMatter(raw);
     const bodyContent = body.trim();
@@ -841,34 +888,9 @@ function buildSite() {
       return bTime - aTime;
     });
 
-  const homePage = pages.find((page) => {
-    const relative = path.relative(ROOT, page.sourcePath).replace(/\\/g, "/");
-    return relative === "HOME.md";
-  });
-
-  if (homePage) {
-    const heroHtml = homepageSections.hero || "";
-    const workHtml = homepageSections.work || "";
-    const digestHtml = homepageSections.digest || "";
-    const listHtml = renderLiveWritingSection(liveWriting, {
-      containerClass: "home-writing",
-      heading: "🖋️",
-      includeDates: true,
-      groupByCategory: true,
-    });
-
-    let workWithWriting = workHtml;
-    if (listHtml) {
-      workWithWriting = workWithWriting ? `${workWithWriting}${listHtml}` : listHtml;
-    }
-
-    homePage.homeSectionsOverride = {
-      hero: heroHtml,
-      work: workWithWriting,
-      digest: digestHtml,
-      intro: homePage.contentHtml,
-    };
-  }
+  const homePage = createHomePage(homepageSections, liveWriting);
+  pages = pages.filter((page) => page.url !== "/");
+  pages.push(homePage);
 
   for (const page of pages) {
     const overrideSections = page.homeSectionsOverride
