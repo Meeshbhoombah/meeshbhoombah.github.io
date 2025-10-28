@@ -7,8 +7,8 @@ import {
 } from './components/home';
 import { getLiveWritingByCategory } from './lib/writing';
 
-export default function HomePage() {
-  const writingSections = getLiveWritingByCategory();
+export default async function HomePage() {
+  const writingSections = await getLiveWritingByCategory();
 
   return (
     <main className="content home-content">
