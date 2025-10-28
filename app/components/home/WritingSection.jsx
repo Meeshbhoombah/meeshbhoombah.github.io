@@ -30,7 +30,10 @@ export default function WritingSection({ sections }) {
                           }
                         : {})}
                     >
-                      {title}
+                      <span aria-hidden className="home-writing-entry__icon">
+                        🔗
+                      </span>
+                      <span>{title}</span>
                     </a>
                     {description && !isLocalWriting && <p>{description}</p>}
                   </div>

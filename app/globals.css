@@ -169,6 +169,19 @@ body {
   text-decoration: none;
 }
 
+.home-writing-entry a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+}
+
+.home-writing-entry__icon {
+  font-size: 0.85em;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+}
+
 .home-writing-entry p {
   margin: 0;
 }
