@@ -1,12 +1,11 @@
 # Meeshbhoombah · WWW
 
-This repository now powers the personal site with [Next.js](https://nextjs.org/) and a GitHub Pages deployment pipeline. The home
-page pulls directly from `HOME.md`, keeping the writing workflow focused on Markdown while relying on modern tooling for the buil
-d and hosting story.
+This repository powers the personal site with [Next.js](https://nextjs.org/) and a GitHub Pages deployment pipeline. The home page is composed from modular React components under `app/components/home/`, while a helper surfaces live writing entries from the Markdown files in `writing/`.
 
 ## Structure
-- `HOME.md` — homepage content. The Next.js app reads the Markdown at build time and renders it as the root route.
-- `app/` — the Next.js App Router implementation, including global styles and the Markdown renderer.
+- `app/components/home/` — home page sections authored as dedicated React components.
+- `app/lib/writing.js` — helper for surfacing `writing/**/*.md` entries that are marked as `status: live` in their front matter.
+- `app/` — the Next.js App Router implementation, including global styles and the home page composition.
 - `.github/workflows/deploy.yml` — GitHub Actions workflow that builds the static site and publishes it to GitHub Pages.
 - `writing/` — additional long-form content that can be integrated into the site in the future.
 
@@ -19,17 +18,14 @@ d and hosting story.
    ```bash
    npm run dev
    ```
-3. Open `http://localhost:3000` to view the site. Edits to `HOME.md` will hot reload automatically.
+3. Open `http://localhost:3000` to view the site. Component changes and edits to the `writing/` Markdown files will hot reload automatically.
 
 ## Production build
 To generate the static site locally:
 ```bash
 npm run build
-npm run export
 ```
 The exported HTML will be available in the `out/` directory.
 
 ## Deployment
-GitHub Actions (see `.github/workflows/deploy.yml`) run on pushes to `main`. The workflow installs dependencies, builds the stat
-ic export, and deploys the generated `out/` directory to GitHub Pages so the site is available at `https://meeshbhoombah.github.
-io/`.
+GitHub Actions (see `.github/workflows/deploy.yml`) run on pushes to `main`. The workflow installs dependencies, builds the static export, and deploys the generated `out/` directory to GitHub Pages so the site is available at `https://meeshbhoombah.github.io/`.

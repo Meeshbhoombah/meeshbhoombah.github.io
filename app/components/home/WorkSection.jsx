@@ -1,3 +1,5 @@
+import { isValidElement } from 'react';
+
 const previousRoles = [
   {
     name: 'Sigma Prime',
@@ -7,7 +9,13 @@ const previousRoles = [
         label: 'Worked on:',
         items: [
           'An off-chain rollup system securing $330,000,000',
-          'A Bitcoin L2 based on reth v1.5.0 with 10,000,000+ tx & 150,000+ unique addresses',
+          (
+            <span>
+              A Bitcoin L2 based on{' '}
+              <a href="https://github.com/paradigmxyz/reth/releases/tag/v1.0.5">reth v1.5.0</a>{' '}
+              with 10,000,000+ tx &amp; 150,000+ unique addresses
+            </span>
+          ),
           'An internal log auditing system for a company worth $2,000,000,000',
         ],
       },
@@ -34,7 +42,17 @@ const previousRoles = [
     name: 'Tru-Breed',
     href: 'https://www.tru-breed.com/',
     contributions: [
-      { label: 'Worked on:', items: ['A private, pipelined, optimized fork of ipyrad'] },
+      {
+        label: 'Worked on:',
+        items: [
+          (
+            <span>
+              A private, pipelined, optimized fork of{' '}
+              <a href="https://github.com/dereneaton/ipyrad">ipyrad</a>
+            </span>
+          ),
+        ],
+      },
     ],
   },
   {
@@ -74,8 +92,12 @@ function renderContribution(contribution, keyPrefix) {
     return <li key={`${keyPrefix}-text`}>{contribution}</li>;
   }
 
+  if (isValidElement(contribution)) {
+    return <li key={`${keyPrefix}-element`}>{contribution}</li>;
+  }
+
   return (
-    <li key={`${keyPrefix}-${contribution.label}`}>
+    <li key={`${keyPrefix}-${typeof contribution.label === 'string' ? contribution.label : 'group'}`}>
       {contribution.label}
       {contribution.items && contribution.items.length > 0 && (
         <ul>

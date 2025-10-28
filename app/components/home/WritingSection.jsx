@@ -1,5 +1,7 @@
 export default function WritingSection({ sections }) {
-  const writingSections = sections ?? [];
+  const writingSections = (sections ?? []).filter(
+    (section) => section.entries && section.entries.length > 0
+  );
 
   return (
     <section className="home-section" aria-labelledby="home-writing-heading">
@@ -16,9 +18,7 @@ export default function WritingSection({ sections }) {
                 </li>
               ))}
             </ul>
-          ) : (
-            <p>No live writing yet.</p>
-          )}
+          ) : null}
         </div>
       ))}
     </section>
