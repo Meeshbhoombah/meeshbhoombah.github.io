@@ -28,4 +28,4 @@ npm run build
 The exported HTML will be available in the `out/` directory.
 
 ## Deployment
-GitHub Actions (see `.github/workflows/deploy.yml`) run on pushes to `main`. The workflow installs dependencies, builds the static export, and deploys the generated `out/` directory to GitHub Pages so the site is available at `https://meeshbhoombah.github.io/`.
+GitHub Actions (see `.github/workflows/deploy.yml`) run on pushes to `main`, so merging a pull request into that branch automatically triggers the publish pipeline. The workflow installs dependencies, builds the static export, drops a `.nojekyll` file into `out/` so GitHub Pages serves the generated assets instead of rebuilding the README, and deploys the directory to `https://meeshbhoombah.github.io/`. You can also run the workflow manually from the Actions tab because it exposes a `workflow_dispatch` trigger.
