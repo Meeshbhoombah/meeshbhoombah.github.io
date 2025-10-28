@@ -1,0 +1,37 @@
+[
+  {
+    "title": "Formal Verification: An Example",
+    "link": "https://dev.to/meeshbhoombah/formal-verification-an-example",
+    "description": "In the rapidly evolving landscape of blockchain technology, Soulbound Tokens (SBTs) have emerged as a transformative innovation. Formal verification ensures the underlying smart contract specification matches its implementation before deployment to mainnet.",
+    "categories": ["blockchain", "smart-contracts", "formal-verification"],
+    "publishedAt": "2024-02-10T12:00:00.000Z"
+  },
+  {
+    "title": "Static Analysis Pipelines for Smart Contracts",
+    "link": "https://medium.com/@meeshbhoombah/static-analysis-pipelines-for-smart-contracts-abc123",
+    "description": "We explore how static analysis, type checking, and automated protocol verification harden Solidity-based systems long before auditors step in.",
+    "categories": ["engineering", "solidity", "analysis"],
+    "publishedAt": "2024-04-04T15:30:00.000Z"
+  },
+  {
+    "title": "Tokenomics for Community Treasuries",
+    "link": "https://dev.to/meeshbhoombah/tokenomics-for-community-treasuries",
+    "description": "Token launches, liquidity pools, and DeFi incentives can make or break a cryptocurrency community treasury.",
+    "categories": ["crypto", "defi", "tokens"],
+    "publishedAt": "2023-12-01T10:00:00.000Z"
+  },
+  {
+    "title": "Governance Lessons from Network State Experiments",
+    "link": "https://medium.com/@meeshbhoombah/governance-lessons-from-network-state-experiments",
+    "description": "Political theory, economic coordination, and collective behavior all show up when evaluating emergent network state governance models.",
+    "categories": ["politics", "economics", "society"],
+    "publishedAt": "2024-01-15T09:00:00.000Z"
+  },
+  {
+    "title": "Field Notes from Osaka's Kissaten",
+    "link": "https://dev.to/meeshbhoombah/field-notes-from-osakas-kissaten",
+    "description": "Coffee rituals, neighborhood snacks, and seasonal wagashi tours from a month in Osaka.",
+    "categories": ["food", "travel"],
+    "publishedAt": "2023-11-20T18:45:00.000Z"
+  }
+]

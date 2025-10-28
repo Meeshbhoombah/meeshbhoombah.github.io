@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 import { decodeHtmlEntities, extractFirstSentenceFromText, formatPreviewText } from './text.js';
 
 const FEED_URLS = [
@@ -17,7 +19,8 @@ const CATEGORY_KEYWORDS = {
     'web3',
     'defi',
     'nft',
-    'token',
+    { keyword: 'token', weight: 0.5 },
+    { keyword: 'tokens', weight: 0.5 },
   ],
   'social-sciences': [
     'psychology',
@@ -40,7 +43,6 @@ const CATEGORY_KEYWORDS = {
     'code',
     'computer',
     'computing',
-    'formal verification',
     'ai',
     'machine learning',
     'data science',
@@ -48,6 +50,20 @@ const CATEGORY_KEYWORDS = {
     'technology',
     'tech',
     'engineering',
+    { keyword: 'formal methods', weight: 3 },
+    { keyword: 'formal verification', weight: 3 },
+    { pattern: /\bverif(?:y|ication|ying|ied|ier|iers)\b/gi, weight: 2 },
+    { keyword: 'static analysis', weight: 2 },
+    { keyword: 'smart contract', weight: 2 },
+    { keyword: 'smart contracts', weight: 2 },
+    { keyword: 'solidity', weight: 2 },
+    { keyword: 'type system', weight: 2 },
+    { keyword: 'type checking', weight: 2 },
+    { pattern: /\balgorithm(?:s)?\b/gi, weight: 1.5 },
+    { keyword: 'protocol', weight: 1.5 },
+    { keyword: 'specification', weight: 1.5 },
+    { pattern: /\bzero[-\s]?knowledge\b/gi, weight: 2 },
+    { keyword: 'distributed systems', weight: 2 },
   ],
   startups: [
     'startup',
@@ -80,6 +96,7 @@ const CATEGORY_KEYWORDS = {
 };
 
 const REVALIDATE_SECONDS = 60 * 60 * 24; // Refresh daily
+const RSS_FEED_FIXTURE = process.env.RSS_FEED_FIXTURE ?? '';
 
 function decodeCdata(value) {
   if (!value) return '';
@@ -128,18 +145,49 @@ function extractItems(xml) {
   return items;
 }
 
-function countKeywordOccurrences(text, keyword) {
+function countKeywordOccurrences(text, keyword, options = {}) {
   if (!text || !keyword) return 0;
 
-  const escaped = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  const boundaryWrapped = `\\b${escaped}\\b`;
-  const regex = new RegExp(boundaryWrapped, 'gi');
+  const regex = createKeywordRegex(keyword, options);
   const matches = text.match(regex);
 
   return matches ? matches.length : 0;
 }
 
-function classifyItem({ title, description, categories }) {
+function createKeywordRegex(keyword, { partial = false } = {}) {
+  const escaped = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const boundaryWrapped = partial ? escaped : `\\b${escaped}\\b`;
+  return new RegExp(boundaryWrapped, 'gi');
+}
+
+function getKeywordScore(text, keywordEntry) {
+  if (!text || !keywordEntry) return 0;
+
+  if (typeof keywordEntry === 'string') {
+    return countKeywordOccurrences(text, keywordEntry);
+  }
+
+  const { keyword, pattern, weight = 1, partial = false } = keywordEntry;
+  let regex;
+
+  if (pattern) {
+    if (pattern instanceof RegExp) {
+      const flags = pattern.flags.includes('g') ? pattern.flags : `${pattern.flags}g`;
+      regex = new RegExp(pattern.source, flags);
+    } else {
+      regex = new RegExp(pattern, 'gi');
+    }
+  } else if (keyword) {
+    regex = createKeywordRegex(keyword, { partial });
+  } else {
+    return 0;
+  }
+
+  const matches = text.match(regex);
+  return matches ? matches.length * weight : 0;
+}
+
+export function classifyItem({ title, description, categories }) {
   const haystack = [title, description, ...(categories ?? [])]
     .filter(Boolean)
     .join(' ')
@@ -150,7 +198,7 @@ function classifyItem({ title, description, categories }) {
 
   for (const [category, keywords] of Object.entries(CATEGORY_KEYWORDS)) {
     const score = keywords.reduce(
-      (total, keyword) => total + countKeywordOccurrences(haystack, keyword.toLowerCase()),
+      (total, keywordEntry) => total + getKeywordScore(haystack, keywordEntry),
       0,
     );
 
@@ -190,6 +238,59 @@ function parseRss(xml) {
   });
 }
 
+let cachedFixtureEntries = null;
+
+function normalizeFixtureEntry(entry) {
+  if (!entry || typeof entry !== 'object') {
+    return null;
+  }
+
+  const categories = Array.isArray(entry.categories)
+    ? entry.categories.map((value) => String(value)).filter(Boolean)
+    : [];
+
+  return {
+    title: entry.title ?? entry.link ?? '',
+    link: entry.link ?? '',
+    description: entry.description ?? '',
+    rawDescription: entry.rawDescription ?? entry.description ?? '',
+    categories,
+    publishedAt: entry.publishedAt ?? entry.pubDate ?? '',
+  };
+}
+
+function loadFixtureEntries() {
+  if (!RSS_FEED_FIXTURE) {
+    return null;
+  }
+
+  if (cachedFixtureEntries) {
+    return cachedFixtureEntries;
+  }
+
+  try {
+    const raw = fs.readFileSync(RSS_FEED_FIXTURE, 'utf8');
+    const parsed = JSON.parse(raw);
+
+    if (!Array.isArray(parsed)) {
+      console.error(
+        'RSS_FEED_FIXTURE must point to a JSON array of feed entries. Received:',
+        typeof parsed,
+      );
+      return null;
+    }
+
+    cachedFixtureEntries = parsed
+      .map(normalizeFixtureEntry)
+      .filter((entry) => entry && entry.link);
+
+    return cachedFixtureEntries;
+  } catch (error) {
+    console.error('Failed to read RSS fixture data:', error);
+    return null;
+  }
+}
+
 async function fetchRssFeed(url) {
   const response = await fetch(url, {
     headers: { Accept: 'application/rss+xml, application/xml, text/xml, text/plain' },
@@ -210,7 +311,13 @@ function parseDateToMs(value) {
   return Number.isFinite(timestamp) ? timestamp : null;
 }
 
-export async function getExternalWritingEntries() {
+async function loadFeedItems() {
+  const fixtureEntries = loadFixtureEntries();
+
+  if (fixtureEntries) {
+    return fixtureEntries;
+  }
+
   const results = await Promise.all(
     FEED_URLS.map(async (url) => {
       try {
@@ -222,7 +329,11 @@ export async function getExternalWritingEntries() {
     })
   );
 
-  const items = results.flat();
+  return results.flat();
+}
+
+export async function getExternalWritingEntries() {
+  const items = await loadFeedItems();
 
   return items
     .filter((item) => item.link)

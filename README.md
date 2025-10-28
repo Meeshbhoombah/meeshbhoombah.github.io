@@ -27,6 +27,15 @@ npm run build
 ```
 The exported HTML will be available in the `out/` directory.
 
+## Writing preview
+The RSS classifier can be previewed without network access by pointing the helper at a JSON fixture and running the bundled script:
+
+```bash
+RSS_FEED_FIXTURE=fixtures/rss-preview.json node scripts/preview-writing.mjs
+```
+
+The fixture file must be an array of objects that include `title`, `link`, `description`, optional `categories`, and an optional `publishedAt` timestamp. When present, entries are merged with any live Markdown posts so you can confirm category assignments end-to-end.
+
 ## Deployment
 GitHub Actions (see `.github/workflows/deploy.yml`) run on both pull requests and pushes to `main`. Every PR gets a **Deploy Next.js site / build** check that compiles the static export and uploads it as the Pages artifact so you can inspect the output before merging. Once the pull request lands (or you push directly to `main`), the accompanying **Deploy Next.js site / deploy** job publishes that artifact through `actions/deploy-pages`.
 
