@@ -378,6 +378,9 @@ body {
   width: 160px;
   height: 160px;
   flex-shrink: 0;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
 }
 
 .work-donut-chart__svg {
@@ -389,6 +392,9 @@ body {
 .work-donut-chart__segment {
   stroke-linecap: butt;
   cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
 }
 
 .work-donut-chart__summary {
