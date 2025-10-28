@@ -112,7 +112,12 @@ function flushParagraphsFromLines(lines, htmlParts) {
   flush();
 }
 
-export function renderMarkdownToHtml(markdown) {
+function normalizeHeadingText(value) {
+  return value.replace(/\s+/g, ' ').trim().toLowerCase();
+}
+
+export function renderMarkdownToHtml(markdown, options = {}) {
+  const { stripHeading } = options;
   const normalized = markdown.replace(/\r\n/g, '\n');
   const lines = normalized.split('\n');
   const htmlParts = [];
@@ -121,6 +126,7 @@ export function renderMarkdownToHtml(markdown) {
   let inList = false;
   let inBlockquote = false;
   let blockquoteLines = [];
+  let headingStripped = false;
 
   const flushParagraph = () => {
     if (paragraphBuffer.length === 0) {
@@ -170,6 +176,16 @@ export function renderMarkdownToHtml(markdown) {
 
       const level = headingMatch[1].length;
       const text = headingMatch[2].trim();
+      if (
+        !headingStripped &&
+        stripHeading &&
+        (stripHeading === true ||
+          (typeof stripHeading === 'string' &&
+            normalizeHeadingText(text) === normalizeHeadingText(stripHeading)))
+      ) {
+        headingStripped = true;
+        continue;
+      }
       htmlParts.push(`<h${level}>${processInline(text)}</h${level}>`);
       continue;
     }
