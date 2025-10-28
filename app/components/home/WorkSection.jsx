@@ -12,7 +12,13 @@ const previousRoles = [
           (
             <span>
               A Bitcoin L2 based on{' '}
-              <a href="https://github.com/paradigmxyz/reth/releases/tag/v1.0.5">reth v1.5.0</a>{' '}
+              <a
+                href="https://github.com/paradigmxyz/reth/releases/tag/v1.0.5"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                reth v1.5.0
+              </a>{' '}
               with 10,000,000+ tx &amp; 150,000+ unique addresses
             </span>
           ),
@@ -48,7 +54,13 @@ const previousRoles = [
           (
             <span>
               A private, pipelined, optimized fork of{' '}
-              <a href="https://github.com/dereneaton/ipyrad">ipyrad</a>
+              <a
+                href="https://github.com/dereneaton/ipyrad"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                ipyrad
+              </a>
             </span>
           ),
         ],
@@ -119,7 +131,9 @@ export default function WorkSection() {
         <ul>
           {nowRoles.map(({ name, href }) => (
             <li key={name}>
-              <a href={href}>{name}</a>
+              <a href={href} target="_blank" rel="noopener noreferrer">
+                {name}
+              </a>
             </li>
           ))}
         </ul>
@@ -129,7 +143,9 @@ export default function WorkSection() {
         <ul>
           {previousRoles.map(({ name, href, contributions = [] }) => (
             <li key={name}>
-              <a href={href}>{name}</a>
+              <a href={href} target="_blank" rel="noopener noreferrer">
+                {name}
+              </a>
               {contributions.length > 0 && (
                 <ul>
                   {contributions.map((contribution, index) =>

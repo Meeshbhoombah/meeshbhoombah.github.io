@@ -206,6 +206,50 @@ body {
   line-height: 1.7;
 }
 
+.writing-article {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.writing-article h1 {
+  margin: 0;
+  font-size: 2.4rem;
+}
+
+.writing-article-description {
+  margin: 0 0 8px;
+  color: var(--color-muted);
+}
+
+.writing-article-body > * + * {
+  margin-top: 16px;
+}
+
+.writing-article-body h2,
+.writing-article-body h3,
+.writing-article-body h4 {
+  margin: 24px 0 8px;
+}
+
+.writing-article-body ul {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.writing-article-body blockquote {
+  margin: 16px 0;
+  padding-left: 1rem;
+  border-left: 3px solid var(--color-muted);
+}
+
+.writing-article-body code {
+  background-color: rgba(127, 127, 127, 0.12);
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.95em;
+}
+
 a {
   color: inherit;
   text-decoration: underline;
