@@ -163,6 +163,20 @@ body {
   gap: 0;
 }
 
+.digest-devto {
+  display: inline;
+}
+
+@media (max-width: 600px) {
+  .digest-devto {
+    white-space: nowrap;
+  }
+
+  .digest-devto__break {
+    display: none;
+  }
+}
+
 .stat-value {
   margin: 0;
   font-size: 1.4rem;

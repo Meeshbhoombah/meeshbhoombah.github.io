@@ -6,8 +6,9 @@ const stats = [
   {
     value: '~700',
     description: (
-      <>
-        Consistent readers on{' '}
+      <span className="digest-devto">
+        Consistent readers on
+        <br className="digest-devto__break" />{' '}
         <a
           href="https://dev.to/meeshbhoombah"
           target="_blank"
@@ -15,7 +16,7 @@ const stats = [
         >
           dev.to
         </a>
-      </>
+      </span>
     ),
   },
   {
