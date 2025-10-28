@@ -358,6 +358,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 24px;
 }
 
 .work-donut-chart__svg {
@@ -368,6 +369,41 @@ body {
 .work-donut-chart__segment {
   stroke-linecap: butt;
   cursor: pointer;
+}
+
+.work-donut-chart__summary {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  margin-left: 8px;
+  padding: 0;
+  list-style: none;
+  text-align: right;
+}
+
+.work-donut-chart__summary-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+.work-donut-chart__summary-color {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.work-donut-chart__summary-name {
+  font-weight: 600;
+  color: var(--color-foreground);
+}
+
+.work-donut-chart__summary-value {
+  min-width: 3.5ch;
 }
 
 .work-donut-chart__center {
@@ -414,6 +450,8 @@ body {
 
   .work-donut-chart {
     justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
   }
 
   .work-donut-chart__center {
@@ -424,6 +462,13 @@ body {
     height: auto;
     align-items: flex-start;
     text-align: left;
+  }
+
+  .work-donut-chart__summary {
+    align-items: flex-start;
+    text-align: left;
+    margin-left: 0;
+    margin-top: 16px;
   }
 }
 
