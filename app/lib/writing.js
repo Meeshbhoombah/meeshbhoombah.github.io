@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 import { getExternalWritingEntries } from './rss.js';
-import { extractFirstSentenceFromMarkdown } from './text.js';
+import { extractFirstSentenceFromMarkdown, formatPreviewText } from './text.js';
 
 export const WRITING_CATEGORY_LABELS = {
   cryptocurrencies: 'Cryptocurrencies',
@@ -125,6 +125,8 @@ function parseDateToMs(value) {
 
 function normalizeLocalEntry(entry) {
   const publishedAtMs = parseDateToMs(entry?.data?.date);
+  const previewSource = entry.description || entry.firstSentence || '';
+  const preview = formatPreviewText(previewSource);
 
   return {
     title: entry.title,
@@ -133,7 +135,8 @@ function normalizeLocalEntry(entry) {
     category: entry.category,
     publishedAtMs,
     source: 'local',
-    preview: entry.firstSentence,
+    preview,
+    openInNewTab: true,
   };
 }
 
@@ -176,10 +179,11 @@ export async function getLiveWritingByCategory() {
 
   for (const [category, label] of Object.entries(WRITING_CATEGORY_LABELS)) {
     const entries = sortEntries(combinedByCategory.get(category) ?? []).map(
-      ({ title, href, preview }) => ({
+      ({ title, href, preview, openInNewTab }) => ({
         title,
         href,
         preview,
+        openInNewTab: Boolean(openInNewTab),
       })
     );
 

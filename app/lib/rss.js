@@ -1,4 +1,4 @@
-import { extractFirstSentenceFromText } from './text.js';
+import { decodeHtmlEntities, extractFirstSentenceFromText, formatPreviewText } from './text.js';
 
 const FEED_URLS = [
   'https://dev.to/feed/meeshbhoombah',
@@ -89,7 +89,8 @@ function decodeCdata(value) {
 function sanitizeHtmlToText(value) {
   if (!value) return '';
   const withoutCdata = decodeCdata(value);
-  return withoutCdata.replace(/<[^>]*>/g, '').trim();
+  const decoded = decodeHtmlEntities(withoutCdata);
+  return decoded.replace(/<[^>]*>/g, '').trim();
 }
 
 function createTagRegex(tagName) {
@@ -234,7 +235,9 @@ export async function getExternalWritingEntries() {
 
       const publishedAtMs = parseDateToMs(item.publishedAt);
 
-      const preview = extractFirstSentenceFromText(item.description);
+      const previewSource = extractFirstSentenceFromText(item.description);
+      const isDevToLink = /^https?:\/\/(?:www\.)?dev\.to\//i.test(item.link ?? '');
+      const preview = formatPreviewText(previewSource, { isDevToLink });
 
       return {
         title: item.title,

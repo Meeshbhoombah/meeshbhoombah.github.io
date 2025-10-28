@@ -6,7 +6,7 @@ const HTML_ENTITIES = {
   '&#39;': "'",
 };
 
-function decodeHtmlEntities(value) {
+export function decodeHtmlEntities(value) {
   if (!value) return '';
   return value.replace(/&(amp|lt|gt|quot|#39);/gi, (match) => {
     const decoded = HTML_ENTITIES[match.toLowerCase()];
@@ -105,4 +105,31 @@ export function extractFirstSentenceFromMarkdown(markdown) {
   }
 
   return processParagraph();
+}
+
+export function formatPreviewText(value, { isDevToLink = false } = {}) {
+  if (!value) {
+    return '';
+  }
+
+  let text = value.trim();
+
+  if (isDevToLink) {
+    text = text
+      .replace(/^(&lt;|<)p(&gt;|>)/i, '')
+      .replace(/(&lt;|<)\/p(&gt;|>)$/i, '')
+      .trim();
+  }
+
+  if (!text) {
+    return '';
+  }
+
+  const withoutOuterQuotes = text.replace(/^"+/, '').replace(/"+$/, '').trim();
+
+  if (!withoutOuterQuotes) {
+    return '';
+  }
+
+  return `"${withoutOuterQuotes}"`;
 }

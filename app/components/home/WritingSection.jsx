@@ -14,20 +14,22 @@ export default function WritingSection({ sections }) {
           <div className={categoryClassName} key={label}>
             <p className="subsection-label">{label}</p>
             {hasEntries ? (
-              entries.map(({ title, href, preview }) => {
+              entries.map(({ title, href, preview, openInNewTab }) => {
                 const isExternal = /^https?:\/\//i.test(href);
                 const linkHref = isExternal ? href : `/${href}`;
+                const shouldOpenInNewTab = Boolean(openInNewTab) || isExternal;
+                const newTabAttributes = shouldOpenInNewTab
+                  ? {
+                      target: '_blank',
+                      rel: 'noopener noreferrer',
+                    }
+                  : {};
 
                 return (
                   <div className="home-writing-entry" key={href}>
                     <a
                       href={linkHref}
-                      {...(isExternal
-                        ? {
-                            target: '_blank',
-                            rel: 'noopener noreferrer',
-                          }
-                        : {})}
+                      {...newTabAttributes}
                     >
                       {title}
                     </a>
