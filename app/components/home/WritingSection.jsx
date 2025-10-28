@@ -6,9 +6,12 @@ export default function WritingSection({ sections }) {
       <p className="section-label">Writing</p>
       {writingSections.map(({ label, entries }) => {
         const hasEntries = entries && entries.length > 0;
+        const categoryClassName = hasEntries
+          ? 'home-writing-category'
+          : 'home-writing-category home-writing-category--empty';
 
         return (
-          <div className="home-writing-category" key={label}>
+          <div className={categoryClassName} key={label}>
             <p className="subsection-label">{label}</p>
             {hasEntries ? (
               <ul>
@@ -35,7 +38,7 @@ export default function WritingSection({ sections }) {
                 })}
               </ul>
             ) : (
-              <p>COMING SOON</p>
+              <p className="writing-coming-soon">COMING SOON</p>
             )}
           </div>
         );

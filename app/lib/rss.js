@@ -123,19 +123,43 @@ function extractItems(xml) {
   return items;
 }
 
+function countKeywordOccurrences(text, keyword) {
+  if (!text || !keyword) return 0;
+
+  const escaped = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const boundaryWrapped = `\\b${escaped}\\b`;
+  const regex = new RegExp(boundaryWrapped, 'gi');
+  const matches = text.match(regex);
+
+  return matches ? matches.length : 0;
+}
+
 function classifyItem({ title, description, categories }) {
   const haystack = [title, description, ...(categories ?? [])]
     .filter(Boolean)
     .join(' ')
     .toLowerCase();
 
+  let bestCategory = 'computing';
+  let bestScore = Number.NEGATIVE_INFINITY;
+
   for (const [category, keywords] of Object.entries(CATEGORY_KEYWORDS)) {
-    if (keywords.some((keyword) => haystack.includes(keyword))) {
-      return category;
+    const score = keywords.reduce(
+      (total, keyword) => total + countKeywordOccurrences(haystack, keyword.toLowerCase()),
+      0,
+    );
+
+    if (score > bestScore) {
+      bestCategory = category;
+      bestScore = score;
     }
   }
 
-  return 'computing';
+  if (bestScore <= 0) {
+    return 'computing';
+  }
+
+  return bestCategory;
 }
 
 function parseRss(xml) {
@@ -208,7 +232,7 @@ export async function getExternalWritingEntries() {
 
       return {
         title: item.title,
-        description: item.description,
+        description: null,
         href: item.link,
         category,
         publishedAtMs,
