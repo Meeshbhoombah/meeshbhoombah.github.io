@@ -263,6 +263,22 @@ export default function WorkSection() {
     setHoveredLanguage(null);
   }, [languagesData]);
 
+  const topLanguage = useMemo(() => {
+    if (!languagesData.length) {
+      return null;
+    }
+
+    return languagesData.reduce((currentTop, language) => {
+      if (!currentTop || (language.percent ?? 0) > (currentTop.percent ?? 0)) {
+        return language;
+      }
+
+      return currentTop;
+    }, null);
+  }, [languagesData]);
+
+  const activeLanguage = hoveredLanguage ?? topLanguage;
+
   const maxActivitySeconds = useMemo(() => {
     if (!activityData.length) {
       return 0;
@@ -387,13 +403,13 @@ export default function WorkSection() {
                 })()}
               </svg>
               <div className="work-donut-chart__center" aria-live="polite">
-                {hoveredLanguage && (
+                {activeLanguage && (
                   <>
                     <span className="work-donut-chart__center-name">
-                      {hoveredLanguage.name}
+                      {activeLanguage.name}
                     </span>
                     <span className="work-donut-chart__center-value">
-                      {hoveredLanguage.percent.toFixed(1)}%
+                      {activeLanguage.percent.toFixed(1)}%
                     </span>
                   </>
                 )}
