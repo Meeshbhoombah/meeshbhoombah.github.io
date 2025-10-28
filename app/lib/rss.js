@@ -17,7 +17,8 @@ const CATEGORY_KEYWORDS = {
     'web3',
     'defi',
     'nft',
-    'token',
+    { keyword: 'token', weight: 0.5 },
+    { keyword: 'tokens', weight: 0.5 },
   ],
   'social-sciences': [
     'psychology',
@@ -40,7 +41,8 @@ const CATEGORY_KEYWORDS = {
     'code',
     'computer',
     'computing',
-    'formal verification',
+    { keyword: 'formal verification', weight: 3 },
+    { keyword: 'verification', weight: 1.5 },
     'ai',
     'machine learning',
     'data science',
@@ -48,6 +50,7 @@ const CATEGORY_KEYWORDS = {
     'technology',
     'tech',
     'engineering',
+    'software engineering',
   ],
   startups: [
     'startup',
@@ -139,6 +142,24 @@ function countKeywordOccurrences(text, keyword) {
   return matches ? matches.length : 0;
 }
 
+function normalizeKeywordDescriptors(keywords) {
+  return keywords
+    .map((item) => {
+      if (!item) return null;
+
+      if (typeof item === 'string') {
+        return { keyword: item.toLowerCase(), weight: 1 };
+      }
+
+      const keyword = typeof item.keyword === 'string' ? item.keyword.toLowerCase() : '';
+      if (!keyword) return null;
+
+      const weight = Number.isFinite(item.weight) ? Number(item.weight) : 1;
+      return { keyword, weight };
+    })
+    .filter(Boolean);
+}
+
 function classifyItem({ title, description, categories }) {
   const haystack = [title, description, ...(categories ?? [])]
     .filter(Boolean)
@@ -147,14 +168,18 @@ function classifyItem({ title, description, categories }) {
 
   let bestCategory = 'computing';
   let bestScore = Number.NEGATIVE_INFINITY;
+  const scores = new Map();
 
   for (const [category, keywords] of Object.entries(CATEGORY_KEYWORDS)) {
-    const score = keywords.reduce(
-      (total, keyword) => total + countKeywordOccurrences(haystack, keyword.toLowerCase()),
+    const descriptors = normalizeKeywordDescriptors(keywords);
+    const score = descriptors.reduce(
+      (total, { keyword, weight }) => total + countKeywordOccurrences(haystack, keyword) * weight,
       0,
     );
 
-    if (score > bestScore) {
+    scores.set(category, score);
+
+    if (score > bestScore || (score === bestScore && category === 'computing')) {
       bestCategory = category;
       bestScore = score;
     }
@@ -162,6 +187,14 @@ function classifyItem({ title, description, categories }) {
 
   if (bestScore <= 0) {
     return 'computing';
+  }
+
+  const computingScore = scores.get('computing') ?? 0;
+  if (bestCategory !== 'computing' && computingScore > 0) {
+    const margin = bestScore - computingScore;
+    if (margin <= 0.75) {
+      return 'computing';
+    }
   }
 
   return bestCategory;
