@@ -263,6 +263,16 @@ export default function WorkSection() {
     setHoveredLanguage(null);
   }, [languagesData]);
 
+  const topLanguages = useMemo(() => {
+    if (!languagesData.length) {
+      return [];
+    }
+
+    return [...languagesData]
+      .sort((a, b) => (b.percent ?? 0) - (a.percent ?? 0))
+      .slice(0, 3);
+  }, [languagesData]);
+
   const topLanguage = useMemo(() => {
     if (!languagesData.length) {
       return null;
@@ -414,6 +424,26 @@ export default function WorkSection() {
                   </>
                 )}
               </div>
+              {topLanguages.length > 0 && (
+                <ul className="work-donut-chart__summary" aria-label="Top three languages">
+                  {topLanguages.map(({ name, percent, color }) => (
+                    <li
+                      className="work-donut-chart__summary-item"
+                      key={`${name}-${percent.toFixed(1)}`}
+                    >
+                      <span
+                        className="work-donut-chart__summary-color"
+                        style={{ backgroundColor: color }}
+                        aria-hidden="true"
+                      />
+                      <span className="work-donut-chart__summary-name">{name}</span>
+                      <span className="work-donut-chart__summary-value">
+                        {percent.toFixed(1)}%
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           )}
         </div>
