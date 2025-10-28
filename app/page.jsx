@@ -14,11 +14,11 @@ export default function HomePage() {
   return (
     <main className="content home-content">
       <HeroSection />
-      <WorkSection />
+      <FollowSection />
       <WritingSection sections={writingSections} />
       <OutputsSection />
       <DigestSection />
-      <FollowSection />
+      <WorkSection />
     </main>
   );
 }

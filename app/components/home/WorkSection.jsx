@@ -112,10 +112,10 @@ function renderContribution(contribution, keyPrefix) {
 
 export default function WorkSection() {
   return (
-    <section className="home-section" aria-labelledby="home-work-heading">
-      <h2 id="home-work-heading">🤔</h2>
+    <section className="home-section" aria-label="Work">
+      <p className="section-label">Work</p>
       <div className="home-subsection">
-        <h3>Now</h3>
+        <p className="subsection-label">Now</p>
         <ul>
           {nowRoles.map(({ name, href }) => (
             <li key={name}>
@@ -125,7 +125,7 @@ export default function WorkSection() {
         </ul>
       </div>
       <div className="home-subsection">
-        <h3>Previously</h3>
+        <p className="subsection-label">Previously</p>
         <ul>
           {previousRoles.map(({ name, href, contributions = [] }) => (
             <li key={name}>
