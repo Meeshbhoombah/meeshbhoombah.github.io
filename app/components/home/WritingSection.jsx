@@ -4,11 +4,11 @@ export default function WritingSection({ sections }) {
   );
 
   return (
-    <section className="home-section" aria-labelledby="home-writing-heading">
-      <h2 id="home-writing-heading">🖋️</h2>
+    <section className="home-section" aria-label="Writing">
+      <p className="section-label">Writing</p>
       {writingSections.map(({ label, entries }) => (
         <div className="home-writing-category" key={label}>
-          <h3>{label}</h3>
+          <p className="subsection-label">{label}</p>
           {entries.length > 0 ? (
             <ul>
               {entries.map(({ title, description, href }) => (
