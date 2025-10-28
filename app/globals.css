@@ -143,13 +143,13 @@ body {
   margin-top: 0;
 }
 
-.home-writing-category ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
+.home-writing-entry {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-.home-writing-category li p {
+.home-writing-entry p {
   margin: 0;
 }
 
