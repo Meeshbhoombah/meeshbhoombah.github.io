@@ -14,30 +14,28 @@ export default function WritingSection({ sections }) {
           <div className={categoryClassName} key={label}>
             <p className="subsection-label">{label}</p>
             {hasEntries ? (
-              <ul>
-                {entries.map(({ title, description, href }) => {
-                  const isExternal = /^https?:\/\//i.test(href);
-                  const isLocalWriting = !isExternal && /^writing\//i.test(href);
-                  const linkHref = isExternal ? href : `/${href}`;
+              entries.map(({ title, description, href }) => {
+                const isExternal = /^https?:\/\//i.test(href);
+                const isLocalWriting = !isExternal && /^writing\//i.test(href);
+                const linkHref = isExternal ? href : `/${href}`;
 
-                  return (
-                    <li key={href}>
-                      <a
-                        href={linkHref}
-                        {...(isExternal
-                          ? {
-                              target: '_blank',
-                              rel: 'noopener noreferrer',
-                            }
-                          : {})}
-                      >
-                        {title}
-                      </a>
-                      {description && !isLocalWriting && <p>{description}</p>}
-                    </li>
-                  );
-                })}
-              </ul>
+                return (
+                  <div className="home-writing-entry" key={href}>
+                    <a
+                      href={linkHref}
+                      {...(isExternal
+                        ? {
+                            target: '_blank',
+                            rel: 'noopener noreferrer',
+                          }
+                        : {})}
+                    >
+                      {title}
+                    </a>
+                    {description && !isLocalWriting && <p>{description}</p>}
+                  </div>
+                );
+              })
             ) : (
               <p className="writing-coming-soon">COMING SOON</p>
             )}
