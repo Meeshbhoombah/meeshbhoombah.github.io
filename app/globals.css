@@ -92,8 +92,8 @@ body {
 
 .theme-toggle:hover,
 .theme-toggle:focus-visible {
-  outline: 2px solid var(--color-muted-strong);
-  outline-offset: 2px;
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-muted-strong);
 }
 
 .content {
