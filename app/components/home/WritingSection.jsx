@@ -13,7 +13,13 @@ export default function WritingSection({ sections }) {
             <ul>
               {entries.map(({ title, description, href }) => (
                 <li key={href}>
-                  <a href={`/${href}`}>{title}</a>
+                  <a
+                    href={`/${href}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {title}
+                  </a>
                   {description && <p>{description}</p>}
                 </li>
               ))}

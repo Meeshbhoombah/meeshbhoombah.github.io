@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const WRITING_CATEGORY_LABELS = {
+export const WRITING_CATEGORY_LABELS = {
   cryptocurrencies: 'Cryptocurrencies',
   'social-sciences': 'Social Sciences',
   computing: 'Computing',
@@ -9,7 +9,9 @@ const WRITING_CATEGORY_LABELS = {
   food: 'Food',
 };
 
-function parseFrontMatter(markdown) {
+const WRITING_BASE_DIR = path.join(process.cwd(), 'writing');
+
+export function parseFrontMatter(markdown) {
   if (!markdown.startsWith('---')) {
     return { data: {}, content: markdown };
   }
@@ -38,7 +40,7 @@ function parseFrontMatter(markdown) {
   return { data, content };
 }
 
-function getFirstHeading(markdown) {
+export function getFirstHeading(markdown) {
   const lines = markdown.split(/\r?\n/);
   for (const line of lines) {
     const match = line.match(/^#\s+(.*)$/);
@@ -49,38 +51,78 @@ function getFirstHeading(markdown) {
   return '';
 }
 
-export function getLiveWritingByCategory() {
-  const baseDir = path.join(process.cwd(), 'writing');
-  const sections = [];
+function getMarkdownFilePath(category, slug) {
+  return path.join(WRITING_BASE_DIR, category, `${slug}.md`);
+}
 
-  for (const [folder, label] of Object.entries(WRITING_CATEGORY_LABELS)) {
-    const directoryPath = path.join(baseDir, folder);
-    const entries = [];
+function readWritingMarkdown(category, slug) {
+  const filePath = getMarkdownFilePath(category, slug);
 
-    if (fs.existsSync(directoryPath)) {
-      const files = fs.readdirSync(directoryPath).filter((file) => file.endsWith('.md'));
+  if (!fs.existsSync(filePath)) {
+    return null;
+  }
 
-      for (const file of files) {
-        const filePath = path.join(directoryPath, file);
-        const slug = file.replace(/\.md$/, '');
-        const markdown = fs.readFileSync(filePath, 'utf8');
-        const { data, content } = parseFrontMatter(markdown);
+  const markdown = fs.readFileSync(filePath, 'utf8');
+  const { data, content } = parseFrontMatter(markdown);
+  const title = getFirstHeading(content) || slug;
+  const status = data?.status ? String(data.status).toLowerCase() : '';
+  const description = data?.description ? String(data.description) : '';
 
-        if (!data || data.status !== 'live') {
-          continue;
-        }
+  return {
+    category,
+    slug,
+    filePath,
+    data,
+    content,
+    title,
+    status,
+    description,
+  };
+}
 
-        const title = getFirstHeading(content) || slug;
-        const description = data.description ? String(data.description) : '';
-        const href = `writing/${folder}/${slug}`;
+export function getWritingEntry(category, slug) {
+  return readWritingMarkdown(category, slug);
+}
 
-        entries.push({
-          title,
-          description,
-          href,
-        });
-      }
+export function getLiveWritingEntries() {
+  const entries = [];
+
+  for (const category of Object.keys(WRITING_CATEGORY_LABELS)) {
+    const directoryPath = path.join(WRITING_BASE_DIR, category);
+
+    if (!fs.existsSync(directoryPath)) {
+      continue;
     }
+
+    const files = fs.readdirSync(directoryPath).filter((file) => file.endsWith('.md'));
+
+    for (const file of files) {
+      const slug = file.replace(/\.md$/, '');
+      const entry = readWritingMarkdown(category, slug);
+
+      if (!entry || entry.status !== 'live') {
+        continue;
+      }
+
+      entries.push(entry);
+    }
+  }
+
+  return entries;
+}
+
+export function getLiveWritingByCategory() {
+  const sections = [];
+  const liveEntries = getLiveWritingEntries();
+
+  for (const [category, label] of Object.entries(WRITING_CATEGORY_LABELS)) {
+    const entries = liveEntries
+      .filter((entry) => entry.category === category)
+      .map(({ title, description, category: entryCategory, slug }) => ({
+        title,
+        description,
+        href: `writing/${entryCategory}/${slug}`,
+      }));
 
     sections.push({
       label,
@@ -89,4 +131,8 @@ export function getLiveWritingByCategory() {
   }
 
   return sections;
+}
+
+export function getLiveWritingStaticParams() {
+  return getLiveWritingEntries().map(({ category, slug }) => ({ category, slug }));
 }

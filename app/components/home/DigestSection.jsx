@@ -8,7 +8,13 @@ const stats = [
     description: (
       <>
         Consistent readers on{' '}
-        <a href="https://dev.to/meeshbhoombah">dev.to</a>
+        <a
+          href="https://dev.to/meeshbhoombah"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          dev.to
+        </a>
       </>
     ),
   },

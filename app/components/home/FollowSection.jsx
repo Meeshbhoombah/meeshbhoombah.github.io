@@ -13,7 +13,9 @@ export default function FollowSection() {
       <ul>
         {links.map(({ label, href }) => (
           <li key={label}>
-            <a href={href}>{label}</a>
+            <a href={href} target="_blank" rel="noopener noreferrer">
+              {label}
+            </a>
           </li>
         ))}
       </ul>
