@@ -139,7 +139,14 @@ body {
 .home-writing-category {
   display: flex;
   flex-direction: column;
+}
+
+.home-subsection {
   gap: 12px;
+}
+
+.home-writing-category {
+  gap: 8px;
 }
 
 .home-writing-category--empty {
