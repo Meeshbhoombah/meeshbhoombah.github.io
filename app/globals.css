@@ -129,7 +129,7 @@ body {
 
 .subsection-label {
   margin: 0;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--color-muted);
@@ -257,7 +257,7 @@ body {
 }
 
 .work-chart-title {
-  font-size: 0.48rem;
+  font-size: 0.75rem;
   letter-spacing: 0.1em;
 }
 
@@ -364,16 +364,26 @@ body {
 }
 
 .work-donut-chart {
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 24px;
 }
 
+.work-donut-chart__visual {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 160px;
+  height: 160px;
+  flex-shrink: 0;
+}
+
 .work-donut-chart__svg {
   width: 160px;
   height: 160px;
+  flex-shrink: 0;
 }
 
 .work-donut-chart__segment {
@@ -396,7 +406,7 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 8px;
+  font-size: 0.75rem;
   color: var(--color-muted);
 }
 
@@ -414,32 +424,33 @@ body {
 
 .work-donut-chart__summary-value {
   min-width: 3.5ch;
+  font-size: 0.85rem;
 }
 
 .work-donut-chart__center {
   position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 4px;
   text-align: center;
-  width: 72px;
-  height: 72px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   pointer-events: none;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
 
 .work-donut-chart__center-name {
-  font-size: 0.75rem;
+  font-size: 0.6rem;
   font-weight: 600;
 }
 
 .work-donut-chart__center-value {
-  font-size: 0.85rem;
+  font-size: 0.6rem;
   color: var(--color-muted);
 }
 
@@ -461,13 +472,20 @@ body {
   .work-donut-chart {
     justify-content: flex-start;
     align-items: flex-start;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+  }
+
+  .work-donut-chart__visual {
+    width: auto;
+    justify-content: flex-start;
+    gap: 16px;
+    flex: 0 0 auto;
   }
 
   .work-donut-chart__center {
     position: static;
     transform: none;
-    margin-left: 16px;
+    margin-left: 12px;
     width: auto;
     height: auto;
     align-items: flex-start;
@@ -477,8 +495,10 @@ body {
   .work-donut-chart__summary {
     align-items: flex-start;
     text-align: left;
-    margin-left: 0;
-    margin-top: 16px;
+    margin-left: 12px;
+    margin-top: 0;
+    min-width: 0;
+    flex: 1 1 auto;
   }
 }
 
@@ -509,7 +529,7 @@ body {
   padding-left: 1.4rem;
 }
 
-.home-section li,
+.home-section li:not(.work-donut-chart__summary-item),
 .page-footer {
   font-size: 1rem;
   line-height: 1.7;
