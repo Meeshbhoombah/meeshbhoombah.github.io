@@ -4,7 +4,7 @@ permalink: /
 ---
 
 <!--home:hero-->
-# Governance-focused decentralized systems engineering.
+**Governance-focused decentralized systems engineering.**
 
 I design resilient coordination mechanisms, guide teams through decentralized governance, and build the tools that help communities steer complex systems with confidence.
 <!--/home:hero-->
@@ -43,7 +43,7 @@ I design resilient coordination mechanisms, guide teams through decentralized go
 <!--/home:work-->
 
 <!--home:writing-->
-**Recent reflections on governance, systems, and communities.**
+## 🖋️
 <!--/home:writing-->
 
 <!--home:outputs-->
