@@ -28,4 +28,6 @@ npm run build
 The exported HTML will be available in the `out/` directory.
 
 ## Deployment
-GitHub Actions (see `.github/workflows/deploy.yml`) run on pushes to `main`, so merging a pull request into that branch automatically triggers the publish pipeline. The workflow installs dependencies, builds the static export, drops a `.nojekyll` file into `out/` so GitHub Pages serves the generated assets instead of rebuilding the README, and deploys the directory to `https://meeshbhoombah.github.io/`. You can also run the workflow manually from the Actions tab because it exposes a `workflow_dispatch` trigger.
+GitHub Actions (see `.github/workflows/deploy.yml`) run on both pull requests and pushes to `main`. Every PR gets a **Deploy Next.js site / build** check that compiles the static export and uploads it as the Pages artifact so you can inspect the output before merging. Once the pull request lands (or you push directly to `main`), the accompanying **Deploy Next.js site / deploy** job publishes that artifact through `actions/deploy-pages`.
+
+The workflow installs dependencies, runs `npm run build`, writes a `.nojekyll` marker into `out/` (preventing Pages from rebuilding the README), and uploads the exported `out/` directory. The deploy job is skipped for pull requests, but the build logs—visible from the workflow run—include the `Disable Jekyll processing` step so you can confirm the safeguard executed. You can also run the workflow manually from the Actions tab because it exposes a `workflow_dispatch` trigger.
