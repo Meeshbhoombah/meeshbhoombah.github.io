@@ -1,6 +1,6 @@
 export default function HeroSection() {
   return (
-    <section className="home-section">
+    <section className="home-section hero-section">
       <p>
         <strong>Governance-focused decentralized systems engineering.</strong>
       </p>

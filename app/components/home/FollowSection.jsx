@@ -8,9 +8,8 @@ const links = [
 
 export default function FollowSection() {
   return (
-    <section className="home-section" aria-labelledby="home-follow-heading">
-      <h2 id="home-follow-heading">🔁</h2>
-      <h3>Follow Me</h3>
+    <section className="home-section" aria-label="Follow">
+      <p className="section-label">Follow</p>
       <ul>
         {links.map(({ label, href }) => (
           <li key={label}>

@@ -13,7 +13,7 @@ const stats = [
     ),
   },
   {
-    value: '> 3,098',
+    value: '>3,098',
     description: 'Hours dedicated to diversifying tech through education',
   },
   { value: '~100', description: 'Projects Built' },
@@ -21,12 +21,12 @@ const stats = [
 
 export default function DigestSection() {
   return (
-    <section className="home-section" aria-labelledby="home-digest-heading">
-      <h2 id="home-digest-heading">🔢</h2>
+    <section className="home-section" aria-label="Digest">
+      <p className="section-label">Digest</p>
       <div className="home-digest-grid">
         {stats.map(({ value, description }, index) => (
           <div className="home-digest-item" key={`${value}-${index}`}>
-            <h3>{value}</h3>
+            <p className="stat-value">{value}</p>
             <p>{description}</p>
           </div>
         ))}

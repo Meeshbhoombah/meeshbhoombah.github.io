@@ -1,24 +1,29 @@
 import './globals.css';
+import ThemeToggle from './components/ThemeToggle';
+import { ThemeProvider } from './theme-provider';
 
 export const metadata = {
-  title: 'Meesh Bhoombah',
+  title: 'Meeshbhoombah.',
   description:
     'Governance-focused decentralized systems engineering and resilient coordination mechanisms.',
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
-        <div className="page-container">
-          <header className="page-header">
-            <span className="site-title">Meesh Bhoombah</span>
-          </header>
-          {children}
-          <footer className="page-footer">
-            <span>© {new Date().getFullYear()} Meesh Bhoombah</span>
-          </footer>
-        </div>
+        <ThemeProvider>
+          <div className="page-container">
+            <header className="page-header">
+              <span className="site-title">Meeshbhoombah.</span>
+              <ThemeToggle />
+            </header>
+            {children}
+            <footer className="page-footer">
+              <span>© {new Date().getFullYear()} Meesh Bhoombah</span>
+            </footer>
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );
