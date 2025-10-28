@@ -3,7 +3,7 @@ import ThemeToggle from './components/ThemeToggle';
 import { ThemeProvider } from './theme-provider';
 
 export const metadata = {
-  title: 'Meeshbhoombah.',
+  title: 'Meeshbhoombah',
   description: 'Governance-focused decentralized systems engineering.',
 };
 
