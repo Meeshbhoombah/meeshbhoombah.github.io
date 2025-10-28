@@ -368,6 +368,9 @@ body {
   height: 72px;
   border-radius: 50%;
   pointer-events: none;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .work-donut-chart__center-name {
