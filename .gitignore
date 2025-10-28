@@ -1,7 +1,6 @@
 *.sw*
 
 node_modules
-package-lock.json
 .next
 out
 .DS_Store
