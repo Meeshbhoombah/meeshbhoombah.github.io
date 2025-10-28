@@ -31,9 +31,10 @@ jobs:
         run: npm install
 
       - name: Build site
-        run: |
-          npm run build
-          npm run export
+        run: npm run build
+
+      - name: Disable Jekyll processing
+        run: touch out/.nojekyll
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
