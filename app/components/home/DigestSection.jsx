@@ -13,7 +13,7 @@ const stats = [
     ),
   },
   {
-    value: '> 3,098',
+    value: '>3,098',
     description: 'Hours dedicated to diversifying tech through education',
   },
   { value: '~100', description: 'Projects Built' },

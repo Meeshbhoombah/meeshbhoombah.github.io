@@ -2,7 +2,6 @@ import {
   HeroSection,
   WorkSection,
   WritingSection,
-  OutputsSection,
   DigestSection,
   FollowSection,
 } from './components/home';
@@ -14,11 +13,10 @@ export default function HomePage() {
   return (
     <main className="content home-content">
       <HeroSection />
-      <FollowSection />
-      <WritingSection sections={writingSections} />
-      <OutputsSection />
-      <DigestSection />
       <WorkSection />
+      <FollowSection />
+      <DigestSection />
+      <WritingSection sections={writingSections} />
     </main>
   );
 }
