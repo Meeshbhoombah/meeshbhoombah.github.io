@@ -278,7 +278,7 @@ body {
 .work-bar-chart__bar {
   width: 100%;
   position: relative;
-  background: #000000;
+  background: var(--color-foreground);
   transition: height 0.3s ease;
   min-height: 8px;
   outline: none;
@@ -383,6 +383,21 @@ body {
 .work-donut-chart__segment:focus-visible {
   outline: none;
   stroke-width: 22;
+}
+
+@media (max-width: 600px) {
+  .work-chart-card {
+    padding: 20px 0;
+  }
+
+  .work-chart-title--right {
+    align-self: flex-start;
+    text-align: left;
+  }
+
+  .work-donut-chart {
+    justify-content: flex-start;
+  }
 }
 
 .sr-only {
