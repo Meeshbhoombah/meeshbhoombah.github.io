@@ -386,7 +386,7 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   color: var(--color-muted);
 }
 
