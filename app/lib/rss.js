@@ -1,3 +1,5 @@
+import { extractFirstSentenceFromText } from './text.js';
+
 const FEED_URLS = [
   'https://dev.to/feed/meeshbhoombah',
   'https://medium.com/feed/@meeshbhoombah',
@@ -232,6 +234,8 @@ export async function getExternalWritingEntries() {
 
       const publishedAtMs = parseDateToMs(item.publishedAt);
 
+      const preview = extractFirstSentenceFromText(item.description);
+
       return {
         title: item.title,
         description: null,
@@ -239,6 +243,7 @@ export async function getExternalWritingEntries() {
         category,
         publishedAtMs,
         source: 'external',
+        preview,
       };
     });
 }

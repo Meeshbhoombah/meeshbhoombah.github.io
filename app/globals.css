@@ -166,20 +166,11 @@ body {
 .home-writing-entry a,
 .home-writing-entry a:hover,
 .home-writing-entry a:focus-visible {
-  text-decoration: none;
+  text-decoration: underline;
 }
 
 .home-writing-entry a {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4em;
-}
-
-.home-writing-entry__icon {
-  font-size: 0.5em;
-  line-height: 1;
-  display: inline-flex;
-  align-items: center;
+  display: inline;
 }
 
 .home-writing-entry p {

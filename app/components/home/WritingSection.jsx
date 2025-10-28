@@ -14,9 +14,8 @@ export default function WritingSection({ sections }) {
           <div className={categoryClassName} key={label}>
             <p className="subsection-label">{label}</p>
             {hasEntries ? (
-              entries.map(({ title, description, href }) => {
+              entries.map(({ title, href, preview }) => {
                 const isExternal = /^https?:\/\//i.test(href);
-                const isLocalWriting = !isExternal && /^writing\//i.test(href);
                 const linkHref = isExternal ? href : `/${href}`;
 
                 return (
@@ -30,12 +29,9 @@ export default function WritingSection({ sections }) {
                           }
                         : {})}
                     >
-                      <span aria-hidden className="home-writing-entry__icon">
-                        🔗
-                      </span>
-                      <span>{title}</span>
+                      {title}
                     </a>
-                    {description && !isLocalWriting && <p>{description}</p>}
+                    {preview && <p>{preview}</p>}
                   </div>
                 );
               })
