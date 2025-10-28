@@ -4,8 +4,7 @@ import { ThemeProvider } from './theme-provider';
 
 export const metadata = {
   title: 'Meeshbhoombah.',
-  description:
-    'Governance-focused decentralized systems engineering and resilient coordination mechanisms.',
+  description: 'Governance-focused decentralized systems engineering.',
 };
 
 export default function RootLayout({ children }) {
