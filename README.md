@@ -1,29 +1,35 @@
 # Meeshbhoombah · WWW
 
-This repository contains the source for the Meeshbhoombah personal site. Markdown files with YAML front matter drive the content and are rendered by a lightweight Node.js build script that hides metadata from the final HTML.
+This repository now powers the personal site with [Next.js](https://nextjs.org/) and a GitHub Pages deployment pipeline. The home
+page pulls directly from `HOME.md`, keeping the writing workflow focused on Markdown while relying on modern tooling for the buil
+d and hosting story.
 
 ## Structure
-- `HOME.md` — homepage content rendered with the `home` layout. Dynamic sections (like featured writing) are injected at build time.
-- `writing/` — topic-oriented writing, grouped by directory. Set `status: live` in the front matter to surface an entry across navigation and the homepage.
-- `templates/` — HTML layouts consumed by the build script. Each layout feeds into the shared base template for consistent chrome.
+- `HOME.md` — homepage content. The Next.js app reads the Markdown at build time and renders it as the root route.
+- `app/` — the Next.js App Router implementation, including global styles and the Markdown renderer.
+- `.github/workflows/deploy.yml` — GitHub Actions workflow that builds the static site and publishes it to GitHub Pages.
+- `writing/` — additional long-form content that can be integrated into the site in the future.
 
 ## Local development
-1. Install dependencies (none required beyond Node.js)
+1. Install dependencies
    ```bash
    npm install
    ```
-2. Generate the site
+2. Start the development server
    ```bash
-   npm run build
+   npm run dev
    ```
-3. Open the generated `_site/index.html` in a browser or serve the directory with your preferred static server.
+3. Open `http://localhost:3000` to view the site. Edits to `HOME.md` will hot reload automatically.
 
 ## Production build
-Generate a production build with:
+To generate the static site locally:
 ```bash
 npm run build
+npm run export
 ```
-The compiled site will be emitted to the `_site/` directory.
+The exported HTML will be available in the `out/` directory.
 
 ## Deployment
-GitHub Actions (see `.github/workflows/deploy.yml`) build the site and publish the generated `_site/` contents to the `gh-pages` branch. The workflow runs on pushes to `main`.
+GitHub Actions (see `.github/workflows/deploy.yml`) run on pushes to `main`. The workflow installs dependencies, builds the stat
+ic export, and deploys the generated `out/` directory to GitHub Pages so the site is available at `https://meeshbhoombah.github.
+io/`.
