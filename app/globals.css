@@ -249,15 +249,15 @@ body {
 
 .work-chart-card {
   border-radius: 16px;
-  padding: 20px;
+  padding: 10px 20px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 8px;
   background: color-mix(in srgb, var(--color-background) 92%, transparent);
 }
 
 .work-chart-title {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   letter-spacing: 0.1em;
 }
 
@@ -467,7 +467,7 @@ body {
 
 @media (max-width: 600px) {
   .work-chart-card {
-    padding: 20px 0;
+    padding: 10px 0;
   }
 
   .work-chart-title--right {
