@@ -31,7 +31,7 @@ export default function WritingArticlePage({ params }) {
     notFound();
   }
 
-  const html = renderMarkdownToHtml(entry.content);
+  const html = renderMarkdownToHtml(entry.content, { stripHeading: entry.title });
   const categoryLabel = WRITING_CATEGORY_LABELS[entry.category] || 'Writing';
 
   return (
