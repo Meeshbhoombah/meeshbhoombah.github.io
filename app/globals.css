@@ -399,6 +399,16 @@ body {
   .work-donut-chart {
     justify-content: flex-start;
   }
+
+  .work-donut-chart__center {
+    position: static;
+    transform: none;
+    margin-left: 16px;
+    width: auto;
+    height: auto;
+    align-items: flex-start;
+    text-align: left;
+  }
 }
 
 .sr-only {
