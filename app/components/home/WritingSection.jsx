@@ -17,6 +17,7 @@ export default function WritingSection({ sections }) {
               <ul>
                 {entries.map(({ title, description, href }) => {
                   const isExternal = /^https?:\/\//i.test(href);
+                  const isLocalWriting = !isExternal && /^writing\//i.test(href);
                   const linkHref = isExternal ? href : `/${href}`;
 
                   return (
@@ -32,7 +33,7 @@ export default function WritingSection({ sections }) {
                       >
                         {title}
                       </a>
-                      {description && <p>{description}</p>}
+                      {description && !isLocalWriting && <p>{description}</p>}
                     </li>
                   );
                 })}
