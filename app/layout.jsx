@@ -15,12 +15,12 @@ export default function RootLayout({ children }) {
         <ThemeProvider>
           <div className="page-container">
             <header className="page-header">
-              <span className="site-title">Meeshbhoombah.</span>
+              <span className="site-title">Meeshbhoombah</span>
               <ThemeToggle />
             </header>
             {children}
             <footer className="page-footer">
-              <span>© {new Date().getFullYear()} Meesh Bhoombah</span>
+              <span>© {new Date().getFullYear()} Meeshbhoombah</span>
             </footer>
           </div>
         </ThemeProvider>
