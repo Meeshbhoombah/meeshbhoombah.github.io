@@ -137,6 +137,14 @@ body {
   gap: 12px;
 }
 
+.home-writing-category--empty {
+  gap: 4px;
+}
+
+.home-writing-category--empty .writing-coming-soon {
+  margin-top: 0;
+}
+
 .home-writing-category ul {
   margin: 0;
 }

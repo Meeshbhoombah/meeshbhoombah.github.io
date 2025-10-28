@@ -1,6 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 
+import { getExternalWritingEntries } from './rss.js';
+
 export const WRITING_CATEGORY_LABELS = {
   cryptocurrencies: 'Cryptocurrencies',
   'social-sciences': 'Social Sciences',
@@ -111,18 +113,70 @@ export function getLiveWritingEntries() {
   return entries;
 }
 
-export function getLiveWritingByCategory() {
+function parseDateToMs(value) {
+  if (!value) return null;
+  const timestamp = Date.parse(value);
+  return Number.isFinite(timestamp) ? timestamp : null;
+}
+
+function normalizeLocalEntry(entry) {
+  const publishedAtMs = parseDateToMs(entry?.data?.date);
+
+  return {
+    title: entry.title,
+    description: entry.description,
+    href: `writing/${entry.category}/${entry.slug}`,
+    category: entry.category,
+    publishedAtMs,
+    source: 'local',
+  };
+}
+
+function sortEntries(entries) {
+  return [...entries].sort((a, b) => {
+    const aTime = typeof a.publishedAtMs === 'number' ? a.publishedAtMs : -Infinity;
+    const bTime = typeof b.publishedAtMs === 'number' ? b.publishedAtMs : -Infinity;
+
+    if (aTime === bTime) {
+      return a.title.localeCompare(b.title);
+    }
+
+    return bTime - aTime;
+  });
+}
+
+export async function getLiveWritingByCategory() {
+  const [externalEntries, liveEntries] = await Promise.all([
+    getExternalWritingEntries(),
+    Promise.resolve(getLiveWritingEntries()),
+  ]);
+
+  const combinedByCategory = new Map();
+
+  for (const entry of liveEntries.map(normalizeLocalEntry)) {
+    const entries = combinedByCategory.get(entry.category) ?? [];
+    entries.push(entry);
+    combinedByCategory.set(entry.category, entries);
+  }
+
+  for (const entry of externalEntries) {
+    const entries = combinedByCategory.get(entry.category) ?? [];
+    if (!entries.some((existing) => existing.href === entry.href)) {
+      entries.push(entry);
+      combinedByCategory.set(entry.category, entries);
+    }
+  }
+
   const sections = [];
-  const liveEntries = getLiveWritingEntries();
 
   for (const [category, label] of Object.entries(WRITING_CATEGORY_LABELS)) {
-    const entries = liveEntries
-      .filter((entry) => entry.category === category)
-      .map(({ title, description, category: entryCategory, slug }) => ({
+    const entries = sortEntries(combinedByCategory.get(category) ?? []).map(
+      ({ title, description, href }) => ({
         title,
         description,
-        href: `writing/${entryCategory}/${slug}`,
-      }));
+        href,
+      })
+    );
 
     sections.push({
       label,

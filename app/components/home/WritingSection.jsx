@@ -1,32 +1,48 @@
 export default function WritingSection({ sections }) {
-  const writingSections = (sections ?? []).filter(
-    (section) => section.entries && section.entries.length > 0
-  );
+  const writingSections = sections ?? [];
 
   return (
     <section className="home-section" aria-label="Writing">
       <p className="section-label">Writing</p>
-      {writingSections.map(({ label, entries }) => (
-        <div className="home-writing-category" key={label}>
-          <p className="subsection-label">{label}</p>
-          {entries.length > 0 ? (
-            <ul>
-              {entries.map(({ title, description, href }) => (
-                <li key={href}>
-                  <a
-                    href={`/${href}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {title}
-                  </a>
-                  {description && <p>{description}</p>}
-                </li>
-              ))}
-            </ul>
-          ) : null}
-        </div>
-      ))}
+      {writingSections.map(({ label, entries }) => {
+        const hasEntries = entries && entries.length > 0;
+        const categoryClassName = hasEntries
+          ? 'home-writing-category'
+          : 'home-writing-category home-writing-category--empty';
+
+        return (
+          <div className={categoryClassName} key={label}>
+            <p className="subsection-label">{label}</p>
+            {hasEntries ? (
+              <ul>
+                {entries.map(({ title, description, href }) => {
+                  const isExternal = /^https?:\/\//i.test(href);
+                  const linkHref = isExternal ? href : `/${href}`;
+
+                  return (
+                    <li key={href}>
+                      <a
+                        href={linkHref}
+                        {...(isExternal
+                          ? {
+                              target: '_blank',
+                              rel: 'noopener noreferrer',
+                            }
+                          : {})}
+                      >
+                        {title}
+                      </a>
+                      {description && <p>{description}</p>}
+                    </li>
+                  );
+                })}
+              </ul>
+            ) : (
+              <p className="writing-coming-soon">COMING SOON</p>
+            )}
+          </div>
+        );
+      })}
     </section>
   );
 }
