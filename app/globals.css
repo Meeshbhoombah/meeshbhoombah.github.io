@@ -145,6 +145,8 @@ body {
 
 .home-writing-category ul {
   margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .home-writing-category li p {
