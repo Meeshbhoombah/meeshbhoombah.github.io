@@ -256,6 +256,24 @@ body {
   background: color-mix(in srgb, var(--color-background) 92%, transparent);
 }
 
+.github-contribution-graph {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.github-contribution-graph__frame {
+  width: 100%;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.github-contribution-graph__image {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
 .work-chart-title {
   font-size: 0.6rem;
   letter-spacing: 0.1em;

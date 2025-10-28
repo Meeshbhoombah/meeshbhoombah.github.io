@@ -353,6 +353,24 @@ export default function DigestSection() {
           )}
         </div>
       </div>
+      <div className="github-contribution-graph work-chart-card">
+        <p className="subsection-label work-chart-title">GitHub Contributions</p>
+        <div className="github-contribution-graph__frame">
+          <a
+            href="https://github.com/Meeshbhoombah"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              className="github-contribution-graph__image"
+              src="https://ghchart.rshah.org/Meeshbhoombah"
+              alt="A yearly GitHub contribution graph for Meeshbhoombah"
+              title="GitHub contributions for Meeshbhoombah"
+              loading="lazy"
+            />
+          </a>
+        </div>
+      </div>
     </section>
   );
 }
