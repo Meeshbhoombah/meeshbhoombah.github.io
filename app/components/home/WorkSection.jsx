@@ -273,21 +273,24 @@ export default function WorkSection() {
       .slice(0, 3);
   }, [languagesData]);
 
-  const topLanguage = useMemo(() => {
+  const defaultLanguage = useMemo(() => {
     if (!languagesData.length) {
       return null;
     }
 
-    return languagesData.reduce((currentTop, language) => {
-      if (!currentTop || (language.percent ?? 0) > (currentTop.percent ?? 0)) {
+    return languagesData.reduce((currentLowest, language) => {
+      const currentPercent = currentLowest?.percent ?? Number.POSITIVE_INFINITY;
+      const languagePercent = language.percent ?? Number.POSITIVE_INFINITY;
+
+      if (!currentLowest || languagePercent < currentPercent) {
         return language;
       }
 
-      return currentTop;
+      return currentLowest;
     }, null);
   }, [languagesData]);
 
-  const activeLanguage = hoveredLanguage ?? topLanguage;
+  const activeLanguage = hoveredLanguage ?? defaultLanguage;
 
   const maxActivitySeconds = useMemo(() => {
     if (!activityData.length) {
@@ -369,60 +372,62 @@ export default function WorkSection() {
             <p className="work-chart-message">No language data available.</p>
           ) : (
             <div className="work-donut-chart">
-              <svg
-                className="work-donut-chart__svg"
-                viewBox="0 0 120 120"
-                role="img"
-                aria-label="Language usage for the past thirty days"
-              >
-                <title>Language usage for the past thirty days</title>
-                {(() => {
-                  const radius = 50;
-                  const circumference = 2 * Math.PI * radius;
-                  let cumulativePercent = 0;
+              <div className="work-donut-chart__visual">
+                <svg
+                  className="work-donut-chart__svg"
+                  viewBox="0 0 120 120"
+                  role="img"
+                  aria-label="Language usage for the past thirty days"
+                >
+                  <title>Language usage for the past thirty days</title>
+                  {(() => {
+                    const radius = 50;
+                    const circumference = 2 * Math.PI * radius;
+                    let cumulativePercent = 0;
 
-                  return languagesData.map((language, index) => {
-                    const { name, percent, color } = language;
-                    const startPercent = cumulativePercent;
-                    cumulativePercent += percent;
-                    const dash = Math.max((percent / 100) * circumference, 0);
-                    const gap = Math.max(circumference - dash, 0);
+                    return languagesData.map((language, index) => {
+                      const { name, percent, color } = language;
+                      const startPercent = cumulativePercent;
+                      cumulativePercent += percent;
+                      const dash = Math.max((percent / 100) * circumference, 0);
+                      const gap = Math.max(circumference - dash, 0);
 
-                    return (
-                      <circle
-                        key={`${name}-${index}`}
-                        className="work-donut-chart__segment"
-                        cx="60"
-                        cy="60"
-                        r={radius}
-                        fill="transparent"
-                        stroke={color}
-                        strokeWidth="20"
-                        strokeDasharray={`${dash} ${gap}`}
-                        strokeDashoffset={circumference * (1 - startPercent / 100)}
-                        transform="rotate(-90 60 60)"
-                        tabIndex={0}
-                        aria-label={`${name}: ${percent.toFixed(1)} percent`}
-                        onMouseEnter={() => setHoveredLanguage(language)}
-                        onMouseLeave={() => setHoveredLanguage(null)}
-                        onFocus={() => setHoveredLanguage(language)}
-                        onBlur={() => setHoveredLanguage(null)}
-                      />
-                    );
-                  });
-                })()}
-              </svg>
-              <div className="work-donut-chart__center" aria-live="polite">
-                {activeLanguage && (
-                  <>
-                    <span className="work-donut-chart__center-name">
-                      {activeLanguage.name}
-                    </span>
-                    <span className="work-donut-chart__center-value">
-                      {activeLanguage.percent.toFixed(1)}%
-                    </span>
-                  </>
-                )}
+                      return (
+                        <circle
+                          key={`${name}-${index}`}
+                          className="work-donut-chart__segment"
+                          cx="60"
+                          cy="60"
+                          r={radius}
+                          fill="transparent"
+                          stroke={color}
+                          strokeWidth="20"
+                          strokeDasharray={`${dash} ${gap}`}
+                          strokeDashoffset={circumference * (1 - startPercent / 100)}
+                          transform="rotate(-90 60 60)"
+                          tabIndex={0}
+                          aria-label={`${name}: ${percent.toFixed(1)} percent`}
+                          onMouseEnter={() => setHoveredLanguage(language)}
+                          onMouseLeave={() => setHoveredLanguage(null)}
+                          onFocus={() => setHoveredLanguage(language)}
+                          onBlur={() => setHoveredLanguage(null)}
+                        />
+                      );
+                    });
+                  })()}
+                </svg>
+                <div className="work-donut-chart__center" aria-live="polite">
+                  {activeLanguage && (
+                    <>
+                      <span className="work-donut-chart__center-name">
+                        {activeLanguage.name}
+                      </span>
+                      <span className="work-donut-chart__center-value">
+                        {activeLanguage.percent.toFixed(1)}%
+                      </span>
+                    </>
+                  )}
+                </div>
               </div>
               {topLanguages.length > 0 && (
                 <ul className="work-donut-chart__summary" aria-label="Top three languages">
