@@ -229,6 +229,11 @@ body {
   letter-spacing: 0.1em;
 }
 
+.work-chart-title--right {
+  align-self: flex-end;
+  text-align: right;
+}
+
 .work-chart-message {
   margin: 0;
   font-size: 0.9rem;

@@ -330,7 +330,9 @@ export default function WorkSection() {
           )}
         </div>
         <div className="work-chart-card">
-          <p className="subsection-label work-chart-title">Languages Used (Last 30 Days)</p>
+          <p className="subsection-label work-chart-title work-chart-title--right">
+            Languages Used (Last 30 Days)
+          </p>
           {languagesLoading ? (
             <p className="work-chart-message">Loading languages…</p>
           ) : languagesError ? (
