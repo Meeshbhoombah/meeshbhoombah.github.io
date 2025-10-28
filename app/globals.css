@@ -163,6 +163,12 @@ body {
   gap: 4px;
 }
 
+.home-writing-entry a,
+.home-writing-entry a:hover,
+.home-writing-entry a:focus-visible {
+  text-decoration: none;
+}
+
 .home-writing-entry p {
   margin: 0;
 }
