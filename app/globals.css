@@ -84,16 +84,23 @@ body {
   border: none;
   background: transparent;
   color: inherit;
-  padding: 0.4rem;
+  padding: 0.3rem;
   border-radius: 999px;
   font-size: 1.2rem;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
 }
 
-.theme-toggle:hover,
-.theme-toggle:focus-visible {
+.theme-toggle:hover {
   outline: none;
-  box-shadow: 0 0 0 2px var(--color-muted-strong);
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--color-muted-strong);
+  outline-offset: 2px;
 }
 
 .content {
@@ -511,15 +518,14 @@ a:focus-visible {
     grid-template-columns: 1fr;
   }
 
-  .page-header,
   .page-footer {
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;
   }
 
-  .theme-toggle {
-    align-self: flex-end;
+  .page-header {
+    gap: 12px;
   }
 }
 
