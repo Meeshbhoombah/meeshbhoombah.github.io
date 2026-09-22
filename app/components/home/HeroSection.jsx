@@ -2,12 +2,13 @@ export default function HeroSection() {
   return (
     <section className="home-section hero-section">
       <p>
-        <strong>Governance-focused decentralized systems engineering.</strong>
+        <strong>Work with Rohan "Meeshbhoombah" Mishra. Build perfect decentralized systems.</strong>
       </p>
       <p>
-        I design resilient coordination mechanisms, guide teams through
-        decentralized governance, and build the tools that help communities steer
-        complex systems with confidence.
+        I build community, design and install resilient coordination mechanisms, 
+        improve governance, solidfy decision-making, and achieve outcomes. Built
+        off 13 years of Full-Stack engineering, distributed systems, and 
+        Rust-focued since 2019. 
       </p>
     </section>
   );
