@@ -4,15 +4,21 @@ import { useEffect, useMemo, useState } from 'react';
 
 const stats = [
   { value: '12', description: 'Years in tech' },
-  { value: '>136', description: 'Web3 Vulnerabilities assessed' },
-  { value: '21/46', description: 'Programming Competitions Won/Attended' },
+  {
+    value: '>136',
+    description: <>Web3 Vulnerabilities<br />assessed</>,
+  },
+  {
+    value: '21/46',
+    description: <>Programming Competitions<br />Won/Attended</>,
+  },
   { value: '~900', description: 'Workshop Attendees' },
   {
     value: '~700',
     description: (
       <span className="digest-devto">
         Consistent readers on
-        <br className="digest-devto__break" />{' '}
+        <br />
         <a
           href="https://dev.to/meeshbhoombah"
           target="_blank"
@@ -25,7 +31,7 @@ const stats = [
   },
   {
     value: '>3,098',
-    description: 'Hours dedicated to diversifying tech through education',
+    description: <>Hours dedicated to<br />diversifying tech through<br />education</>,
   },
   { value: '~132', description: 'Tech Events Organized' },
 ];
@@ -211,15 +217,25 @@ export default function DigestSection() {
   }, [activityData]);
 
   return (
-    <section className="home-section" aria-label="Digest">
+    <section className="home-section home-section--digest" aria-label="Digest">
       <p className="section-label">Digest</p>
-      <div className="home-digest-grid">
-        {stats.map(({ value, description }, index) => (
-          <div className="home-digest-item" key={`${value}-${index}`}>
-            <p className="stat-value">{value}</p>
-            <p>{description}</p>
-          </div>
-        ))}
+      <div className="home-digest-marquee">
+        <div className="home-digest-grid">
+          {[false, true].map((isDuplicate) => (
+            <div
+              className="home-digest-group"
+              aria-hidden={isDuplicate || undefined}
+              key={isDuplicate ? 'duplicate' : 'primary'}
+            >
+              {stats.map(({ value, description }, index) => (
+                <div className="home-digest-item" key={`${value}-${index}`}>
+                  <p className="stat-value">{value}</p>
+                  <p>{description}</p>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
       {SHOW_DIGEST_CHARTS && (
         <>
