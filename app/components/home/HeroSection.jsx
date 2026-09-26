@@ -15,28 +15,3 @@ export default function HeroSection() {
   );
 }
 
-/*
-        My communities, internal stakeholders, and customers experience 
-        customized or best-in-class mechanisms installed with precision for 
-        growth and scale. I have helped 8+ organizations 5x revenue drivers on 
-        average, accrue a cumiliative sum of valuations nearing $48M, and led 
-        teams sizing 2 to 12.
-
-*/
-/*
-        13+ years in technology; specialized in community & governance.
-        Decentralized systems engineering, hacking, and startup operating. 
-*/
-
-/*
- *      Decentralized systems engineering, hacking, and generalist 
-        startup operator with 13 years of experience working on systems. 
-        Design reslient coordination mechanisms
-*/
-
-/*
-        Rohan "Meesh" Mishra builds communities, designs resilient coordination 
-        mechanisms, improves governance, solidifies decision-making, and 
-        achieves outcomes. 13 years of Full-Stack engineering, distributed and 
-        decentralized systems, and Rust-focused since 2019. 
-*/
