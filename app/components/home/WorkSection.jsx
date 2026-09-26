@@ -8,7 +8,7 @@ const previousRoles = [
       {
         label: 'Worked on:',
         items: [
-          'An off-chain rollup system securing $330,000,000',
+          'An off-chain rollup sub-system securing $330M',
           (
             <span>
               A Bitcoin L2 based on{' '}
@@ -19,10 +19,10 @@ const previousRoles = [
               >
                 reth v1.5.0
               </a>{' '}
-              with 10,000,000+ tx &amp; 150,000+ unique addresses
+              with ~27M+ tx &amp; 180K+ unique addresses
             </span>
           ),
-          'An internal log auditing system for a company worth $2,000,000,000',
+          'An internal log auditing system for a company worth $2B',
         ],
       },
     ],
@@ -33,13 +33,13 @@ const previousRoles = [
     contributions: [
       {
         label: 'Worked on:',
-        items: ['Core product, leading to $25,000 MRR a $2,000,000 raise'],
+        items: ['Core product, leading to >$1M ARR and a $2.5M raise'],
       },
     ],
   },
   {
-    name: 'Commonwealth',
-    href: 'https://commonwealth.im/',
+    name: 'Common',
+    href: 'https://landing.common.xyz/',
     contributions: [
       { label: 'Worked on:', items: ['Core product, scaling DAU by 33%'] },
     ],
@@ -74,7 +74,7 @@ const previousRoles = [
       {
         label: 'Worked on:',
         items: [
-          'Teaching ~200 students cryptocurrency concepts (economics, computer science, game theory, NFTs, DAOs)',
+          'Teaching ~200 students cryptocurrency concepts (economics, software engineering, computer science, game theory, NFTs, DAOs)',
           {
             label: 'Delivering three products quarterly, of note:',
             items: [
@@ -88,7 +88,16 @@ const previousRoles = [
       },
     ],
   },
-  { name: 'CodeDay', href: 'https://www.codeday.org/' },
+  { 
+    name: 'CodeDay', 
+    href: 'https://www.codeday.org/',
+    contributions: [
+      {
+        label: 'Worked on:',
+        items: ['Scaling community from 1.2K to 20K'],
+      },
+    ],
+  },
   { name: 'BlockchainEDU', href: 'https://www.blockchainedu.org/' },
 ];
 
