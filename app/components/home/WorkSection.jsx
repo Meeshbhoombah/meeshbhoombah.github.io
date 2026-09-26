@@ -74,7 +74,7 @@ const previousRoles = [
       {
         label: 'Worked on:',
         items: [
-          'Teaching ~200 students cryptocurrency concepts (economics, software engineering, computer science, security, game theory, NFTs, DAOs)',
+          'Teaching ~200 students (economics, software engineering, computer science, security, game theory, NFTs, DAOs)',
           {
             label: 'Delivering three products quarterly, of note:',
             items: [
