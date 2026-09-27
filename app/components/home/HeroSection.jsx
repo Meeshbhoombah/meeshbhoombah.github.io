@@ -7,7 +7,7 @@ export default function HeroSection() {
         </strong>
       </p>
       <p>
-        13+ years in technology, 2 years accredited self-study of 
+        13+ years in technology, 2 years of accredited self-study on
         cryptocurrency networks, niche specialized. Engineering
         work worth over $11.5B, 5 communities built with mechanisms,
         scaled multiple organizations from 0 to Series B.
