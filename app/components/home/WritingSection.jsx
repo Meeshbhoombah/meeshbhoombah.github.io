@@ -14,7 +14,7 @@ export default function WritingSection({ sections }) {
           <div className={categoryClassName} key={label}>
             <p className="subsection-label">{label}</p>
             {hasEntries ? (
-              entries.map(({ title, href, preview, openInNewTab }) => {
+              entries.map(({ title, href, openInNewTab }) => {
                 const isExternal = /^https?:\/\//i.test(href);
                 const linkHref = isExternal ? href : `/${href}`;
                 const shouldOpenInNewTab = Boolean(openInNewTab) || isExternal;
@@ -33,7 +33,6 @@ export default function WritingSection({ sections }) {
                     >
                       {title}
                     </a>
-                    {preview && <p>{preview}</p>}
                   </div>
                 );
               })
