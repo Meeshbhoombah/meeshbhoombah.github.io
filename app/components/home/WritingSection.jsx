@@ -14,28 +14,27 @@ export default function WritingSection({ sections }) {
           <div className={categoryClassName} key={label}>
             <p className="subsection-label">{label}</p>
             {hasEntries ? (
-              entries.map(({ title, href, openInNewTab }) => {
-                const isExternal = /^https?:\/\//i.test(href);
-                const linkHref = isExternal ? href : `/${href}`;
-                const shouldOpenInNewTab = Boolean(openInNewTab) || isExternal;
-                const newTabAttributes = shouldOpenInNewTab
-                  ? {
-                      target: '_blank',
-                      rel: 'noopener noreferrer',
-                    }
-                  : {};
+              <ul className="home-writing-list">
+                {entries.map(({ title, href, openInNewTab }) => {
+                  const isExternal = /^https?:\/\//i.test(href);
+                  const linkHref = isExternal ? href : `/${href}`;
+                  const shouldOpenInNewTab = Boolean(openInNewTab) || isExternal;
+                  const newTabAttributes = shouldOpenInNewTab
+                    ? {
+                        target: '_blank',
+                        rel: 'noopener noreferrer',
+                      }
+                    : {};
 
-                return (
-                  <div className="home-writing-entry" key={href}>
-                    <a
-                      href={linkHref}
-                      {...newTabAttributes}
-                    >
-                      {title}
-                    </a>
-                  </div>
-                );
-              })
+                  return (
+                    <li className="home-writing-entry" key={href}>
+                      <a href={linkHref} {...newTabAttributes}>
+                        {title}
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
             ) : (
               <p className="writing-coming-soon">COMING SOON</p>
             )}

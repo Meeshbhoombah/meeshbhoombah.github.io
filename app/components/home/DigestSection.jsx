@@ -199,6 +199,17 @@ export default function DigestSection() {
 
   const activeLanguage = hoveredLanguage ?? defaultLanguage;
 
+  const renderStats = (isDuplicate = false) => (
+    <div className="home-digest-set" aria-hidden={isDuplicate || undefined} inert={isDuplicate || undefined}>
+      {stats.map(({ value, description }, index) => (
+        <div className="home-digest-item" key={`${value}-${index}`}>
+          <p className="stat-value">{value}</p>
+          <p>{description}</p>
+        </div>
+      ))}
+    </div>
+  );
+
   const maxActivitySeconds = useMemo(() => {
     if (!activityData.length) {
       return 0;
@@ -211,15 +222,14 @@ export default function DigestSection() {
   }, [activityData]);
 
   return (
-    <section className="home-section" aria-label="Digest">
+    <section className="home-section home-digest-section" aria-label="Digest">
       <p className="section-label">Digest</p>
       <div className="home-digest-grid">
-        {stats.map(({ value, description }, index) => (
-          <div className="home-digest-item" key={`${value}-${index}`}>
-            <p className="stat-value">{value}</p>
-            <p>{description}</p>
-          </div>
-        ))}
+        <div className="home-digest-track">
+          {renderStats()}
+          {renderStats(true)}
+          {renderStats(true)}
+        </div>
       </div>
       {SHOW_DIGEST_CHARTS && (
         <>

@@ -39,6 +39,7 @@ html[data-theme='dark'] {
 
 html {
   font-size: 13.3333px;
+  overflow-x: clip;
 }
 
 body {
@@ -157,10 +158,14 @@ body {
   margin-top: 0;
 }
 
-.home-writing-entry {
+.home-writing-list {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 8px;
+}
+
+.home-writing-entry {
+  display: list-item;
 }
 
 .home-writing-entry a,
@@ -178,21 +183,56 @@ body {
 }
 
 .home-digest-grid {
-  display: grid;
-  gap: 20px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  position: relative;
+  left: 50%;
+  display: block;
+  width: 100vw;
+  transform: translateX(-50%);
+  overflow: hidden;
 }
 
-@media (max-width: 960px) {
-  .home-digest-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+.home-digest-track {
+  display: flex;
+  width: max-content;
+  animation: digest-marquee 45s linear infinite;
+}
+
+.home-digest-section:hover .home-digest-track,
+.home-digest-section:focus-within .home-digest-track {
+  animation-play-state: paused;
+}
+
+.home-digest-set {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 16px;
+  padding-right: 16px;
+}
+
+.home-digest-section {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  padding-inline: max(1.5rem, calc((100vw - 760px) / 2 + 1.5rem));
 }
 
 .home-digest-item {
   display: flex;
   flex-direction: column;
   gap: 0;
+  flex: 0 0 220px;
+  width: 220px;
+}
+
+@keyframes digest-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-33.333333%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-digest-track {
+    animation: none;
+    transform: none;
+  }
 }
 
 .digest-devto {
@@ -200,6 +240,10 @@ body {
 }
 
 @media (max-width: 600px) {
+  .home-digest-section {
+    padding-inline: 1.2rem;
+  }
+
   .digest-devto {
     white-space: nowrap;
   }
@@ -604,6 +648,7 @@ body {
 
 a {
   color: inherit;
+  font-weight: 700;
   text-decoration: underline;
   text-decoration-thickness: 0.08em;
   text-underline-offset: 0.18em;
@@ -617,10 +662,6 @@ a:focus-visible {
 @media (max-width: 600px) {
   .page-container {
     padding: 96px 1.2rem 3rem;
-  }
-
-  .home-digest-grid {
-    grid-template-columns: 1fr;
   }
 
   .page-footer {
